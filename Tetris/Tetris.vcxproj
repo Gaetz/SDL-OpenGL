@@ -21,9 +21,21 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\basique2D.frag" />
+    <None Include="assets\shaders\basique2D.vert" />
+    <None Include="assets\shaders\couleur2D.frag" />
+    <None Include="assets\shaders\couleur2D.vert" />
+    <None Include="assets\shaders\couleur3D.frag" />
+    <None Include="assets\shaders\couleur3D.vert" />
+    <None Include="assets\shaders\texture.frag" />
+    <None Include="assets\shaders\texture.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -52,9 +52,16 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 	}
 	else {
 		isRunning = false;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "SDL initialisation failed");
 	}
 }
 
+
+void Game::load()
+{
+	shader = Shader("assets/shaders/basique2D.vert", "assets/shaders/basique2D.frag");
+	shader.load();
+}
 
 void Game::handleEvents()
 {
@@ -78,15 +85,14 @@ void Game::update()
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shader.getProgramID());
 
-	// On remplie puis on active le tableau Vertex Attrib 0
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-	glEnableVertexAttribArray(0);
-	// On affiche le triangle
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	// On désactive le tableau Vertex Attrib puisque l'on n'en a plus besoin
-	glDisableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+		glEnableVertexAttribArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDisableVertexAttribArray(0);
 
+	glUseProgram(0);
 	SDL_GL_SwapWindow(window);
 }
 

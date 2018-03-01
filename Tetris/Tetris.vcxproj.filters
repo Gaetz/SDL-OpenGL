@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers de ressources\shaders">
+      <UniqueIdentifier>{eb11b873-3a91-4a91-b10a-18fcdf77d430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,10 +24,42 @@
     <ClCompile Include="Game.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\basique2D.frag">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\basique2D.vert">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\couleur2D.frag">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\couleur2D.vert">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\couleur3D.frag">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\couleur3D.vert">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\texture.frag">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\texture.vert">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
