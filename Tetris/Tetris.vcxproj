@@ -78,20 +78,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x86;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;..\..\..\Lab\SDL\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x86;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86;..\..\..\Lab\SDL\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x86;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;..\..\..\Lab\SDL\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x86;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x86;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86;..\..\..\Lab\SDL\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x64;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;..\..\..\Lab\SDL\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x64;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x64;..\..\..\Lab\SDL\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x64;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\..\Lab\SDL\SDL2-2.0.7\include;..\..\..\Lab\SDL\SDL2_image-2.0.2\include;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\include;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\include;..\..\..\Lab\SDL\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\Lab\SDL\SDL2-2.0.7\lib\x64;..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x64;..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x64;..\..\..\Lab\SDL\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -100,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -119,7 +119,7 @@ xcopy /y /s "$(ProjectDir)\..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.dll
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
