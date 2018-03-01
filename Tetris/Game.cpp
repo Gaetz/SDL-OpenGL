@@ -39,14 +39,14 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 		}
 		else isRunning = false;
 
-#if defined(_WIN32) || defined(_WIN64)
 		GLenum initGLEW(glewInit());
 		if (initGLEW == GLEW_OK)
 		{
 			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "GLEW initialised");
 		}
 		else isRunning = false;
-#endif
+
+		//glViewport(xPos, xPos, width, height);
 
 		isRunning = true;
 	}
