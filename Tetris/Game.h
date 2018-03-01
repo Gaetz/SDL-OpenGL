@@ -32,9 +32,11 @@ private:
 	SDL_Window* window;
 	SDL_GLContext context;
 
-	Shader shader;
-	float vertices [12] = { 0.0f, 0.0f,   0.5f, 0.0f,   0.0f, 0.5f,          // Triangle 1
-		-0.8f, -0.8f,   -0.3f, -0.8f,   -0.8f, -0.3f };   // Triangle 2
+	Shader basicShader;
+	Shader colorShader;
+
+	float vertices[6] = { -0.5f, -0.5f,   0.0f, 0.5f,   0.5f, -0.5f };
+	float colors[9] = { 1.0f, 0.0f, 0.0f,    0.0f, 1.0f, 0.0f,    0.0f, 0.0f, 1.0f };
 };
 
 

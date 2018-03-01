@@ -59,8 +59,10 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 
 void Game::load()
 {
-	shader = Shader("assets/shaders/basique2D.vert", "assets/shaders/basique2D.frag");
-	shader.load();
+	basicShader = Shader("assets/shaders/basique2D.vert", "assets/shaders/basique2D.frag");
+	basicShader.load();
+	colorShader = Shader("assets/shaders/couleur2D.vert", "assets/shaders/couleur2D.frag");
+	colorShader.load();
 }
 
 void Game::handleEvents()
@@ -85,11 +87,17 @@ void Game::update()
 void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(shader.getProgramID());
+	glUseProgram(colorShader.getProgramID());
 
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, colors);
+		glEnableVertexAttribArray(1);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
 
 	glUseProgram(0);
