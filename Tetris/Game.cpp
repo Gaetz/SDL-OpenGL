@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 Game::Game()
 {
 }
@@ -32,11 +31,22 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 		if (window) {
 			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Window initialised");
 		}
+		else isRunning = false;
 
 		context = SDL_GL_CreateContext(window);
 		if (context) {
 			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "OpenGL Context initialised");
 		}
+		else isRunning = false;
+
+#if defined(_WIN32) || defined(_WIN64)
+		GLenum initGLEW(glewInit());
+		if (initGLEW == GLEW_OK)
+		{
+			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "GLEW initialised");
+		}
+		else isRunning = false;
+#endif
 
 		isRunning = true;
 	}
@@ -67,18 +77,24 @@ void Game::update()
 
 void Game::render()
 {
-	//SDL_RenderClear(renderer);
+	glClear(GL_COLOR_BUFFER_BIT);
 
+	// On remplie puis on active le tableau Vertex Attrib 0
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+	glEnableVertexAttribArray(0);
+	// On affiche le triangle
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// On désactive le tableau Vertex Attrib puisque l'on n'en a plus besoin
+	glDisableVertexAttribArray(0);
 
-
-	//SDL_RenderPresent(renderer);
+	SDL_GL_SwapWindow(window);
 }
 
 
 void Game::clean()
 {
 	SDL_DestroyWindow(window);
-	//SDL_DestroyRenderer(renderer);
+	SDL_GL_DeleteContext(context);
 	SDL_Quit();
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bye :)");
 }
