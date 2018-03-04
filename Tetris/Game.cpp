@@ -21,7 +21,7 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Subsystems initialised");
 		
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 		
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -59,10 +59,10 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 
 void Game::load()
 {
-	basicShader = Shader("assets/shaders/basique2D.vert", "assets/shaders/basique2D.frag");
+	/*basicShader = Shader("assets/shaders/basique2D.vert", "assets/shaders/basique2D.frag");
 	basicShader.load();
 	colorShader = Shader("assets/shaders/couleur2D.vert", "assets/shaders/couleur2D.frag");
-	colorShader.load();
+	colorShader.load();*/
 }
 
 void Game::handleEvents()
@@ -78,7 +78,6 @@ void Game::handleEvents()
 	}
 }
 
-
 void Game::update()
 {
 }
@@ -86,6 +85,7 @@ void Game::update()
 
 void Game::render()
 {
+	/*
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(colorShader.getProgramID());
 
@@ -101,7 +101,7 @@ void Game::render()
 		glDisableVertexAttribArray(0);
 
 	glUseProgram(0);
-	SDL_GL_SwapWindow(window);
+	SDL_GL_SwapWindow(window);*/
 }
 
 

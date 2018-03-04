@@ -12,6 +12,12 @@
 
 #include "Shader.h"
 
+enum GameState {
+	GAME_ACTIVE,
+	GAME_MENU,
+	GAME_WIN
+};
+
 class Game
 {
 public:
@@ -32,11 +38,8 @@ private:
 	SDL_Window* window;
 	SDL_GLContext context;
 
-	Shader basicShader;
-	Shader colorShader;
+	GameState state;
 
-	float vertices[6] = { -0.5f, -0.5f,   0.0f, 0.5f,   0.5f, -0.5f };
-	float colors[9] = { 1.0f, 0.0f, 0.0f,    0.0f, 1.0f, 0.0f,    0.0f, 0.0f, 1.0f };
 };
 
 
