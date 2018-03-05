@@ -34,8 +34,8 @@ public:
 
 	// Compiles the shader from given source code
 	void compile(
-		const GLchar *vertexSource, 
-		const GLchar *fragmentSource, 
+		const GLchar *vertexSource,
+		const GLchar *fragmentSource,
 		const GLchar *geometrySource = nullptr
 	);
 

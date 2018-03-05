@@ -10,7 +10,7 @@
 #include <GL3/gl3.h>
 #endif
 
-#include "Shader.h"
+#include "shader.h"
 
 enum GameState {
 	GAME_ACTIVE,

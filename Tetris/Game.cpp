@@ -1,4 +1,5 @@
-#include "Game.h"
+#include "game.h"
+#include "resource_manager.h"
 
 Game::Game()
 {
@@ -19,13 +20,13 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Subsystems initialised");
-		
+
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-		
+
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-		
+
 
 		window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
 		if (window) {
@@ -39,14 +40,17 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 		}
 		else isRunning = false;
 
+		// OpenGL
 		GLenum initGLEW(glewInit());
 		if (initGLEW == GLEW_OK)
 		{
 			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "GLEW initialised");
 		}
 		else isRunning = false;
-
-		//glViewport(xPos, xPos, width, height);
+		glViewport(0, 0, width, height);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		isRunning = true;
 	}
@@ -85,28 +89,16 @@ void Game::update()
 
 void Game::render()
 {
-	/*
+	glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(colorShader.getProgramID());
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-		glEnableVertexAttribArray(0);
-
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, colors);
-		glEnableVertexAttribArray(1);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(0);
-
-	glUseProgram(0);
-	SDL_GL_SwapWindow(window);*/
+	SDL_GL_SwapWindow(window);
 }
 
 
 void Game::clean()
 {
+	ResourceManager::clear();
 	SDL_DestroyWindow(window);
 	SDL_GL_DeleteContext(context);
 	SDL_Quit();
