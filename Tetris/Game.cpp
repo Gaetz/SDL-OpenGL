@@ -69,7 +69,7 @@ void Game::load()
 	colorShader.load();*/
 }
 
-void Game::handleEvents()
+void Game::handleEvents(Uint32 dt)
 {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -82,7 +82,7 @@ void Game::handleEvents()
 	}
 }
 
-void Game::update()
+void Game::update(Uint32 dt)
 {
 }
 

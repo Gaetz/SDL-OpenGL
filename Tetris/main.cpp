@@ -6,7 +6,16 @@ int main(int argc, char **argv) {
 	const int FPS = 60;
 	const int frameDelay = 1000 / FPS;
 
+	// Time in milliseconds when frame starts
 	Uint32 frameStart;
+
+	// Last frame start time in milliseconds
+	Uint32 lastFrame;
+	
+	// Delta time
+	Uint32 dt;
+
+	// Time it tooks to run the loop. Used to cap framerate.
 	int frameTime;
 
 	game = new Game();
@@ -14,11 +23,14 @@ int main(int argc, char **argv) {
 	game->load();
 
 	while (game->running()) {
+		// Delta time
 		frameStart = SDL_GetTicks();
+		dt = frameStart - lastFrame;
+		lastFrame = frameStart;
 
 		// Game loop
-		game->handleEvents();
-		game->update();
+		game->handleEvents(dt);
+		game->update(dt);
 		game->render();
 
 		// Delay frame if game runs too fast
