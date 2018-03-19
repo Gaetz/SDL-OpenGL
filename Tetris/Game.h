@@ -11,12 +11,19 @@
 #endif
 
 #include "shader.h"
+#include "sprite_renderer.h"
+#include <vector>
+
+
+#define WAIT_TIME 700   
 
 enum GameState {
-	GAME_ACTIVE,
+	GAME_PLAY,
 	GAME_MENU,
 	GAME_WIN
 };
+
+class Scene;
 
 class Game
 {
@@ -31,15 +38,20 @@ public:
 	void render();
 	void clean();
 
-	bool running() { return isRunning; }
+	void changeScene(Scene *scene);
+	void pushScene(Scene *scene);
+	void popScene();
+
+	bool isRunning;
 
 private:
-	bool isRunning;
-	SDL_Window* window;
+	SDL_Window *window;
 	SDL_GLContext context;
+	int windowWidth, windowHeight;
 
+	SpriteRenderer *renderer;
 	GameState state;
-
+	std::vector<Scene*> scenes;
 };
 
 

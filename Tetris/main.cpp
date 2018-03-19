@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 	Uint32 frameStart;
 
 	// Last frame start time in milliseconds
-	Uint32 lastFrame;
+	Uint32 lastFrame = 0;
 	
 	// Delta time
 	Uint32 dt;
@@ -19,10 +19,10 @@ int main(int argc, char **argv) {
 	int frameTime;
 
 	game = new Game();
-	game->init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	game->init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 450, 800, false);
 	game->load();
 
-	while (game->running()) {
+	while (game->isRunning) {
 		// Delta time
 		frameStart = SDL_GetTicks();
 		dt = frameStart - lastFrame;

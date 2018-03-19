@@ -19,7 +19,7 @@ Shader ResourceManager::getShader(std::string name)
 	return shaders[name];
 }
 
-Texture2D ResourceManager::loadTexture(const std::string &file, std::string name)
+Texture2D ResourceManager::loadTexture(const std::string file, std::string name)
 {
 	textures[name] = loadTextureFromFile(file.c_str());
 	return textures[name];
@@ -73,7 +73,15 @@ Shader ResourceManager::loadShaderFromFile(const GLchar *vShaderFile, const GLch
 	}
 	catch (std::exception e)
 	{
-		std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
+		std::ostringstream loadError;
+		const GLchar* geomShaderFile = "";
+		if (gShaderFile != nullptr)
+			geomShaderFile = gShaderFile;
+
+		loadError << "ERROR::SHADER: Failed to read shader files " << vShaderFile << " " << fShaderFile << " " << geomShaderFile << "\n"
+			<< "\n -- --------------------------------------------------- -- "
+			<< std::endl;
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, loadError.str().c_str());
 	}
 	const GLchar *vShaderCode = vertexCode.c_str();
 	const GLchar *fShaderCode = fragmentCode.c_str();
@@ -91,6 +99,13 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file)
 
 	// Load image
 	SDL_Surface* surface = IMG_Load(file);
+	if (surface == nullptr) {
+		std::ostringstream loadError;
+		loadError << "ERROR::IMG: Unable to load image " << file << "\n"
+			<< IMG_GetError() << "\n -- --------------------------------------------------- -- "
+			<< std::endl;
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, loadError.str().c_str());
+	}
 
 	// Mode
 	if (surface->format->BytesPerPixel == 4)

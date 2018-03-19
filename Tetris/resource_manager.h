@@ -30,7 +30,7 @@ public:
 	static Shader getShader(std::string name);
 
 	// Loads (and generates) a texture from file
-	static Texture2D loadTexture(const std::string &file, std::string name);
+	static Texture2D loadTexture(const std::string file, std::string name);
 
 	// Retrieves a stored texture
 	static Texture2D getTexture(std::string name);

@@ -1,5 +1,8 @@
 #include "game.h"
 #include "resource_manager.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include "scene.h"
+#include "scene_game.h"
 
 Game::Game()
 {
@@ -27,20 +30,24 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-
+		// Window
 		window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
 		if (window) {
 			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Window initialised");
 		}
 		else isRunning = false;
 
+		windowWidth = width;
+		windowHeight = height;
+
+		// OpenGL context
 		context = SDL_GL_CreateContext(window);
 		if (context) {
 			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "OpenGL Context initialised");
 		}
 		else isRunning = false;
 
-		// OpenGL
+		// OpenGL setup
 		GLenum initGLEW(glewInit());
 		if (initGLEW == GLEW_OK)
 		{
@@ -63,27 +70,27 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 
 void Game::load()
 {
-	/*basicShader = Shader("assets/shaders/basique2D.vert", "assets/shaders/basique2D.frag");
-	basicShader.load();
-	colorShader = Shader("assets/shaders/couleur2D.vert", "assets/shaders/couleur2D.frag");
-	colorShader.load();*/
+	// Load shaders
+	ResourceManager::loadShader("assets/shaders/sprite.vert", "assets/shaders/sprite.frag", nullptr, "sprite");
+	// Configure shaders
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
+	ResourceManager::getShader("sprite").use().setInteger("image", 0);
+	ResourceManager::getShader("sprite").setMatrix4("projection", projection);
+	// Set render-specific controls
+	renderer = new SpriteRenderer(ResourceManager::getShader("sprite"));;
+
+	// Game scene
+	changeScene(SceneGame::Instance());
 }
 
 void Game::handleEvents(Uint32 dt)
 {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type) {
-	case SDL_QUIT:
-		isRunning = false;
-		break;
-	default:
-		break;
-	}
+	scenes.back()->handleEvent(dt);
 }
 
 void Game::update(Uint32 dt)
 {
+	scenes.back()->update(dt);
 }
 
 
@@ -91,6 +98,8 @@ void Game::render()
 {
 	glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	scenes.back()->draw(renderer);
 
 	SDL_GL_SwapWindow(window);
 }
@@ -103,4 +112,44 @@ void Game::clean()
 	SDL_GL_DeleteContext(context);
 	SDL_Quit();
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bye :)");
+}
+
+void Game::changeScene(Scene * scene)
+{
+	// cleanup the current state
+	if (!scenes.empty()) {
+		scenes.back()->clean();
+		scenes.pop_back();
+	}
+
+	// store and load the new state
+	scene->setGame(this);
+	scenes.push_back(scene);
+	scenes.back()->load();
+}
+
+void Game::pushScene(Scene * scene)
+{
+	// pause current state
+	if (!scenes.empty()) {
+		scenes.back()->pause();
+	}
+
+	// store and init the new state
+	scenes.push_back(scene);
+	scenes.back()->load();
+}
+
+void Game::popScene()
+{
+	// cleanup the current state
+	if (!scenes.empty()) {
+		scenes.back()->clean();
+		scenes.pop_back();
+	}
+
+	// resume previous state
+	if (!scenes.empty()) {
+		scenes.back()->resume();
+	}
 }

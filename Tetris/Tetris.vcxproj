@@ -19,27 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="board.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pieces.cpp" />
     <ClCompile Include="resource_manager.cpp" />
+    <ClCompile Include="scene_game.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="sprite_renderer.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="board.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="pieces.h" />
     <ClInclude Include="resource_manager.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="scene_game.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="sprite_renderer.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\basique2D.frag" />
-    <None Include="assets\shaders\basique2D.vert" />
-    <None Include="assets\shaders\couleur2D.frag" />
-    <None Include="assets\shaders\couleur2D.vert" />
-    <None Include="assets\shaders\couleur3D.frag" />
-    <None Include="assets\shaders\couleur3D.vert" />
-    <None Include="assets\shaders\texture.frag" />
-    <None Include="assets\shaders\texture.vert" />
+    <None Include="assets\shaders\sprite.frag" />
+    <None Include="assets\shaders\sprite.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\tile.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -128,7 +134,9 @@ xcopy /y /s "$(ProjectDir)assets" "$(OutDir)assets"</Command>
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86\SDL2_image.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x86\SDL2_mixer.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.dll" "$(OutDir)"
-xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"</Command>
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86\libpng16-16.dll" "$(OutDir)"
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86\zlib1.dll" "$(OutDir)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,7 +159,8 @@ xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64\SDL2_image.d
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
-</Command>
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64\libpng16-16.dll" "$(OutDir)"
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64\zlib1.dll" "$(OutDir)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -176,7 +185,9 @@ xcopy /y /s "$(ProjectDir)assets" "$(OutDir)assets"</Command>
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86\SDL2_image.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x86\SDL2_mixer.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x86\SDL2_ttf.dll" "$(OutDir)"
-xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"</Command>
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\glew-2.1.0\bin\Release\Win32\glew32.dll" "$(OutDir)"
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86\libpng16-16.dll" "$(OutDir)"
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x86\zlib1.dll" "$(OutDir)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -202,7 +213,8 @@ xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64\SDL2_image.d
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll" "$(OutDir)"
 xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\glew-2.1.0\bin\Release\x64\glew32.dll" "$(OutDir)"
-</Command>
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64\libpng16-16.dll" "$(OutDir)"
+xcopy /y /s "$(ProjectDir)..\..\..\Lab\SDL\SDL2_image-2.0.2\lib\x64\zlib1.dll" "$(OutDir)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
