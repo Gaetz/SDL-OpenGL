@@ -6,6 +6,8 @@
 #include "pieces.h"
 #include "board.h"
 
+#define SPEED 500
+
 class SceneGame : public Scene {
 public:
 	static SceneGame* Instance() {
@@ -22,7 +24,6 @@ public:
 	void createNewPiece();
 
 	Piece currentPiece;
-
 protected:
 	SceneGame() { }
 
@@ -33,6 +34,7 @@ private:
 	int screenHeight;
 	Board *board;
 	Pieces *pieces;
+	Uint16 counter;
 
 	void drawPiece(Piece piece, SpriteRenderer *renderer);
 	void drawBoard(SpriteRenderer *renderer, GeometryRenderer *gRenderer);

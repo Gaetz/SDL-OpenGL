@@ -44,7 +44,7 @@ bool Board::isFreeBlock(int x, int y)
 bool Board::isPossibleMovement(int x, int y, int piece, int rotation)
 {
 	// Checks collision with pieces already stored in the board or the board limits
-	// This is just to check the 5x5 blocks of a piece with the appropriate area in the board
+	// ii and j1 are the ingame block coordinates, i2 and j2 the local block coordinates
 	for (int i1 = x, i2 = 0; i1 < x + PIECE_BLOCKS; i1++, i2++)
 	{
 		for (int j1 = y, j2 = 0; j1 < y + PIECE_BLOCKS; j1++, j2++)
@@ -57,17 +57,15 @@ bool Board::isPossibleMovement(int x, int y, int piece, int rotation)
 				if (pieces->getBlockType(piece, rotation, j2, i2) != 0)
 					return false;
 			}
-
 			// Check if the piece have collisioned with a block already stored in the map
 			if (j1 >= 0)
 			{
 				if (pieces->getBlockType(piece, rotation, j2, i2) != 0 
-					&& isFreeBlock(i1, j1))
+					&& !isFreeBlock(i1, j1))
 					return false;
 			}
 		}
 	}
-
 	// No collision
 	return true;
 }
