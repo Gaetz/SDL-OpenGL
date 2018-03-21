@@ -1,5 +1,9 @@
 #include "pieces.h"
 
+Pieces::Pieces()
+{
+}
+
 int Pieces::getBlockType(int piece, int rotation, int x, int y)
 {
 	return pieces[piece][rotation][x][y];

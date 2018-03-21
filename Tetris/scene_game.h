@@ -35,7 +35,7 @@ private:
 	Pieces *pieces;
 
 	void drawPiece(Piece piece, SpriteRenderer *renderer);
-	void drawBoard(SpriteRenderer *renderer);
+	void drawBoard(SpriteRenderer *renderer, GeometryRenderer *gRenderer);
 
 	static SceneGame sceneGame;
 };

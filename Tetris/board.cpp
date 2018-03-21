@@ -18,6 +18,12 @@ void Board::deleteLine(int y)
 	}
 }
 
+Board::Board(Pieces * pieces, int screenHeight)
+{
+	this->pieces = pieces;
+	this->screenHeight = screenHeight;
+}
+
 int Board::getXPosInPixels(int pos)
 {
 	return  BOARD_POSITION - BLOCK_SIZE * (BOARD_WIDTH / 2) + pos * BLOCK_SIZE;

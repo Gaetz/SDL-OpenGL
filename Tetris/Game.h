@@ -44,11 +44,11 @@ public:
 	void popScene();
 
 	bool isRunning;
+	int windowWidth, windowHeight;
 
 private:
 	SDL_Window *window;
 	SDL_GLContext context;
-	int windowWidth, windowHeight;
 
 	SpriteRenderer *sRenderer;
 	GeometryRenderer *gRenderer;

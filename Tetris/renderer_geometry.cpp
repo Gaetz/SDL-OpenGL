@@ -20,10 +20,10 @@ GeometryRenderer::~GeometryRenderer()
 void GeometryRenderer::initRenderData()
 {
 	float vertices[] = {
-		1.0f,  1.0f, 0.0f,  // top right
-		1.0f, -1.0f, 0.0f,  // bottom right
-		-1.0f, -1.0f, 0.0f,  // bottom left
-		-1.0f,  1.0f, 0.0f   // top left 
+		0.5f,  0.5f, 0.0f,  // top right
+		0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left 
 	};
 	unsigned int indices[] = {
 		0, 1, 3,  // first Triangle
@@ -64,9 +64,8 @@ void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rota
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 
-	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); // Draw from upper left edge
 	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
