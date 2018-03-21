@@ -23,24 +23,29 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pieces.cpp" />
+    <ClCompile Include="renderer_geometry.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_game.cpp" />
     <ClCompile Include="shader.cpp" />
-    <ClCompile Include="sprite_renderer.cpp" />
+    <ClCompile Include="renderer_sprite.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="renderer_geometry.h" />
+    <ClInclude Include="piece.h" />
     <ClInclude Include="pieces.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_game.h" />
     <ClInclude Include="shader.h" />
-    <ClInclude Include="sprite_renderer.h" />
+    <ClInclude Include="renderer_sprite.h" />
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\rect.frag" />
+    <None Include="assets\shaders\rect.vert" />
     <None Include="assets\shaders\sprite.frag" />
     <None Include="assets\shaders\sprite.vert" />
   </ItemGroup>

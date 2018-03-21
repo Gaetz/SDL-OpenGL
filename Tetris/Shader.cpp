@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <sstream>
+#include <string>
 
 Shader &Shader::use()
 {
@@ -116,7 +117,7 @@ void Shader::checkCompileErrors(GLuint object, std::string type)
 				<< infoLog << "\n -- --------------------------------------------------- -- "
 				<< std::endl;
 			const std::string error = shaderError.str();
-			SDL_LogError(SDL_LOG_CATEGORY_RENDER, error.c_str());
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, error.c_str());
 		}
 	}
 	else
@@ -130,7 +131,7 @@ void Shader::checkCompileErrors(GLuint object, std::string type)
 				<< infoLog << "\n -- --------------------------------------------------- -- "
 				<< std::endl;
 			const std::string error = shaderError.str();
-			SDL_LogError(SDL_LOG_CATEGORY_RENDER, error.c_str());
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, error.c_str());
 		}
 	}
 }

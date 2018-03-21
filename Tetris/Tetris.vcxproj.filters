@@ -36,9 +36,6 @@
     <ClCompile Include="resource_manager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="sprite_renderer.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="pieces.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -46,6 +43,12 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="scene_game.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer_sprite.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer_geometry.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,9 +65,6 @@
     <ClInclude Include="resource_manager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="sprite_renderer.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="pieces.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -77,12 +77,27 @@
     <ClInclude Include="scene_game.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="piece.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_sprite.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer_geometry.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\sprite.frag">
       <Filter>Fichiers de ressources\shaders</Filter>
     </None>
     <None Include="assets\shaders\sprite.vert">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\rect.frag">
+      <Filter>Fichiers de ressources\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\rect.vert">
       <Filter>Fichiers de ressources\shaders</Filter>
     </None>
   </ItemGroup>

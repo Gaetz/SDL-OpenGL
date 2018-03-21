@@ -11,7 +11,8 @@
 #endif
 
 #include "shader.h"
-#include "sprite_renderer.h"
+#include "renderer_sprite.h"
+#include "renderer_geometry.h"
 #include <vector>
 
 
@@ -49,7 +50,8 @@ private:
 	SDL_GLContext context;
 	int windowWidth, windowHeight;
 
-	SpriteRenderer *renderer;
+	SpriteRenderer *sRenderer;
+	GeometryRenderer *gRenderer;
 	GameState state;
 	std::vector<Scene*> scenes;
 };

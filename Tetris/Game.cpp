@@ -72,12 +72,17 @@ void Game::load()
 {
 	// Load shaders
 	ResourceManager::loadShader("assets/shaders/sprite.vert", "assets/shaders/sprite.frag", nullptr, "sprite");
+	ResourceManager::loadShader("assets/shaders/rect.vert", "assets/shaders/rect.frag", nullptr, "rect");
 	// Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
-	ResourceManager::getShader("sprite").use().setInteger("image", 0);
+	ResourceManager::getShader("sprite").use();
+	ResourceManager::getShader("sprite").setInteger("image", 0);
 	ResourceManager::getShader("sprite").setMatrix4("projection", projection);
+	ResourceManager::getShader("rect").use();
+	ResourceManager::getShader("rect").setMatrix4("projection", projection);
 	// Set render-specific controls
-	renderer = new SpriteRenderer(ResourceManager::getShader("sprite"));;
+	sRenderer = new SpriteRenderer(ResourceManager::getShader("sprite"));;
+	gRenderer = new GeometryRenderer(ResourceManager::getShader("rect"));;
 
 	// Game scene
 	changeScene(SceneGame::Instance());
@@ -99,7 +104,7 @@ void Game::render()
 	glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	scenes.back()->draw(renderer);
+	scenes.back()->draw(sRenderer, gRenderer);
 
 	SDL_GL_SwapWindow(window);
 }
