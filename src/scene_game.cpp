@@ -13,6 +13,7 @@ void SceneGame::load()
 	ResourceManager::loadTexture("./assets/textures/tile_fall.png", "tile_fall");
 	pieces = new Pieces();
 	board = new Board(pieces, game->windowHeight);
+	board->initBoard();
 	counter = 0;
 
 	// First piece

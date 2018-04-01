@@ -37,6 +37,9 @@ public:
 
 	// Check if game is over
 	bool isGameOver();
+	
+	// Init board with empty positions
+	void initBoard();
 
 private:
 
@@ -51,9 +54,6 @@ private:
 
 	// Screen height
 	int screenHeight;
-
-	// Init board with empty positions
-	void initBoard();
 
 	// Delete y line and but all line above one line down
 	void deleteLine(int y);
