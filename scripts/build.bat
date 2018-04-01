@@ -1,12 +1,11 @@
-::@echo off
+@echo off
  
+:: Create build dir
 set buildDir=%~dp0..\build
- 
 if not exist %buildDir% mkdir %buildDir%
- 
 pushd %buildDir%
  
-:: compiler input
+:: Compiler input
 set objDir=.\obj\
 set outputExe=%buildDir%/Tetris.exe
 
@@ -14,7 +13,8 @@ set files=..\src\main.cpp ..\src\board.cpp ..\src\game.cpp ..\src\pieces.cpp ..\
 set files=..\src\renderer_geometry.cpp ..\src\renderer_sprite.cpp ..\src\resource_manager.cpp ..\src\scene_game.cpp %files%
 
 if not exist %objDir% mkdir %objDir%
- 
+
+:: Dependencies
 set INCLUDE=%scriptsDir%-I..\external\SDL2-2.0.7\include
 set INCLUDE=%scriptsDir%-I..\external\SDL2_image-2.0.2\include %INCLUDE%
 set INCLUDE=%scriptsDir%-I..\external\SDL2_mixer-2.0.2\include %INCLUDE%
@@ -30,6 +30,7 @@ set LIB=%scriptsDir%-L..\external\glew-2.1.0\lib\Release\x64 %LIB%
 
 set Librairies=-lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llibpng16-16 -lglew32 -lzlib1 -lopengl32
 
+:: Compile everything (not optimal)
 g++ -g -Wall %files% %INCLUDE% %LIB% %Librairies% -o %outputExe%
 
 :: Copy dependencies
@@ -41,6 +42,7 @@ xcopy /y ..\external\glew-2.1.0\bin\Release\x64\glew32.dll .
 xcopy /y ..\external\SDL2_image-2.0.2\lib\x64\libpng16-16.dll .
 xcopy /y ..\external\SDL2_image-2.0.2\lib\x64\zlib1.dll .
 
+:: Copy assets
 mkdir %buildDir%\assets
 xcopy /y /s ..\assets %buildDir%\assets
 
