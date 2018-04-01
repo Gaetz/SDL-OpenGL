@@ -26,11 +26,14 @@ Readme.md       // This file ;)
 MinGW allow to use gcc on windows command prompt. MinGW-w64 is the 64 bits version. Go there: https://mingw-w64.org/doku.php/download and choose MingW-W64-builds.
 
 Launch the installer. Choose:
+
+```
 Version:        latest
 Architecture:   x86_64
 Threads:        posix
 Exceptions:     sjlj
 Build revision: 0
+```
 
 Choose a folder on c: drive *with no space*. Like `C:\mingw-w64`. 
 The installer will add a folder with mingw version. Go on installing.
