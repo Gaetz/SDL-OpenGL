@@ -183,6 +183,10 @@ xcopy /y /s %assetsDir% %buildDir%\assets
 
 # VS Code configuration
 
+## Cpp extension
+
+Install the C/C++ extension from Microsoft.
+
 ## Cpp configuration
 
 Ctrl + Shift + p then C/Cpp Edit configuration. This file must contains mmingw includes and your librairies includes.
