@@ -12,6 +12,7 @@ With inspiration from Anthony Reddan: http://anthonyreddan.com/sdl-and-vscode/
 assets/         // Game assets
 build/          // Build files, not versioned
 external/       // Libraries where will be taken files necessary for compilation
+release/        // Release game, not versioned
 resources/      // Files used to create game assets
 scripts/        // Build scripts (.bat files and makefile)
 src/            // Sources
