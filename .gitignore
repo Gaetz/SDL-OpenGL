@@ -1,7 +1,3 @@
-# Prerequisites
-*.d
-.vs/
-
 # Compiled Object files
 *.slo
 *.lo
@@ -15,3 +11,4 @@
 
 # Builds
 build/
+release/

@@ -58,6 +58,9 @@ The `clean.bat` script will empty the `build` folder to start over build if need
 
 The `assets.bat` will copy game assets to the `build` folder. It will be used before program launch.
 
+The `release.bat` will use makefile release target to compile to the `release` folder, copy dlls, assets, then delete obj files. The `release` folder can be used to release the game.
+
+
 ## Makefile
 
 Create a `makefile` file in the `scripts` folder.
@@ -95,7 +98,15 @@ Tetris.exe: $(OBJ_FILES)
 
 # Each .o file finds his .cpp counterpart
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ -std=c++17 -g -Wall -Wextra -c -o $@ $< $(INCLUDE) 
+	g++ -std=c++17 -g -Wall -Wextra -c -o $@ $< $(INCLUDE)
+
+# Release target
+release: $(RELEASE_OBJ_FILES)
+	g++ -O3 -mwindows -o $(RELEASE_DIR)\Tetris.exe $^ $(LIB) $(LIBRAIRIES)
+
+# Each .o file finds his .cpp counterpart, with optimisations
+$(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	g++ -std=c++17 -O3 -Wall -Wextra -c -o $@ $< $(INCLUDE)
 
 ```
 
@@ -145,12 +156,13 @@ popd
 
 Create a `clean.bat` file in the `scripts` folder.
 
-This script cleans the `build` folder.
+This script cleans the `build` and the `release` folder.
 
 ```
 @echo off
  
 set buildDir=%~dp0..\build
+set releaseDir=%~dp0..\release
 set objDir=.\obj\
 set assetDir=.\assets\
 
@@ -161,11 +173,20 @@ if exist %buildDir% (
   if exist %assetDir% rd /s /q %assetDir%
   popd
 )
+
+if exist %releaseDir% (  
+  pushd %releaseDir%
+  del /q /s *.exe *.pdb *.ilk *.dll
+  rd /s /q %objDir%
+  if exist %assetDir% rd /s /q %assetDir%
+  popd
+)
+
 ```
 
 ## Asset copy script
 
-This script will copy game assets to the build folder.
+This script will copy game assets to the `build` folder.
 
 Create a `assets.bat` file in the `scripts` folder.
 
@@ -178,6 +199,57 @@ set assetsDir=%~dp0..\assets
 :: Copy assets
 if not exist %buildDir%\assets mkdir %buildDir%\assets
 xcopy /y /s %assetsDir% %buildDir%\assets
+
+```
+
+## Release script
+
+This script will prepare game for release. Game will be compiled ready to ship into the `release` folder.
+
+Create a `release.bat` file in the `scripts` folder.
+
+```
+@echo off
+ 
+:: Create build dir
+set releaseDir=%~dp0..\release
+if not exist %releaseDir% mkdir %releaseDir%
+pushd %releaseDir%
+
+:: Create obj dir
+set objDir=.\obj
+if not exist %objDir% mkdir %objDir%
+
+:: Needed folders
+set extDir=%~dp0..\external
+set scriptDir=%~dp0..\scripts
+
+:: Use make to build default target
+cd %scriptDir%\
+mingw32-make release
+
+cd %releaseDir%
+
+:: Copy dependencies
+if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
+if not exist %releaseDir%\SDL2_image.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\SDL2_image.dll .
+if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
+if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
+if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
+if not exist %releaseDir%\libpng16-16.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\libpng16-16.dll .
+if not exist %releaseDir%\zlib1.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\zlib1.dll .
+
+:: Copy assets
+set assetsDir=%~dp0..\assets
+
+:: Copy assets
+if not exist %releaseDir%\assets mkdir %releaseDir%\assets
+xcopy /y /s %assetsDir% %releaseDir%\assets
+
+:: Remove release obj files
+rd /s /q %releaseDir%\%objDir%
+
+popd
 
 ```
 
@@ -290,6 +362,15 @@ Ctrl + Shift + p, config default build task.
                 "command": "",
                 "args": ["./scripts/assets"]
             }
+        },
+        {
+            "label": "release",
+            "type": "shell",
+            "windows": {
+                "command": "",
+                "args": ["./scripts/release"]
+            },
+            "problemMatcher": { "owner": "cpp", "fileLocation": ["relative", "${workspaceRoot}"], "pattern": { "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$", "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5 } }        
         }
     ]
 }
@@ -319,7 +400,7 @@ Build shortcut is already configured to ctrl + shift + b.
 
 ## Launch config
 
-Ctrl + Shift + p, open launch.json
+Ctrl + Shift + p, open `launch.json`
 
 ```
 {
@@ -351,9 +432,32 @@ Ctrl + Shift + p, open launch.json
         } 
     ]
 }
+
 ```
 
 The `program` field must name the output exe file. The `miDebuggerPath` shall point to the gdb exe.
+
+# .gitignore
+
+We don't need `build` and `release` folders. Thus we create a `.gitignore` file at the project root.
+
+```
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Builds
+build/
+release/
+
+```
 
 # Try your game
 
