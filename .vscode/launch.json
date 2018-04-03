@@ -23,6 +23,7 @@
                     "ignoreFailures": true
                 }
             ],
+            "preLaunchTask": "prepare-assets"
         } 
     ]
 }

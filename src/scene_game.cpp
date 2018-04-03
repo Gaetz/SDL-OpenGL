@@ -45,7 +45,7 @@ void SceneGame::resume() {
 }
 
 
-void SceneGame::handleEvent(Uint32 dt) {
+void SceneGame::handleEvent( __attribute__((unused)) Uint32 dt) {
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {

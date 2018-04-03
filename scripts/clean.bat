@@ -9,6 +9,5 @@ if exist %buildDir% (
   del /q /s *.exe *.pdb *.ilk *.dll
   rd /s /q %objDir%
   rd /s /q %assetDir%
-  rd /s /q .vs
   popd
 )

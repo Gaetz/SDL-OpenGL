@@ -7,7 +7,7 @@
             "label": "build",
             "type": "shell",
             "windows": {
-                "command": "powershell",
+                "command": "",
                 "args": ["./scripts/build.bat"]
             },
             "group": {
@@ -20,8 +20,16 @@
             "label": "clean",
             "type": "shell",
             "windows": {
-                "command": "powershell",
+                "command": "",
                 "args": ["./scripts/clean"]
+            }
+        },
+        {
+            "label": "prepare-assets",
+            "type": "shell",
+            "windows": {
+                "command": "",
+                "args": ["./scripts/assets"]
             }
         }
     ]
