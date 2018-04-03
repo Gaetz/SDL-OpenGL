@@ -8,7 +8,7 @@
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/build.bat"]
+                "args": ["./scripts/build"]
             },
             "group": {
                 "kind": "build",

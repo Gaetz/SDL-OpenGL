@@ -1,7 +1,6 @@
 @echo off
 
 set buildDir=%~dp0..\build
-set extDir=%~dp0..\external
 set assetsDir=%~dp0..\assets
 
 :: Copy assets

@@ -13,7 +13,7 @@ assets/         // Game assets
 build/          // Build files, not versioned
 external/       // Libraries where will be taken files necessary for compilation
 resources/      // Files used to create game assets
-scripts/        // Build scripts (.bat files)
+scripts/        // Build scripts (.bat files and makefile)
 src/            // Sources
 .gitignore      // Files we don't want to version
 LICENCE         // Your rights
@@ -145,7 +145,7 @@ popd
 
 Create a `clean.bat` file in the `scripts` folder.
 
-This script cleans the
+This script cleans the `build` folder.
 
 ```
 @echo off
@@ -173,12 +173,12 @@ Create a `assets.bat` file in the `scripts` folder.
 @echo off
 
 set buildDir=%~dp0..\build
-set extDir=%~dp0..\external
 set assetsDir=%~dp0..\assets
 
 :: Copy assets
 if not exist %buildDir%\assets mkdir %buildDir%\assets
 xcopy /y /s %assetsDir% %buildDir%\assets
+
 ```
 
 # VS Code configuration
@@ -263,7 +263,7 @@ Ctrl + Shift + p, config default build task.
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/build.bat"]
+                "args": ["./scripts/build"]
             },
             "group": {
                 "kind": "build",
@@ -349,7 +349,7 @@ Ctrl + Shift + p, open launch.json
 }
 ```
 
-The `program` field must name the output exe file. The `miDebuggerPath` should point to the gdb exe.
+The `program` field must name the output exe file. The `miDebuggerPath` shall point to the gdb exe.
 
 # Try your game
 
