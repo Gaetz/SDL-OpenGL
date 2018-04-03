@@ -48,11 +48,64 @@ Open a promt and try g++ command.
 Put your dependencies in the `external` folder.
 
 
-# Scripts
+# Scripts and makefile
+
+The `build.bat` script will use a makefile to build only updated sources. Everything will be built to the `build` folder. This script also copy dlls to the `build` folder, so they can be used by the generated exe.
+
+The makefile contains all includes and libs dependencies.
+
+The `clean.bat` script will empty the `build` folder to start over build if needed.
+
+The `assets.bat` will copy game assets to the `build` folder. It will be used before program launch.
+
+## Makefile
+
+Create a `makefile` file in the `scripts` folder.
+
+Makefiles are used to find sources to be built and to avoid compiling not modified sources.
+
+```
+SRC_DIR := ..\src
+OBJ_DIR := ..\build\obj
+EXT_DIR := ..\external
+BUILD_DIR := ..\build
+
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+
+INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.7\include \
+	-I$(EXT_DIR)\SDL2-2.0.7\include \
+	-I$(EXT_DIR)\SDL2_image-2.0.2\include \
+	-I$(EXT_DIR)\SDL2_mixer-2.0.2\include \
+	-I$(EXT_DIR)\SDL2_ttf-2.0.14\include \
+	-I$(EXT_DIR)\glew-2.1.0\include \
+	-I$(EXT_DIR)\glm-0.9.5
+
+LIB :=-L$(EXT_DIR)\SDL2-2.0.7\lib\x64 \
+	-L$(EXT_DIR)\SDL2_image-2.0.2\lib\x64 \
+	-L$(EXT_DIR)\SDL2_mixer-2.0.2\lib\x64 \
+	-L$(EXT_DIR)\SDL2_ttf-2.0.14\lib\x64 \
+	-L$(EXT_DIR)\glew-2.1.0\lib\Release\x64
+
+LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llibpng16-16 -lglew32 -lzlib1 -lopengl32
+
+# Target, with all .o prerequisites
+Tetris.exe: $(OBJ_FILES)
+	g++ -g -o $(BUILD_DIR)\$@ $^ $(LIB) $(LIBRAIRIES)
+
+# Each .o file finds his .cpp counterpart
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	g++ -std=c++17 -g -Wall -Wextra -c -o $@ $< $(INCLUDE) 
+
+```
+
+Note that you name the output exe file in this makefile.
 
 ## Build script
 
 Create a `build.bat` file in the `scripts` folder.
+
+This script executes the makefile, creates and copies needed folders and files.
 
 ```
 @echo off
@@ -62,55 +115,19 @@ set buildDir=%~dp0..\build
 if not exist %buildDir% mkdir %buildDir%
 pushd %buildDir%
 
-set srcDir=%~dp0..\src
-set extDir=%~dp0..\external
-
-:: Compiler input
-set objDir=.\obj\
-set outputExe=%buildDir%/Tetris.exe
-
+:: Create obj dir
+set objDir=.\obj
 if not exist %objDir% mkdir %objDir%
 
-:: Dependencies
-set INCLUDE=%scriptsDir%-I%extDir%\SDL2-2.0.7\include
-set INCLUDE=%scriptsDir%-I%extDir%\SDL2_image-2.0.2\include %INCLUDE%
-set INCLUDE=%scriptsDir%-I%extDir%\SDL2_mixer-2.0.2\include %INCLUDE%
-set INCLUDE=%scriptsDir%-I%extDir%\SDL2_ttf-2.0.14\include %INCLUDE%
-set INCLUDE=%scriptsDir%-I%extDir%\glew-2.1.0\include %INCLUDE%
-set INCLUDE=%scriptsDir%-I%extDir%\glm-0.9.5 %INCLUDE%
+:: Needed folders
+set extDir=%~dp0..\external
+set scriptDir=%~dp0..\scripts
 
-set LIB=%scriptsDir%-L%extDir%\SDL2-2.0.7\lib\x64
-set LIB=%scriptsDir%-L%extDir%\SDL2_image-2.0.2\lib\x64 %LIB%
-set LIB=%scriptsDir%-L%extDir%\SDL2_mixer-2.0.2\lib\x64 %LIB%
-set LIB=%scriptsDir%-L%extDir%\SDL2_ttf-2.0.14\lib\x64 %LIB%
-set LIB=%scriptsDir%-L%extDir%\glew-2.1.0\lib\Release\x64 %LIB%
+:: Use make to build default target
+cd %scriptDir%\
+mingw32-make
 
-set Librairies=-lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llibpng16-16 -lglew32 -lzlib1 -lopengl32
-
-:: Compile everything (not optimal)
-g++ -g -Wall -Wextra -c %srcDir%\shader.cpp -o %objDir%\shader.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\main.cpp -o %objDir%\main.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\board.cpp -o %objDir%\board.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\game.cpp -o %objDir%\game.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\pieces.cpp -o %objDir%\pieces.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\renderer_geometry.cpp -o %objDir%\renderer_geometry.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\renderer_sprite.cpp -o %objDir%\renderer_sprite.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\resource_manager.cpp -o %objDir%\resource_manager.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\scene_game.cpp -o %objDir%\scene_game.o %INCLUDE%
-g++ -g -Wall -Wextra -c %srcDir%\texture.cpp -o %objDir%\texture.o %INCLUDE%
-
-set obj=%objDir%\main.o
-set obj=%objDir%\board.o %obj%
-set obj=%objDir%\game.o %obj%
-set obj=%objDir%\pieces.o %obj%
-set obj=%objDir%\shader.o %obj%
-set obj=%objDir%\renderer_geometry.o %obj%
-set obj=%objDir%\renderer_sprite.o %obj%
-set obj=%objDir%\resource_manager.o %obj%
-set obj=%objDir%\scene_game.o %obj%
-set obj=%objDir%\texture.o %obj%
-
-g++ -g %obj% %LIB% %Librairies% -o %outputExe%
+cd %buildDir%
 
 :: Copy dependencies
 if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
@@ -124,11 +141,11 @@ if not exist %buildDir%\zlib1.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\zli
 popd
 ```
 
-Note that you name the output exe file in this script.
-
 ## Clean script
 
 Create a `clean.bat` file in the `scripts` folder.
+
+This script cleans the
 
 ```
 @echo off
@@ -141,7 +158,7 @@ if exist %buildDir% (
   pushd %buildDir%
   del /q /s *.exe *.pdb *.ilk *.dll
   rd /s /q %objDir%
-  rd /s /q %assetDir%
+  if exist %assetDir% rd /s /q %assetDir%
   popd
 )
 ```
