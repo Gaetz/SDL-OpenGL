@@ -1,4 +1,4 @@
-# cpp-Tetris
+# SDL + OpenGL
 
 A tetris game kata with sdl2 and openGl, built with minGW-w64 and Visual Studio Code for windows 10.
 
