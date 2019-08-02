@@ -1,5 +1,5 @@
-#ifndef _PIECE_
-#define _PIECE_
+#ifndef PIECE_H
+#define PIECE_H
 
 struct Piece {
 	int x;

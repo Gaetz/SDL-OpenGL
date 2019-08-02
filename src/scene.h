@@ -1,5 +1,5 @@
-#ifndef _SCENE_
-#define _SCENE_
+#ifndef SCENE_H
+#define SCENE_H
 
 #include "renderer_sprite.h"
 #include "renderer_geometry.h"

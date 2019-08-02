@@ -10,6 +10,10 @@
                 "command": "",
                 "args": ["./scripts/build"]
             },
+            "linux": {
+                "command": "",
+                "args": ["./scripts/build"]
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -22,6 +26,10 @@
             "windows": {
                 "command": "",
                 "args": ["./scripts/clean"]
+            },
+            "linux": {
+                "command": "",
+                "args": ["./scripts/clean"]
             }
         },
         {
@@ -30,12 +38,20 @@
             "windows": {
                 "command": "",
                 "args": ["./scripts/assets"]
+            },
+            "linux": {
+                "command": "",
+                "args": ["./scripts/assets"]
             }
         },
         {
             "label": "release",
             "type": "shell",
             "windows": {
+                "command": "",
+                "args": ["./scripts/release"]
+            },
+            "linux": {
                 "command": "",
                 "args": ["./scripts/release"]
             },

@@ -1,5 +1,5 @@
-#ifndef _PIECES_
-#define _PIECES_
+#ifndef PIECES_H
+#define PIECES_H
 
 class Pieces
 {

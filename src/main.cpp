@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "game.h"
 
 Game *game = nullptr;
 
@@ -7,13 +7,13 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	const int frameDelay = 1000 / FPS;
 
 	// Time in milliseconds when frame starts
-	Uint32 frameStart;
+	int frameStart;
 
 	// Last frame start time in milliseconds
-	Uint32 lastFrame = 0;
+	int lastFrame = 0;
 	
 	// Delta time
-	Uint32 dt;
+	int dt;
 
 	// Time it tooks to run the loop. Used to cap framerate.
 	int frameTime;

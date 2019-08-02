@@ -1,6 +1,5 @@
-#pragma once
-#ifndef DEF_SPRITE_RENDERER
-#define DEF_SPRITE_RENDERER
+#ifndef SPRITE_RENDERER_H
+#define SPRITE_RENDERER_H
 
 #include "shader.h"
 #include "texture.h"

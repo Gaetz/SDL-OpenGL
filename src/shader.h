@@ -1,5 +1,5 @@
-#ifndef DEF_SHADER
-#define DEF_SHADER
+#ifndef SHADER_H
+#define SHADER_H
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <GL/glew.h>
@@ -8,7 +8,7 @@
 #include <OpenGL/gl3.h>
 #else
 #define GL3_PROTOTYPES 1
-#include <GL3/gl3.h>
+#include <GL/gl.h>
 #endif
 
 #include <iostream>

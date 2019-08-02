@@ -1,5 +1,5 @@
-#ifndef _BOARD_
-#define _BOARD_
+#ifndef BOARD_H
+#define BOARD_H
 
 #include "pieces.h"
 

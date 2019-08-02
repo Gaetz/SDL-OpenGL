@@ -1,5 +1,5 @@
-#ifndef _SCENE_GAME_
-#define _SCENE_GAME_
+#ifndef SCENE_GAME_H
+#define SCENE_GAME_H
 
 #include "scene.h"
 #include "piece.h"
