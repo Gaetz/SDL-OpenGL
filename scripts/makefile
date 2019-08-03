@@ -70,7 +70,7 @@ Tetris.exe: $(OBJ_FILES)
 
 # Each .o file finds his .cpp counterpart
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ -std=c++11 -g -Wall -Wextra -c -o $@ $<
+	g++ -std=c++17 -g -Wall -Wextra -c -o $@ $<
 
 # Release target
 release: $(RELEASE_OBJ_FILES)
@@ -78,6 +78,6 @@ release: $(RELEASE_OBJ_FILES)
 
 # Each .o file finds his .cpp counterpart, with optimisations
 $(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ -std=c++11 -O3 -Wall -Wextra -c -o $@ $<
+	g++ -std=c++17 -O3 -Wall -Wextra -c -o $@ $<
 
 endif
