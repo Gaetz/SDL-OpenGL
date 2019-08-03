@@ -1,6 +1,12 @@
-# SDL + OpenGL
+# SDL2 + OpenGL
 
-A tetris game kata with sdl2 and openGl, built with minGW-w64 and Visual Studio Code for windows 10.
+This is a SDL2 + OpenGL template, written in C++, that you can use as a starter for any project.
+
+It is meant to be used in the days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts. This documentation file explains the scripts and set up visual code for smooth development, either on Linux or Windows.
+
+This is not meant to be a game engine, not even a simple one. It is just a starter so you can build your game engine on.
+
+A tetris game kata is provided as an illustration.
 
 
 # Project structure
@@ -21,8 +27,45 @@ LICENCE         // Your rights
 Readme.md       // This file ;)
 ```
 
+# Prerequisites
 
-# Installing mingw-w64
+## Linux: Get SDL2
+
+This tutorial is for Debian-distributions - I use Ubuntu and Linux-Mint. You can easily adapt it to other distros. You are a Linux user, after all.
+
+```
+sudo apt install libsdl2-dev libsdl2-2.0-0 -y;
+
+sudo apt install libmikmod-dev libfishsound1-dev libsmpeg-dev liboggz2-dev libflac-dev libfluidsynth-dev libsdl2-mixer-dev libsdl2-mixer-2.0-0 -y;
+
+sudo apt install libfreetype6-dev libsdl2-ttf-dev libsdl2-ttf-2.0-0 -y;
+```
+
+It is a posibility that your distribution does not embed the last SDL2 version. If you want the last versions, get the last tar.gz sources file from:
+- SDL2: https://www.libsdl.org/download-2.0.php
+- SDL2 mixer: https://www.libsdl.org/projects/SDL_mixer/
+- SDL2 ttf: https://www.libsdl.org/projects/SDL_ttf/
+
+Then decompress them, open a terminal, and go in each folder, where you will execute:
+
+```
+./configure
+make 
+sudo make install
+```
+
+You will need two additional librairies to run this template. GLEW, which eases the use of OpenGL, and GLM, which prevents you from writing math calculus.
+
+Install GLEW and GLM:
+
+```
+sudo apt update
+sudo apt install libglew-dev libglm-dev -y;
+
+```
+
+
+## Windows: Installing mingw-w64
 
 MinGW allow to use gcc on windows command prompt. MinGW-w64 is the 64 bits version. Go there: https://mingw-w64.org/doku.php/download and choose MingW-W64-builds.
 
@@ -36,6 +79,8 @@ Exceptions:     sjlj
 Build revision: 0
 ```
 
+Troubleshootings: some people had a problem with mingw version abobe the 7.3.0. You can choose version 7.3.0 for safety.
+
 Choose a folder on c: drive *with no space*. Like `C:\mingw-w64`. 
 The installer will add a folder with mingw version. Go on installing.
 
@@ -44,54 +89,65 @@ e.g.: C:\mingw-w64\x86_64-7.3.0-posix-sjlj-rt_v5-rev0\mingw64\bin
 
 Open a promt and try g++ command.
 
-# Download dependencies
+## Other dependencies
 
-Put your dependencies in the `external` folder.
+For Windows, SDL2 depencies are already present in the `external` folder.
+
+Put your other dependencies in the `external` folder.
 
 
 # Scripts and makefile
 
-The `build.bat` script will use a makefile to build only updated sources. Everything will be built to the `build` folder. This script also copy dlls to the `build` folder, so they can be used by the generated exe.
+The `build` script will use a makefile to build only updated sources. Everything will be built to the `build` folder. This script also copy dlls to the `build` folder, so they can be used by the generated exe.
 
 The makefile contains all includes and libs dependencies.
 
-The `clean.bat` script will empty the `build` folder to start over build if needed.
+The `clean` script will empty the `build` folder to start over build if needed.
 
-The `assets.bat` will copy game assets to the `build` folder. It will be used before program launch.
+The `assets` script will copy game assets to the `build` folder. It will be used before program launch.
 
-The `release.bat` will use makefile release target to compile to the `release` folder, copy dlls, assets, then delete obj files. The `release` folder can be used to release the game.
+The `release` script will use makefile release target to compile to the `release` folder, copy dlls, assets, then delete obj files. The `release` folder can be used to release the game.
+
+This repository provides a `.sh` and a `.bat` version for each script, enabling their use either on Linux or on Windows.
 
 
 ## Makefile
 
 Create a `makefile` file in the `scripts` folder.
 
-Makefiles are used to find sources to be built and to avoid compiling not modified sources.
+Makefiles are used to find sources to be built and to avoid compiling not modified sources. This makefile autodetect if you are on Linux or Windows.
 
 ```
+# -------------
+#    Windows
+# -------------
+ifeq ($(OS),Windows_NT)
+
 SRC_DIR := ..\src
 OBJ_DIR := ..\build\obj
 EXT_DIR := ..\external
 BUILD_DIR := ..\build
 
+RELEASE_DIR := ..\release
+RELEASE_OBJ_DIR := ..\release\obj
+
 SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
+
+LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -llibpng16-16 -lglew32 -lzlib1 -lopengl32
 
 INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.7\include \
 	-I$(EXT_DIR)\SDL2-2.0.7\include \
-	-I$(EXT_DIR)\SDL2_image-2.0.2\include \
 	-I$(EXT_DIR)\SDL2_mixer-2.0.2\include \
 	-I$(EXT_DIR)\SDL2_ttf-2.0.14\include \
 	-I$(EXT_DIR)\glew-2.1.0\include \
 	-I$(EXT_DIR)\glm-0.9.5
 
 LIB :=-L$(EXT_DIR)\SDL2-2.0.7\lib\x64 \
-	-L$(EXT_DIR)\SDL2_image-2.0.2\lib\x64 \
 	-L$(EXT_DIR)\SDL2_mixer-2.0.2\lib\x64 \
 	-L$(EXT_DIR)\SDL2_ttf-2.0.14\lib\x64 \
 	-L$(EXT_DIR)\glew-2.1.0\lib\Release\x64
-
-LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llibpng16-16 -lglew32 -lzlib1 -lopengl32
 
 # Target, with all .o prerequisites
 Tetris.exe: $(OBJ_FILES)
@@ -99,7 +155,7 @@ Tetris.exe: $(OBJ_FILES)
 
 # Each .o file finds his .cpp counterpart
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ -std=c++17 -g -Wall -Wextra -c -o $@ $< $(INCLUDE)
+	g++ -std=c++17 -g -Wall -Wextra -c -o $@ $< $(INCLUDE) 
 
 # Release target
 release: $(RELEASE_OBJ_FILES)
@@ -107,7 +163,44 @@ release: $(RELEASE_OBJ_FILES)
 
 # Each .o file finds his .cpp counterpart, with optimisations
 $(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	g++ -std=c++17 -O3 -Wall -Wextra -c -o $@ $< $(INCLUDE)
+	g++ -std=c++17 -O3 -Wall -Wextra -c -o $@ $< $(INCLUDE) 
+
+# -------------
+#     Linux
+# -------------
+else
+
+SRC_DIR := ../src
+OBJ_DIR := ../build/obj
+EXT_DIR := ../external
+BUILD_DIR := ../build
+
+RELEASE_DIR := ../release
+RELEASE_OBJ_DIR := ../release/obj
+
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
+
+LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lGLEW  -lGLU -lGL
+
+# Target, with all .o prerequisites
+Tetris.exe: $(OBJ_FILES)
+	g++ -g -o $(BUILD_DIR)/$@ $^ $(LIBRAIRIES)
+
+# Each .o file finds his .cpp counterpart
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	g++ -std=c++11 -g -Wall -Wextra -c -o $@ $<
+
+# Release target
+release: $(RELEASE_OBJ_FILES)
+	g++ -O3 -mwindows -o $(RELEASE_DIR)\Tetris.exe $^
+
+# Each .o file finds his .cpp counterpart, with optimisations
+$(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	g++ -std=c++11 -O3 -Wall -Wextra -c -o $@ $<
+
+endif
 
 ```
 
@@ -115,10 +208,39 @@ Note that you name the output exe file in this makefile.
 
 ## Build script
 
-Create a `build.bat` file in the `scripts` folder.
+Create a `build.bat` file for Windows, or a `build.sh` script for Linux, in the `scripts` folder.
 
 This script executes the makefile, creates and copies needed folders and files.
 
+build.sh
+```
+#!/bin/bash
+
+# Create build dir
+dot="$(dirname "$0")"
+buildDir=$dot/../build
+if [ ! -d "$buildDir" ]; then
+    mkdir $buildDir
+fi
+
+# Create obj dir
+objDir="$buildDir/obj"
+if [ ! -d "$objDir" ]; then
+    mkdir $objDir
+fi
+
+# Needed folders
+extDir=$dot/../external
+scriptDir=$dot/../scripts
+
+# Use make to build default target
+cd $scriptDir
+make
+
+cd $dot
+```
+
+build.bat
 ```
 @echo off
  
@@ -143,7 +265,6 @@ cd %buildDir%
 
 :: Copy dependencies
 if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
-if not exist %buildDir%\SDL2_image.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\SDL2_image.dll .
 if not exist %buildDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
 if not exist %buildDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
 if not exist %buildDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
@@ -155,10 +276,42 @@ popd
 
 ## Clean script
 
-Create a `clean.bat` file in the `scripts` folder.
+Create a `clean.bat` file (Windows), or a `clean.sh` file (Linux), in the `scripts` folder.
 
 This script cleans the `build` and the `release` folder.
 
+clean.sh
+```
+#!/bin/bash
+
+dot="$(dirname "$0")"
+buildDir=$dot/../build
+releaseDir=$dot/../release
+objDir=$dot/obj/
+assetDir=$dot/../assets/
+
+if [ -d "$buildDir" ]; then
+  cd $buildDir
+  rm *.exe *.pdb *.ilk *.dll
+  rm -r $objDir
+  if [ -d "$buildDir/assets" ]; then
+    rm -r "$buildDir/assets"
+  fi
+fi
+
+if [ -d "$releaseDir" ]; then
+  cd $releaseDir
+  rm *.exe *.pdb *.ilk *.dll
+  rm -r $objDir
+  if [ -d "$assetDir/assets" ]; then
+    rm -r "$assetDir/assets"
+  fi
+fi
+
+cd $dot
+```
+
+clean.bat
 ```
 @echo off
  
@@ -182,15 +335,32 @@ if exist %releaseDir% (
   if exist %assetDir% rd /s /q %assetDir%
   popd
 )
-
 ```
 
 ## Asset copy script
 
 This script will copy game assets to the `build` folder.
 
-Create a `assets.bat` file in the `scripts` folder.
+Create a `assets.bat` (Windows) file, or a `assets.sh` (Linux) file in the `scripts` folder.
 
+assets.sh
+```
+#!/bin/bash
+
+dot=$(dirname "$0")
+buildDir=$dot/../build
+assetsDir=$dot/../assets
+
+# Copy assets
+if [ ! -d "$buildDir/assets" ]; then
+    mkdir "$buildDir/assets"
+fi
+cp -a "$assetsDir/." "$buildDir/assets"
+
+cd $dot
+```
+
+assets.bat
 ```
 @echo off
 
@@ -207,8 +377,58 @@ xcopy /y /s %assetsDir% %buildDir%\assets
 
 This script will prepare game for release. Game will be compiled ready to ship into the `release` folder.
 
-Create a `release.bat` file in the `scripts` folder.
+Create a `release.bat` file (Windows), or a `release.sh` file (Linux), in the `scripts` folder.
 
+release.sh
+```
+#!/bin/bash
+
+# Create build dir
+dot="$(dirname "$0")"
+releaseDir=$dot/../release
+if [ ! -d "$releaseDir" ]; then
+    mkdir $releaseDir
+fi
+
+# Create obj dir
+objDir=$releaseDir/obj
+if [ ! -d "$objDir" ]; then
+    mkdir $objDir
+fi
+
+# Needed folders
+extDir=$dot/../external
+scriptDir=$dot/../scripts
+
+# Use make to build default target
+cd $scriptDir
+make release
+
+
+cd $releaseDir
+
+# Copy dependencies
+#if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
+#if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
+#if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
+#if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
+#if not exist %releaseDir%\libpng16-16.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\libpng16-16.dll .
+#if not exist %releaseDir%\zlib1.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\zlib1.dll .
+
+# Copy assets
+assetsDir=$dot/../assets
+if [ ! -d "$releaseDir/assets" ]; then
+    mkdir "$releaseDir/assets"
+fi
+cp -a "$assetsDir/." "$releaseDir/assets"
+
+# Remove release obj files
+rm -r $objDir
+
+cd $dot
+```
+
+release.bat
 ```
 @echo off
  
@@ -233,7 +453,6 @@ cd %releaseDir%
 
 :: Copy dependencies
 if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
-if not exist %releaseDir%\SDL2_image.dll xcopy /y %extDir%\SDL2_image-2.0.2\lib\x64\SDL2_image.dll .
 if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
 if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
 if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
@@ -262,7 +481,7 @@ Install the C/C++ extension from Microsoft.
 
 ## Cpp configuration
 
-Ctrl + Shift + p then C/Cpp Edit configuration. This file must contains mmingw includes and your librairies includes.
+Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must contains mmingw includes and your librairies includes.
 
 ```
 {
@@ -310,14 +529,41 @@ Ctrl + Shift + p then C/Cpp Edit configuration. This file must contains mmingw i
                 "databaseFilename": ""
             },
             "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "compilerPath": "/usr/bin/clang"
+        },
+        {
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "${workspaceRoot}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "__GNUC__=7",
+                "__cdecl=__attribute__((__cdecl__))",
+                "_LINUX"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "compilerPath": "/usr/bin/gcc"
         }
     ],
-    "version": 3
+    "version": 4
 }
 ```
 
-Note that `__GNUC__` must be equal to mingw major version. Here 7 for version 7.3.0.
+Note that, for Windows, `__GNUC__` must be equal to mingw major version. Here 7 for version 7.3.0.
+
+You now have to select the right configuration, depending on your OS. Ctrl + Shift + p then C/C++ Select configuration.
 
 ## User settings configuration
 
@@ -340,20 +586,50 @@ Ctrl + Shift + p, config default build task.
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/build"]
+                "args": [
+                    "./scripts/build"
+                ]
+            },
+            "linux": {
+                "command": "",
+                "args": [
+                    "./scripts/build"
+                ]
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": { "owner": "cpp", "fileLocation": ["relative", "${workspaceRoot}"], "pattern": { "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$", "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5 } }        
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         },
         {
             "label": "clean",
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/clean"]
+                "args": [
+                    "./scripts/clean"
+                ]
+            },
+            "linux": {
+                "command": "",
+                "args": [
+                    "./scripts/clean"
+                ]
             }
         },
         {
@@ -361,7 +637,15 @@ Ctrl + Shift + p, config default build task.
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/assets"]
+                "args": [
+                    "./scripts/assets"
+                ]
+            },
+            "linux": {
+                "command": "",
+                "args": [
+                    "./scripts/assets"
+                ]
             }
         },
         {
@@ -369,9 +653,31 @@ Ctrl + Shift + p, config default build task.
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/release"]
+                "args": [
+                    "./scripts/release"
+                ]
             },
-            "problemMatcher": { "owner": "cpp", "fileLocation": ["relative", "${workspaceRoot}"], "pattern": { "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$", "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5 } }        
+            "linux": {
+                "command": "",
+                "args": [
+                    "./scripts/release"
+                ]
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         }
     ]
 }
@@ -430,13 +736,31 @@ Ctrl + Shift + p, open `launch.json`
                 }
             ],
             "preLaunchTask": "prepare-assets"
-        } 
+        },
+        {
+            "name": "(Linux) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/Tetris.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
     ]
 }
-
 ```
 
-The `program` field must name the output exe file. The `miDebuggerPath` shall point to the gdb exe.
+The `program` field must name the output exe file. For Windows, the `miDebuggerPath` shall point to the gdb exe.
 
 # .gitignore
 
