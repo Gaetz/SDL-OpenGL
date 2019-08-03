@@ -9,8 +9,8 @@ void SceneGame::load()
 {
 	std::srand((Uint32)std::time(nullptr));
 	screenHeight = game->windowHeight;
-	ResourceManager::loadTexture("./assets/textures/tile.png", "tile");
-	ResourceManager::loadTexture("./assets/textures/tile_fall.png", "tile_fall");
+	ResourceManager::loadTexture("./assets/textures/tile.bmp", "tile");
+	ResourceManager::loadTexture("./assets/textures/tile_fall.bmp", "tile_fall");
 	pieces = new Pieces();
 	board = new Board(pieces, game->windowHeight);
 	board->initBoard();

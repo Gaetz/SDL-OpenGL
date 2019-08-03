@@ -1,15 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#if defined(_WIN32) || defined(_WIN64)
 #include <GL/glew.h>
-#elif __APPLE__
-#define GL3_PROTOTYPES 1
-#include <OpenGL/gl3.h>
-#else
-#define GL3_PROTOTYPES 1
-#include <GL/gl.h>
-#endif
 
 #include <iostream>
 #include <string>

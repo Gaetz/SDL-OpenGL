@@ -98,11 +98,11 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file)
 	Texture2D texture;
 
 	// Load image
-	SDL_Surface* surface = IMG_Load(file);
+	SDL_Surface* surface = SDL_LoadBMP(file);
 	if (surface == nullptr) {
 		std::ostringstream loadError;
 		loadError << "ERROR::IMG: Unable to load image " << file << "\n"
-			<< IMG_GetError() << "\n -- --------------------------------------------------- -- "
+			<< SDL_GetError() << "\n -- --------------------------------------------------- -- "
 			<< std::endl;
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, loadError.str().c_str());
 	}

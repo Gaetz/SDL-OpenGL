@@ -48,6 +48,7 @@ void Game::init(const char * title, int xPos, int yPos, int width, int height, b
 		else isRunning = false;
 
 		// OpenGL setup
+		glewExperimental = GL_TRUE; 
 		GLenum initGLEW(glewInit());
 		if (initGLEW == GLEW_OK)
 		{

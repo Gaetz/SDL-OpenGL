@@ -42,3 +42,5 @@ cp -a "$assetsDir/." "$releaseDir/assets"
 
 # Remove release obj files
 rm -r $objDir
+
+cd $dot

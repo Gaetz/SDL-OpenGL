@@ -1,13 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SDL.h>
-#if defined(_WIN32) || defined(_WIN64)
-#include <GL/glew.h>
-#else
-#define GL3_PROTOTYPES 1
-#include <GL/gl.h>
+#ifdef __linux__
+	#include <SDL2/SDL.h>
+#elif _WIN32
+	#include <SDL.h>
 #endif
+
+#include <GL/glew.h>
 
 #include "shader.h"
 #include "renderer_sprite.h"
@@ -55,5 +55,4 @@ private:
 	std::vector<Scene*> scenes;
 };
 
-
-#endif // !GAME_H
+#endif

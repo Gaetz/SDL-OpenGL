@@ -8,28 +8,50 @@
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/build"]
+                "args": [
+                    "./scripts/build"
+                ]
             },
             "linux": {
                 "command": "",
-                "args": ["./scripts/build"]
+                "args": [
+                    "./scripts/build"
+                ]
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": { "owner": "cpp", "fileLocation": ["relative", "${workspaceRoot}"], "pattern": { "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$", "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5 } }        
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         },
         {
             "label": "clean",
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/clean"]
+                "args": [
+                    "./scripts/clean"
+                ]
             },
             "linux": {
                 "command": "",
-                "args": ["./scripts/clean"]
+                "args": [
+                    "./scripts/clean"
+                ]
             }
         },
         {
@@ -37,11 +59,15 @@
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/assets"]
+                "args": [
+                    "./scripts/assets"
+                ]
             },
             "linux": {
                 "command": "",
-                "args": ["./scripts/assets"]
+                "args": [
+                    "./scripts/assets"
+                ]
             }
         },
         {
@@ -49,13 +75,31 @@
             "type": "shell",
             "windows": {
                 "command": "",
-                "args": ["./scripts/release"]
+                "args": [
+                    "./scripts/release"
+                ]
             },
             "linux": {
                 "command": "",
-                "args": ["./scripts/release"]
+                "args": [
+                    "./scripts/release"
+                ]
             },
-            "problemMatcher": { "owner": "cpp", "fileLocation": ["relative", "${workspaceRoot}"], "pattern": { "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$", "file": 1, "line": 2, "column": 3, "severity": 4, "message": 5 } }        
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(/d+):(/d+):/s+(warning|error):/s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         }
     ]
 }
