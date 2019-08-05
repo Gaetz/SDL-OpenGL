@@ -13,10 +13,7 @@
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/build"
-                ]
+                "command": "./scripts/build.sh"
             },
             "group": {
                 "kind": "build",
@@ -48,10 +45,7 @@
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/clean"
-                ]
+                "command": "./scripts/clean.sh"
             }
         },
         {
@@ -64,10 +58,7 @@
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/assets"
-                ]
+                "command": "./scripts/assets.sh"
             }
         },
         {
@@ -80,10 +71,7 @@
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/release"
-                ]
+                "command": "./scripts/release.sh"
             },
             "problemMatcher": {
                 "owner": "cpp",

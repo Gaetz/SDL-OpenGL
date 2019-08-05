@@ -20,7 +20,7 @@ build/          // Build files, not versioned
 external/       // Libraries where will be taken files necessary for compilation
 release/        // Release game, not versioned
 resources/      // Files used to create game assets
-scripts/        // Build scripts (.bat files and makefile)
+scripts/        // Build scripts (.bat/.sh files and makefile)
 src/            // Sources
 .gitignore      // Files we don't want to version
 LICENCE         // Your rights
@@ -131,7 +131,7 @@ BUILD_DIR := ..\build
 RELEASE_DIR := ..\release
 RELEASE_OBJ_DIR := ..\release\obj
 
-SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+SRC_FILES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
 
@@ -178,7 +178,7 @@ BUILD_DIR := ../build
 RELEASE_DIR := ../release
 RELEASE_OBJ_DIR := ../release/obj
 
-SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+SRC_FILES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
 
@@ -217,7 +217,7 @@ build.sh
 #!/bin/bash
 
 # Create build dir
-dot="$(dirname "$0")"
+dot="$(pwd)/$(dirname "$0")"
 buildDir=$dot/../build
 if [ ! -d "$buildDir" ]; then
     mkdir $buildDir
@@ -284,16 +284,17 @@ clean.sh
 ```
 #!/bin/bash
 
-dot="$(dirname "$0")"
+dot="$(pwd)/$(dirname "$0")"
 buildDir=$dot/../build
 releaseDir=$dot/../release
-objDir=$dot/obj/
+buildObjDir=$buildDir/obj/
+releaseObjDir=$releaseDir/obj/
 assetDir=$dot/../assets/
 
 if [ -d "$buildDir" ]; then
   cd $buildDir
   rm *.exe *.pdb *.ilk *.dll
-  rm -r $objDir
+  rm -r $buildObjDir
   if [ -d "$buildDir/assets" ]; then
     rm -r "$buildDir/assets"
   fi
@@ -302,13 +303,11 @@ fi
 if [ -d "$releaseDir" ]; then
   cd $releaseDir
   rm *.exe *.pdb *.ilk *.dll
-  rm -r $objDir
+  rm -r $releaseObjDir
   if [ -d "$assetDir/assets" ]; then
     rm -r "$assetDir/assets"
   fi
 fi
-
-cd $dot
 ```
 
 clean.bat
@@ -384,7 +383,7 @@ release.sh
 #!/bin/bash
 
 # Create build dir
-dot="$(dirname "$0")"
+dot="$(pwd)/$(dirname "$0")"
 releaseDir=$dot/../release
 if [ ! -d "$releaseDir" ]; then
     mkdir $releaseDir
@@ -591,10 +590,7 @@ Ctrl + Shift + p, config default build task.
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/build"
-                ]
+                "command": "./scripts/build.sh"
             },
             "group": {
                 "kind": "build",
@@ -626,10 +622,7 @@ Ctrl + Shift + p, config default build task.
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/clean"
-                ]
+                "command": "./scripts/clean.sh"
             }
         },
         {
@@ -642,10 +635,7 @@ Ctrl + Shift + p, config default build task.
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/assets"
-                ]
+                "command": "./scripts/assets.sh"
             }
         },
         {
@@ -658,10 +648,7 @@ Ctrl + Shift + p, config default build task.
                 ]
             },
             "linux": {
-                "command": "",
-                "args": [
-                    "./scripts/release"
-                ]
+                "command": "./scripts/release.sh"
             },
             "problemMatcher": {
                 "owner": "cpp",

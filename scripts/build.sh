@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create build dir
-dot="$(dirname "$0")"
+dot="$(pwd)/$(dirname "$0")"
 buildDir=$dot/../build
 if [ ! -d "$buildDir" ]; then
     mkdir $buildDir
