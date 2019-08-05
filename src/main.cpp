@@ -1,10 +1,12 @@
 #include "engine/game.h"
+#include "engine/window.h"
 
-Game *game = nullptr;
-
-int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv) {
+int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
+{
 	const int FPS = 60;
 	const int frameDelay = 1000 / FPS;
+	const float SCREEN_WIDTH = 450;
+	const float SCREEN_HEIGHT = 800;
 
 	// Time in milliseconds when frame starts
 	int frameStart;
@@ -13,25 +15,35 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	int lastFrame = 0;
 	
 	// Delta time
-	int dt;
+	long dt;
 
 	// Time it tooks to run the loop. Used to cap framerate.
 	int frameTime;
 
-	game = new Game();
-	game->init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 450, 800, false);
-	game->load();
+	Window window;
+	if(!window.init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false))
+	{
+		return 1;
+	}
+	
+	Game game;
+	game.init(SCREEN_WIDTH, SCREEN_HEIGHT);
+	game.load();
 
-	while (game->isRunning) {
+	while (game.isRunning) {
 		// Delta time
 		frameStart = SDL_GetTicks();
 		dt = frameStart - lastFrame;
 		lastFrame = frameStart;
+		window.updateFpsCounter(dt);
 
 		// Game loop
-		game->handleEvents(dt);
-		game->update(dt);
-		game->render();
+		game.handleEvents(dt);
+		game.update(dt);
+
+		window.clear();
+		game.render();
+		window.swapBuffer();
 
 		// Delay frame if game runs too fast
 		frameTime = SDL_GetTicks() - frameStart;
@@ -40,6 +52,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 		}
 	}
 
-	game->clean();
+	game.clean();
+	window.clean();
 	return 0;
 }

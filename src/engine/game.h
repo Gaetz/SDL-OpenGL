@@ -14,15 +14,6 @@
 #include "renderer_geometry.h"
 #include <vector>
 
-
-#define WAIT_TIME 700   
-
-enum GameState {
-	GAME_PLAY,
-	GAME_MENU,
-	GAME_WIN
-};
-
 class Scene;
 
 class Game
@@ -31,7 +22,7 @@ public:
 	Game();
 	virtual ~Game();
 
-	void init(const char* title, int xPos, int yPos, int width, int height, bool isFullscreen);
+	void init(int screenWidth, int screenHeight);
 	void load();
 	void handleEvents(Uint32 dt);
 	void update(Uint32 dt);
@@ -46,12 +37,8 @@ public:
 	int windowWidth, windowHeight;
 
 private:
-	SDL_Window *window;
-	SDL_GLContext context;
-
 	SpriteRenderer *sRenderer;
 	GeometryRenderer *gRenderer;
-	GameState state;
 	std::vector<Scene*> scenes;
 };
 
