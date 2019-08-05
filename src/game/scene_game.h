@@ -1,7 +1,7 @@
 #ifndef SCENE_GAME_H
 #define SCENE_GAME_H
 
-#include "scene.h"
+#include "../engine/scene.h"
 #include "piece.h"
 #include "pieces.h"
 #include "board.h"

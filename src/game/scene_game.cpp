@@ -1,5 +1,5 @@
 #include "scene_game.h"
-#include "resource_manager.h"
+#include "../engine/resource_manager.h"
 #include <cstdlib>
 #include <ctime>
 

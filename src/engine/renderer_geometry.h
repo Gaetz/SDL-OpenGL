@@ -1,6 +1,5 @@
-#pragma once
-#ifndef _GEOMETRY_RENDERER_
-#define _GEOMETRY_RENDERER_
+#ifndef GEOMETRY_RENDERER_H
+#define GEOMETRY_RENDERER_H
 
 #include "shader.h"
 

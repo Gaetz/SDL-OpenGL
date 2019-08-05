@@ -2,7 +2,7 @@
 #include "resource_manager.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "scene.h"
-#include "scene_game.h"
+#include "../game/scene_game.h"
 
 Game::Game()
 {

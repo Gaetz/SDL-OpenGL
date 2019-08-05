@@ -11,6 +11,8 @@ fi
 objDir="$buildDir/obj"
 if [ ! -d "$objDir" ]; then
     mkdir $objDir
+    mkdir $objDir/engine
+    mkdir $objDir/game
 fi
 
 # Needed folders
