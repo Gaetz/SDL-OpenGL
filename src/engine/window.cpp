@@ -11,7 +11,7 @@ Window::~Window()
 {
 }
 
-bool Window::init(const char *title, int xPos, int yPos, int width, int height, bool isFullscreen)
+bool Window::init(const char *windowTitle, int xPos, int yPos, int width, int height, bool isFullscreen)
 {
     int flags = SDL_WINDOW_OPENGL;
     if (isFullscreen)
@@ -30,6 +30,7 @@ bool Window::init(const char *title, int xPos, int yPos, int width, int height, 
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
         // Window
+        title = windowTitle;
         window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
         if (window)
         {
@@ -83,7 +84,7 @@ void Window::updateFpsCounter(long dt)
         previousSeconds = currentSeconds;
         char tmp[128];
         double fps = (double)frameCount / elapsedSeconds;
-        sprintf(tmp, "OpenGL @ fps: %.2f", fps);
+        sprintf(tmp, "%s @ fps: %.2f", title, fps);
         SDL_SetWindowTitle(window, tmp);
         frameCount = 0;
     }

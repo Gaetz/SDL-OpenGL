@@ -18,7 +18,7 @@ public:
     Window();
     virtual ~Window();
 
-    bool init(const char * title, int xPos, int yPos, int width, int height, bool isFullscreen);
+    bool init(const char *windowTitle, int xPos, int yPos, int width, int height, bool isFullscreen);
     //bool should_close();
     //void handle_close();
     void updateFpsCounter(long dt);
@@ -29,6 +29,7 @@ public:
 private:
     SDL_Window *window;
 	SDL_GLContext context;
+    const char *title;
 
     double previousSeconds;
     double currentSeconds;

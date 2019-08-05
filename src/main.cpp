@@ -4,6 +4,7 @@
 
 int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
+	const char* title = "Tetris";
 	const float SCREEN_WIDTH = 450;
 	const float SCREEN_HEIGHT = 800;
 	
@@ -11,7 +12,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	int dt;
 
 	Window window;
-	if(!window.init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false))
+	if(!window.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false))
 	{
 		return 1;
 	}
