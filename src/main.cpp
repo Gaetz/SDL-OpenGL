@@ -6,7 +6,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	const char* title = "Tetris";
 	const float SCREEN_WIDTH = 450;
-	const float SCREEN_HEIGHT = 800;
+	const float SCREEN_HEIGHT = 680;
 	
 	// Delta time
 	int dt;

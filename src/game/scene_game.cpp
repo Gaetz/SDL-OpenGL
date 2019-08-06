@@ -33,7 +33,7 @@ void SceneGame::load()
 	nextPiece.kind = getRand(0, 6);
 	nextPiece.rotation = getRand(0, 3);
 	nextPiece.x = BOARD_WIDTH / 2 + pieces->getXInitialPosition(nextPiece.kind, nextPiece.rotation);
-	nextPiece.y = -10;
+	nextPiece.y = -7;
 }
 
 void SceneGame::clean()
@@ -165,9 +165,11 @@ void SceneGame::drawPiece(Piece piece, SpriteRenderer *renderer)
 		for (int j = 0; j < PIECE_BLOCKS; j++)
 		{
 			if (pieces->getBlockType(piece.kind, piece.rotation, j, i) != 0)
+			{
 				renderer->drawSprite(ResourceManager::getTexture("tile_fall"),
 									 glm::vec2(pixelsX + i * BLOCK_SIZE, pixelsY + j * BLOCK_SIZE),
 									 glm::vec2(25, 25), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+			}
 		}
 	}
 }
