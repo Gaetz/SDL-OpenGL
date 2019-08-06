@@ -40,6 +40,7 @@ private:
 	SpriteRenderer *sRenderer;
 	GeometryRenderer *gRenderer;
 	std::vector<Scene*> scenes;
+	Scene* currentScene; // Hack
 };
 
 #endif

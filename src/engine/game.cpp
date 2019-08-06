@@ -12,6 +12,7 @@ Game::Game() : isRunning(false),
 
 Game::~Game()
 {
+	delete currentScene;
 }
 
 void Game::init(int screenWidth, int screenHeight)
@@ -38,8 +39,8 @@ void Game::load()
 	gRenderer = new GeometryRenderer(ResourceManager::getShader("rect"));
 
 	// Game scene
-	changeScene(SceneGame::Instance());
-
+	currentScene = new SceneGame();
+	changeScene(currentScene);
 }
 
 void Game::handleEvents()

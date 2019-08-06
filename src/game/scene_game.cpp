@@ -3,8 +3,13 @@
 #include <cstdlib>
 #include <ctime>
 
-SceneGame SceneGame::sceneGame;
+SceneGame::SceneGame()
+{}
 
+SceneGame::~SceneGame()
+{
+	clean();
+}
 
 void SceneGame::load()
 {

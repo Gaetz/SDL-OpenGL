@@ -7,6 +7,9 @@
 
 class Scene {
 public:
+	Scene();
+	virtual ~Scene();
+
 	virtual void load() = 0;
 	virtual void clean() = 0;
 	
@@ -22,7 +25,6 @@ public:
 	}
 
 protected:
-	Scene() {}
 	Game *game;
 };
 

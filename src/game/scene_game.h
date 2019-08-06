@@ -11,9 +11,9 @@
 class SceneGame : public Scene
 {
 public:
-	static SceneGame* Instance() {
-		return &sceneGame;
-	}
+	SceneGame();
+	virtual ~SceneGame();
+
 	void load();
 	void clean();
 	void pause();
@@ -25,8 +25,7 @@ public:
 	void createNewPiece();
 
 	Piece currentPiece;
-protected:
-	SceneGame() {};
+
 private:
 	int getRand(int a, int b);
 
@@ -40,7 +39,7 @@ private:
 	void drawPiece(Piece piece, SpriteRenderer *renderer);
 	void drawBoard(SpriteRenderer *renderer, GeometryRenderer *gRenderer);
 
-	static SceneGame sceneGame;
+	//static SceneGame sceneGame;
 };
 
 #endif
