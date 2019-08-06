@@ -24,8 +24,8 @@ public:
 
 	void init(int screenWidth, int screenHeight);
 	void load();
-	void handleEvents(Uint32 dt);
-	void update(Uint32 dt);
+	void handleEvents();
+	void update(unsigned int dt);
 	void render();
 	void clean();
 

@@ -29,7 +29,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 		window.updateFpsCounter(dt);
 
 		// Game loop
-		game.handleEvents(dt);
+		game.handleEvents();
 		game.update(dt);
 
 		window.clear();

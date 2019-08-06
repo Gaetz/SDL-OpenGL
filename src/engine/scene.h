@@ -10,8 +10,8 @@ public:
 	virtual void load() = 0;
 	virtual void clean() = 0;
 	
-	virtual void handleEvent(Uint32 dt) = 0;
-	virtual void update(Uint32 dt) = 0;
+	virtual void handleEvent() = 0;
+	virtual void update(uint dt) = 0;
 	virtual void draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer) = 0;
 
 	virtual void pause() = 0;

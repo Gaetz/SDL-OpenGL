@@ -14,7 +14,7 @@ public:
     virtual ~Time();
 
     // Compute delta time as the number of milliseconds since last frame
-    int computeDeltaTime();
+    unsigned int computeDeltaTime();
 
     // Wait if the game run faster than the decided FPS
     void delayTime();
@@ -24,13 +24,13 @@ private:
 	const static int frameDelay = 1000 / FPS;
 
 	// Time in milliseconds when frame starts
-	int frameStart;
+	unsigned int frameStart;
 
 	// Last frame start time in milliseconds
-	int lastFrame;
+	unsigned int lastFrame;
 
 	// Time it tooks to run the loop. Used to cap framerate.
-	int frameTime;
+	unsigned int frameTime;
 };
 
 #endif

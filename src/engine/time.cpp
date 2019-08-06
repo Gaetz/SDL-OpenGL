@@ -8,10 +8,10 @@ Time::~Time()
 {
 }
 
-int Time::computeDeltaTime()
+unsigned int Time::computeDeltaTime()
 {
     frameStart = SDL_GetTicks();
-    int dt = frameStart - lastFrame;
+    unsigned int dt = frameStart - lastFrame;
     lastFrame = frameStart;
     return dt;
 }

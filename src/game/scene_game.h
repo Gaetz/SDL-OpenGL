@@ -8,7 +8,8 @@
 
 #define SPEED 500
 
-class SceneGame : public Scene {
+class SceneGame : public Scene
+{
 public:
 	static SceneGame* Instance() {
 		return &sceneGame;
@@ -17,27 +18,27 @@ public:
 	void clean();
 	void pause();
 	void resume();
-	void handleEvent(Uint32 dt);
-	void update(Uint32 dt);
-	void draw(SpriteRenderer * sRenderer, GeometryRenderer * gRenderer);
+	void handleEvent();
+	void update(unsigned int dt);
+	void draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer);
 
 	void createNewPiece();
 
 	Piece currentPiece;
 protected:
-	SceneGame() { }
-
+	SceneGame() {};
 private:
 	int getRand(int a, int b);
 
-	Piece nextPiece;
-	int screenHeight;
-	Board *board;
 	Pieces *pieces;
-	Uint16 counter;
+	Board *board;
+	unsigned int counter;
+	int screenHeight;
 
-	void drawPiece(Piece piece, SpriteRenderer * renderer);
-	void drawBoard(SpriteRenderer * renderer, GeometryRenderer * gRenderer);
+	Piece nextPiece;
+
+	void drawPiece(Piece piece, SpriteRenderer *renderer);
+	void drawBoard(SpriteRenderer *renderer, GeometryRenderer *gRenderer);
 
 	static SceneGame sceneGame;
 };

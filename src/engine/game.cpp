@@ -35,20 +35,19 @@ void Game::load()
 	ResourceManager::getShader("rect").setMatrix4("projection", projection);
 	// Set render-specific controls
 	sRenderer = new SpriteRenderer(ResourceManager::getShader("sprite"));
-	;
 	gRenderer = new GeometryRenderer(ResourceManager::getShader("rect"));
-	;
 
 	// Game scene
 	changeScene(SceneGame::Instance());
+
 }
 
-void Game::handleEvents(Uint32 dt)
+void Game::handleEvents()
 {
-	scenes.back()->handleEvent(dt);
+	scenes.back()->handleEvent();
 }
 
-void Game::update(Uint32 dt)
+void Game::update(unsigned int dt)
 {
 	scenes.back()->update(dt);
 }
