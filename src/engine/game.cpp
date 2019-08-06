@@ -12,7 +12,7 @@ Game::Game() : isRunning(false),
 
 Game::~Game()
 {
-	delete currentScene;
+	cleanScenes();
 }
 
 void Game::init(int screenWidth, int screenHeight)
@@ -39,8 +39,7 @@ void Game::load()
 	gRenderer = new GeometryRenderer(ResourceManager::getShader("rect"));
 
 	// Game scene
-	currentScene = new SceneGame();
-	changeScene(currentScene);
+	changeScene(new SceneGame());
 }
 
 void Game::handleEvents()
@@ -69,6 +68,7 @@ void Game::changeScene(Scene *scene)
 	if (!scenes.empty())
 	{
 		scenes.back()->clean();
+		delete scenes.back();
 		scenes.pop_back();
 	}
 
@@ -97,6 +97,7 @@ void Game::popScene()
 	if (!scenes.empty())
 	{
 		scenes.back()->clean();
+		delete scenes.back();
 		scenes.pop_back();
 	}
 
@@ -104,5 +105,13 @@ void Game::popScene()
 	if (!scenes.empty())
 	{
 		scenes.back()->resume();
+	}
+}
+
+void Game::cleanScenes()
+{
+	for (auto &it : scenes)
+	{
+		delete it;
 	}
 }

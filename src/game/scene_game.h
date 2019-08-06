@@ -38,8 +38,6 @@ private:
 
 	void drawPiece(Piece piece, SpriteRenderer *renderer);
 	void drawBoard(SpriteRenderer *renderer, GeometryRenderer *gRenderer);
-
-	//static SceneGame sceneGame;
 };
 
 #endif

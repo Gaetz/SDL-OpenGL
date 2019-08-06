@@ -32,6 +32,7 @@ public:
 	void changeScene(Scene *scene);
 	void pushScene(Scene *scene);
 	void popScene();
+	void cleanScenes();
 
 	bool isRunning;
 	int windowWidth, windowHeight;
@@ -40,7 +41,6 @@ private:
 	SpriteRenderer *sRenderer;
 	GeometryRenderer *gRenderer;
 	std::vector<Scene*> scenes;
-	Scene* currentScene; // Hack
 };
 
 #endif

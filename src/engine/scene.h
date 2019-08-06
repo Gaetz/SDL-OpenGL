@@ -7,8 +7,8 @@
 
 class Scene {
 public:
-	Scene();
-	virtual ~Scene();
+	Scene() {};
+	virtual ~Scene() {};
 
 	virtual void load() = 0;
 	virtual void clean() = 0;

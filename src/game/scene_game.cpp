@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-SceneGame::SceneGame()
+SceneGame::SceneGame() : Scene()
 {}
 
 SceneGame::~SceneGame()
@@ -15,9 +15,7 @@ void SceneGame::load()
 {
 	std::srand((int)std::time(nullptr));
 
-
 	screenHeight = game->windowHeight;
-
 
 	ResourceManager::loadTexture("./assets/textures/tile.bmp", "tile");
 	ResourceManager::loadTexture("./assets/textures/tile_fall.bmp", "tile_fall");
