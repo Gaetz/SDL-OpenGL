@@ -4,6 +4,8 @@
 #include "shader.h"
 #include "texture.h"
 
+// A renderer class able to draw OpenGL sprites.
+// It uses a specialized shader.
 class SpriteRenderer
 {
 public:

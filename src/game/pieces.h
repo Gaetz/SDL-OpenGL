@@ -1,6 +1,8 @@
 #ifndef PIECES_H
 #define PIECES_H
 
+// Define the diffent types of Tetris pieces
+// and provides utils functions.
 class Pieces
 {
 public:

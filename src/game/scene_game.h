@@ -8,6 +8,7 @@
 
 #define SPEED 500
 
+// Main scene of the game, contains all the game's logic
 class SceneGame : public Scene
 {
 public:

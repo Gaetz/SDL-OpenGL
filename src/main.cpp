@@ -11,6 +11,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	// Delta time
 	int dt;
 
+	// Main game elements loading
 	Window window;
 	if(!window.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false))
 	{
@@ -23,12 +24,11 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 
 	Time time;
 
+	// Game loop
 	while (game.isRunning) {
-		// Delta time
 		dt = time.computeDeltaTime();
 		window.updateFpsCounter(dt);
 
-		// Game loop
 		game.handleEvents();
 		game.update(dt);
 
@@ -40,6 +40,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 		time.delayTime();
 	}
 
+	// Exit game
 	game.clean();
 	window.clean();
 	return 0;

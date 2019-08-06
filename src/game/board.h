@@ -12,6 +12,9 @@
 #define MIN_HORIZONTAL_MARGIN 25    // Minimum horizontal margin for the board limit
 #define PIECE_BLOCKS 5              // Number of horizontal and vertical blocks of a matrix piece
 
+// Tetris board. Know if their is a block or no
+// at a specific position. Provides utils functions
+// to help running the game.
 class Board
 {
 public:

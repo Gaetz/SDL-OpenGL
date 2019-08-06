@@ -5,6 +5,7 @@
 #include "renderer_geometry.h"
 #include "game.h"
 
+// Base abstract class for scenes
 class Scene {
 public:
 	Scene() {};

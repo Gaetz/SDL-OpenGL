@@ -1,13 +1,10 @@
 # SDL2 + OpenGL
 
-This is a SDL2 + OpenGL template, written in C++, that you can use as a starter for any project.
+This is a SDL2 + OpenGL template, written in C++, that you can use as a starter for any project. MIT licensed.
 
-It is meant to be used in the days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts. This documentation file explains the scripts and set up visual code for smooth development, either on Linux or Windows.
+It is meant to be used in the days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts. This documentation is a tutorial to set up the scripts and visual code for smooth development, either on Linux or Windows.
 
-This is not meant to be a game engine, not even a simple one. It is just a starter so you can build your game engine on.
-
-A tetris game kata is provided as an illustration.
-
+The code is a modest starter and provides some tools so you can build your game engine. A tetris game kata is provided as an illustration.
 
 # Project structure
 
@@ -21,7 +18,7 @@ external/       // Libraries where will be taken files necessary for compilation
 release/        // Release game, not versioned
 resources/      // Files used to create game assets
 scripts/        // Build scripts (.bat/.sh files and makefile)
-src/            // Sources
+src/            // Sources, separated in engine and game folder
 .gitignore      // Files we don't want to version
 LICENCE         // Your rights
 Readme.md       // This file ;)
@@ -79,7 +76,7 @@ Exceptions:     sjlj
 Build revision: 0
 ```
 
-Troubleshootings: some people had a problem with mingw version abobe the 7.3.0. You can choose version 7.3.0 for safety.
+Troubleshootings: some people had problems with mingw version above the 7.3.0. You can choose version 7.3.0 for safety.
 
 Choose a folder on c: drive *with no space*. Like `C:\mingw-w64`. 
 The installer will add a folder with mingw version. Go on installing.

@@ -7,6 +7,9 @@
 	#include <SDL.h>
 #endif
 
+// Hold time related functions.
+// In charge of computing the delta time and
+// ensure smooth game ticking.
 class Time
 {
 public:

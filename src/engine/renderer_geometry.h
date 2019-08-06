@@ -3,6 +3,8 @@
 
 #include "shader.h"
 
+// A renderer class able to draw OpenGL rectangles.
+// It uses a specialized shader.
 class GeometryRenderer
 {
 public:

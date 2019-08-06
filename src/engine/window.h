@@ -12,6 +12,10 @@
 extern const float SCREEN_WIDTH;
 extern const float SCREEN_HEIGHT;
 
+
+// Manage game's window and drawing in this window.
+// The window title bar gives some info, as game's title
+// or FPS counter.
 class Window
 {
 public:

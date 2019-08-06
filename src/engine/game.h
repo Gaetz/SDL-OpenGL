@@ -16,6 +16,8 @@
 
 class Scene;
 
+// This game class manages scenes and triggers their logic.
+// It supports scene stacking.
 class Game
 {
 public:
