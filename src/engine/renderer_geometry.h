@@ -2,6 +2,7 @@
 #define GEOMETRY_RENDERER_H
 
 #include "shader.h"
+#include "vertex_array.h"
 
 // A renderer class able to draw OpenGL rectangles.
 // It uses a specialized shader.
@@ -12,15 +13,13 @@ public:
 	~GeometryRenderer();
 
 	void drawRect(glm::vec2 position,
-		glm::vec2 size = glm::vec2(10, 10),
-		GLfloat rotate = 0.0f,
-		glm::vec4 color = glm::vec4(1.0f));
+				  glm::vec2 size = glm::vec2(10, 10),
+				  GLfloat rotate = 0.0f,
+				  glm::vec4 color = glm::vec4(1.0f));
 
 private:
 	Shader shader;
-	GLuint VBO, VAO, EBO;
-
-	void initRenderData();
+	VertexArray *vertexArray;
 };
 
 #endif
