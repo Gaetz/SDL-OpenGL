@@ -3,6 +3,7 @@
 
 #include "shader.h"
 #include "texture.h"
+#include "vertex_array.h"
 
 // A renderer class able to draw OpenGL sprites.
 // It uses a specialized shader.
@@ -18,9 +19,7 @@ public:
 
 private:
 	Shader shader;
-	GLuint quadVAO;
-
-	void initRenderData();
+	VertexArray* vertexArray;
 };
 
 #endif

@@ -1,47 +1,29 @@
 #include "renderer_sprite.h"
 #include <glm/gtc/matrix_transform.hpp>
 
+static float vertexBuffer[] = {
+	-0.5f, 0.5f, 0.0f,  0.0f, 1.0f, // top left
+	 0.5f, 0.5f, 0.0f,  1.0f, 1.0f, // top right
+	 0.5f,-0.5f, 0.0f,  1.0f, 0.0f,// bottom right
+	-0.5f,-0.5f, 0.0f,  0.0f, 0.0f // bottom left
+};
+
+static unsigned int indexBuffer[] = {
+	0, 1, 2, // first Triangle
+	2, 3, 0  // second Triangle
+};
+
 SpriteRenderer::SpriteRenderer(const Shader& shader)
 {
 	this->shader = shader;
-	this->initRenderData();
+	vertexArray = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
 }
 
 
 SpriteRenderer::~SpriteRenderer()
 {
-	glDeleteVertexArrays(1, &quadVAO);
+	delete vertexArray;
 }
-
-
-void SpriteRenderer::initRenderData()
-{
-	// Configure VAO/VBO
-	GLuint VBO;
-	GLfloat vertices[] = {
-		// Pos      // Tex
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f,
-
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f
-	};
-
-	glGenVertexArrays(1, &this->quadVAO); //
-	glGenBuffers(1, &VBO); //
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO); //
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //
-
-	glBindVertexArray(quadVAO); //
-	glEnableVertexAttribArray(0); //
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-}
-
 
 void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
 	glm::vec2 size, GLfloat rotate, glm::vec3 color)
@@ -52,7 +34,7 @@ void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
 
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+	//model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
@@ -62,9 +44,8 @@ void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
 	glActiveTexture(GL_TEXTURE0);
 	texture.bind();
 
-	glBindVertexArray(quadVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	vertexArray->setActive();
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
 
