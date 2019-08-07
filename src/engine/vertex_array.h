@@ -5,8 +5,8 @@
 class VertexArray
 {
 public:
-    VertexArray(const float *vertices, unsigned int _nbVertices,
-                const unsigned int *indices, unsigned int _nbIndices);
+    VertexArray(const float *vertices, unsigned int nbVertices,
+                const unsigned int *indices, unsigned int nbIndices);
     virtual ~VertexArray();
 
     void setActive();

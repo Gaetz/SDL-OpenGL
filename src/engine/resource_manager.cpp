@@ -34,10 +34,10 @@ void ResourceManager::clear()
 {
 	// (Properly) delete all shaders	
 	for (auto iter : shaders)
-		glDeleteProgram(iter.second.ID);
+		glDeleteProgram(iter.second.id);
 	// (Properly) delete all textures
 	for (auto iter : textures)
-		glDeleteTextures(1, &iter.second.ID);
+		glDeleteTextures(1, &iter.second.id);
 }
 
 Shader ResourceManager::loadShaderFromFile(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile)

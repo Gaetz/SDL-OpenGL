@@ -14,8 +14,8 @@
 class Texture2D
 {
 public:
-	// Holds the ID of the texture object, used for all texture operations to reference to this particlar texture
-	GLuint ID;
+	// Holds the id of the texture object, used for all texture operations to reference to this particlar texture
+	unsigned int id;
 
 	// Texture image dimensions
 	GLuint width, height; // Width and height of loaded image in pixels
@@ -37,7 +37,7 @@ public:
 	void generate(SDL_Surface* surface);
 
 	// Binds the texture as the current active GL_TEXTURE_2D texture object
-	void bind() const;
+	void setActive() const;
 };
 
 #endif

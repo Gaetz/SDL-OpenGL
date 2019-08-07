@@ -13,9 +13,8 @@ static unsigned int indexBuffer[] = {
 	2, 3, 0  // second Triangle
 };
 
-SpriteRenderer::SpriteRenderer(const Shader& shader)
+SpriteRenderer::SpriteRenderer(const Shader& shader): shader(shader)
 {
-	this->shader = shader;
 	vertexArray = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
 }
 
@@ -42,7 +41,7 @@ void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
 	shader.setVector3f("spriteColor", color);
 
 	glActiveTexture(GL_TEXTURE0);
-	texture.bind();
+	texture.setActive();
 
 	vertexArray->setActive();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

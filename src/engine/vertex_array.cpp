@@ -2,9 +2,9 @@
 #include <GL/glew.h>
 
 VertexArray::VertexArray(
-    const float *vertices, unsigned int _nbVertices,
-    const unsigned int *indices, unsigned int _nbIndices)
-    : nbVertices(_nbVertices), nbIndices(_nbIndices)
+    const float *vertices, unsigned int nbVertices,
+    const unsigned int *indices, unsigned int nbIndices)
+    : nbVertices(nbVertices), nbIndices(nbIndices)
 {
     glGenVertexArrays(1, &id);
     glBindVertexArray(id);

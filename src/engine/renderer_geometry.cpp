@@ -13,9 +13,8 @@ static unsigned int indexBuffer[] = {
 	2, 3, 0  // second Triangle
 };
 
-GeometryRenderer::GeometryRenderer(const Shader &shader)
+GeometryRenderer::GeometryRenderer(const Shader &shader): shader(shader)
 {
-	this->shader = shader;
 	vertexArray = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
 }
 

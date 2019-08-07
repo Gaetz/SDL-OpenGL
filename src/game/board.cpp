@@ -1,5 +1,9 @@
 #include "board.h"
 
+Board::Board(Pieces * pieces, int screenHeight): pieces(pieces), screenHeight(screenHeight)
+{
+}
+
 void Board::initBoard()
 {
 	for(int i = 0; i < BOARD_WIDTH; i++)
@@ -16,12 +20,6 @@ void Board::deleteLine(int y)
 			board[i][j] = board[i][j - 1];
 		}
 	}
-}
-
-Board::Board(Pieces * pieces, int screenHeight)
-{
-	this->pieces = pieces;
-	this->screenHeight = screenHeight;
 }
 
 int Board::getXPosInPixels(int pos)
