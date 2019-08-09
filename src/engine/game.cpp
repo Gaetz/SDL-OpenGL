@@ -1,8 +1,8 @@
 #include "game.h"
 #include "resource_manager.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "scene.h"
-#include "../game/scene_game.h"
+#include "gamestate.h"
+#include "../game/gamestate_main.h"
 
 Game::Game() : isRunning(false),
 			   windowWidth(0),
@@ -12,7 +12,7 @@ Game::Game() : isRunning(false),
 
 Game::~Game()
 {
-	cleanScenes();
+	cleanStates();
 }
 
 void Game::init(int screenWidth, int screenHeight)
@@ -38,23 +38,23 @@ void Game::load()
 	sRenderer = new SpriteRenderer(ResourceManager::getShader("sprite"));
 	gRenderer = new GeometryRenderer(ResourceManager::getShader("rect"));
 
-	// Game scene
-	changeScene(new SceneGame());
+	// Game state
+	changeState(new GameStateMain());
 }
 
 void Game::handleEvents()
 {
-	scenes.back()->handleEvent();
+	gameStates.back()->handleEvent();
 }
 
 void Game::update(unsigned int dt)
 {
-	scenes.back()->update(dt);
+	gameStates.back()->update(dt);
 }
 
 void Game::render()
 {
-	scenes.back()->draw(sRenderer, gRenderer);
+	gameStates.back()->draw(sRenderer, gRenderer);
 }
 
 void Game::clean()
@@ -62,55 +62,55 @@ void Game::clean()
 	ResourceManager::clear();
 }
 
-void Game::changeScene(Scene *scene)
+void Game::changeState(GameState *state)
 {
 	// cleanup the current state
-	if (!scenes.empty())
+	if (!gameStates.empty())
 	{
-		scenes.back()->clean();
-		delete scenes.back();
-		scenes.pop_back();
+		gameStates.back()->clean();
+		delete gameStates.back();
+		gameStates.pop_back();
 	}
 
 	// store and load the new state
-	scene->setGame(this);
-	scenes.push_back(scene);
-	scenes.back()->load();
+	state->setGame(this);
+	gameStates.push_back(state);
+	gameStates.back()->load();
 }
 
-void Game::pushScene(Scene *scene)
+void Game::pushState(GameState *state)
 {
 	// pause current state
-	if (!scenes.empty())
+	if (!gameStates.empty())
 	{
-		scenes.back()->pause();
+		gameStates.back()->pause();
 	}
 
 	// store and init the new state
-	scenes.push_back(scene);
-	scenes.back()->load();
+	gameStates.push_back(state);
+	gameStates.back()->load();
 }
 
-void Game::popScene()
+void Game::popState()
 {
 	// cleanup the current state
-	if (!scenes.empty())
+	if (!gameStates.empty())
 	{
-		scenes.back()->clean();
-		delete scenes.back();
-		scenes.pop_back();
+		gameStates.back()->clean();
+		delete gameStates.back();
+		gameStates.pop_back();
 	}
 
 	// resume previous state
-	if (!scenes.empty())
+	if (!gameStates.empty())
 	{
-		scenes.back()->resume();
+		gameStates.back()->resume();
 	}
 }
 
-void Game::cleanScenes()
+void Game::cleanStates()
 {
-	for (auto &it : scenes)
+	for (auto &it : gameStates)
 	{
 		delete it;
 	}

@@ -1,15 +1,14 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef GAMESTATE_H
+#define GAMESTATE_H
 
 #include "renderer_sprite.h"
 #include "renderer_geometry.h"
 #include "game.h"
 
-// Base abstract class for scenes
-class Scene {
+// Interface for scenes
+class GameState {
 public:
-	Scene() {};
-	virtual ~Scene() {};
+	virtual ~GameState() {}
 
 	virtual void load() = 0;
 	virtual void clean() = 0;
@@ -21,12 +20,7 @@ public:
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 
-	void setGame(Game *g) {
-		game = g;
-	}
-
-protected:
-	Game *game;
+	virtual void setGame(Game *_game) = 0;
 };
 
 #endif

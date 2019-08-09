@@ -14,10 +14,12 @@
 #include "renderer_geometry.h"
 #include <vector>
 
-class Scene;
+class GameState;
 
-// This game class manages scenes and triggers their logic.
-// It supports scene stacking.
+// This game class manages game states and triggers their logic.
+// It supports gamestate stacking. It does not implement a 
+// gameobject/entity/whatever logic to let you free to choose
+// your architecture.
 class Game
 {
 public:
@@ -31,10 +33,10 @@ public:
 	void render();
 	void clean();
 
-	void changeScene(Scene *scene);
-	void pushScene(Scene *scene);
-	void popScene();
-	void cleanScenes();
+	void changeState(GameState *state);
+	void pushState(GameState *state);
+	void popState();
+	void cleanStates();
 
 	bool isRunning;
 	int windowWidth, windowHeight;
@@ -42,7 +44,7 @@ public:
 private:
 	SpriteRenderer *sRenderer;
 	GeometryRenderer *gRenderer;
-	std::vector<Scene*> scenes;
+	std::vector<GameState*> gameStates;
 };
 
 #endif

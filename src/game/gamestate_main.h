@@ -1,7 +1,7 @@
-#ifndef SCENE_GAME_H
-#define SCENE_GAME_H
+#ifndef GAMESTATE_MAIN_H
+#define GAMESTATE_MAIN_H
 
-#include "../engine/scene.h"
+#include "../engine/gamestate.h"
 #include "piece.h"
 #include "pieces.h"
 #include "board.h"
@@ -9,11 +9,11 @@
 #define SPEED 500
 
 // Main scene of the game, contains all the game's logic
-class SceneGame : public Scene
+class GameStateMain : public GameState
 {
 public:
-	SceneGame();
-	virtual ~SceneGame();
+	GameStateMain();
+	virtual ~GameStateMain();
 
 	void load();
 	void clean();
@@ -22,6 +22,7 @@ public:
 	void handleEvent();
 	void update(unsigned int dt);
 	void draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer);
+	void setGame(Game *_game);
 
 	void createNewPiece();
 
@@ -30,6 +31,7 @@ public:
 private:
 	int getRand(int a, int b);
 
+	Game *game;
 	Pieces *pieces;
 	Board *board;
 	unsigned int counter;

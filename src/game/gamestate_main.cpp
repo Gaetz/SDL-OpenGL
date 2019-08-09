@@ -1,17 +1,22 @@
-#include "scene_game.h"
+#include "gamestate_main.h"
 #include "../engine/resource_manager.h"
 #include <cstdlib>
 #include <ctime>
 
-SceneGame::SceneGame() : Scene()
+GameStateMain::GameStateMain()
 {}
 
-SceneGame::~SceneGame()
+GameStateMain::~GameStateMain()
 {
 	clean();
 }
 
-void SceneGame::load()
+void GameStateMain::setGame(Game *_game) 
+{
+	game = _game;
+}
+
+void GameStateMain::load()
 {
 	std::srand((int)std::time(nullptr));
 
@@ -36,21 +41,21 @@ void SceneGame::load()
 	nextPiece.y = -7;
 }
 
-void SceneGame::clean()
+void GameStateMain::clean()
 {
 	delete board;
 	delete pieces;
 }
 
-void SceneGame::pause()
+void GameStateMain::pause()
 {
 }
 
-void SceneGame::resume()
+void GameStateMain::resume()
 {
 }
 
-void SceneGame::handleEvent()
+void GameStateMain::handleEvent()
 {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -107,7 +112,7 @@ void SceneGame::handleEvent()
 	}
 }
 
-void SceneGame::update(unsigned int dt)
+void GameStateMain::update(unsigned int dt)
 {
 	counter += dt;
 	if (counter >= SPEED)
@@ -131,14 +136,14 @@ void SceneGame::update(unsigned int dt)
 	}
 }
 
-void SceneGame::draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer)
+void GameStateMain::draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer)
 {
 	drawBoard(sRenderer, gRenderer);
 	drawPiece(currentPiece, sRenderer);
 	drawPiece(nextPiece, sRenderer);
 }
 
-void SceneGame::createNewPiece()
+void GameStateMain::createNewPiece()
 {
 	// The new piece
 	currentPiece.kind = nextPiece.kind;
@@ -151,12 +156,12 @@ void SceneGame::createNewPiece()
 	nextPiece.rotation = getRand(0, 3);
 }
 
-int SceneGame::getRand(int a, int b)
+int GameStateMain::getRand(int a, int b)
 {
 	return std::rand() % (b - a + 1) + a;
 }
 
-void SceneGame::drawPiece(Piece piece, SpriteRenderer *renderer)
+void GameStateMain::drawPiece(Piece piece, SpriteRenderer *renderer)
 {
 	int pixelsX = board->getXPosInPixels(piece.x);
 	int pixelsY = board->getYPosInPixels(piece.y);
@@ -174,7 +179,7 @@ void SceneGame::drawPiece(Piece piece, SpriteRenderer *renderer)
 	}
 }
 
-void SceneGame::drawBoard(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer)
+void GameStateMain::drawBoard(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer)
 {
 	// Calculate the limits of the board in pixels
 	int left = BOARD_POSITION - (BLOCK_SIZE * (BOARD_WIDTH / 2));
