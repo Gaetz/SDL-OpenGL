@@ -4,14 +4,15 @@
 #include <ctime>
 
 GameStateMain::GameStateMain()
-{}
+{
+}
 
 GameStateMain::~GameStateMain()
 {
 	clean();
 }
 
-void GameStateMain::setGame(Game *_game) 
+void GameStateMain::setGame(Game *_game)
 {
 	game = _game;
 }
@@ -21,6 +22,10 @@ void GameStateMain::load()
 	std::srand((int)std::time(nullptr));
 
 	screenHeight = game->windowHeight;
+	moveLeftKey = SDL_SCANCODE_LEFT;
+	moveRightKey = SDL_SCANCODE_RIGHT;
+	rotateKey = SDL_SCANCODE_UP;
+	fallKey = SDL_SCANCODE_DOWN;
 
 	ResourceManager::loadTexture("./assets/textures/tile.bmp", "tile");
 	ResourceManager::loadTexture("./assets/textures/tile_fall.bmp", "tile_fall");
@@ -55,60 +60,42 @@ void GameStateMain::resume()
 {
 }
 
-void GameStateMain::handleEvent()
+void GameStateMain::handleEvent(const InputState &inputState)
 {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type)
+	// Right move
+	if (inputState.keyboardState.isJustPressed(SDL_Scancode(moveRightKey)))
 	{
-	case SDL_QUIT:
-		game->isRunning = false;
-		break;
-	case SDL_KEYDOWN:
-		switch (event.key.keysym.sym)
+		if (board->isPossibleMovement(currentPiece.x + 1, currentPiece.y, currentPiece.kind, currentPiece.rotation))
+			currentPiece.x++;
+	}
+	// Left move
+	if (inputState.keyboardState.isJustPressed(SDL_Scancode(moveLeftKey)))
+	{
+		if (board->isPossibleMovement(currentPiece.x - 1, currentPiece.y, currentPiece.kind, currentPiece.rotation))
+			currentPiece.x--;
+	}
+	// Put down, check lines and game over
+	if (inputState.keyboardState.isJustPressed(SDL_Scancode(fallKey)))
+	{
+
+		while (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, currentPiece.rotation))
 		{
-		case SDLK_RIGHT:
+			currentPiece.y++;
+		}
+		board->storePiece(currentPiece.x, currentPiece.y, currentPiece.kind, currentPiece.rotation);
+		board->deletePossibleLines();
+		if (board->isGameOver())
 		{
-			// Left move
-			if (board->isPossibleMovement(currentPiece.x + 1, currentPiece.y, currentPiece.kind, currentPiece.rotation))
-				currentPiece.x++;
-			break;
+			exit(0);
 		}
-		case (SDLK_LEFT):
-		{
-			// Right move
-			if (board->isPossibleMovement(currentPiece.x - 1, currentPiece.y, currentPiece.kind, currentPiece.rotation))
-				currentPiece.x--;
-			break;
-		}
-		case (SDLK_DOWN):
-		{
-			// Put down, check lines and game over
-			while (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, currentPiece.rotation))
-			{
-				currentPiece.y++;
-			}
-			board->storePiece(currentPiece.x, currentPiece.y, currentPiece.kind, currentPiece.rotation);
-			board->deletePossibleLines();
-			if (board->isGameOver())
-			{
-				exit(0);
-			}
-			// New piece if game continues
-			createNewPiece();
-			break;
-		}
-		case (SDLK_UP):
-		{
-			// Rotation
-			if (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, (currentPiece.rotation + 1) % 4))
-				currentPiece.rotation = (currentPiece.rotation + 1) % 4;
-			break;
-		}
-		break;
-		}
-	default:
-		break;
+		// New piece if game continues
+		createNewPiece();
+	}
+	// Rotation
+	if (inputState.keyboardState.isJustPressed(SDL_Scancode(rotateKey)))
+	{
+		if (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, (currentPiece.rotation + 1) % 4))
+			currentPiece.rotation = (currentPiece.rotation + 1) % 4;
 	}
 }
 

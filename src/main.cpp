@@ -29,7 +29,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 		dt = time.computeDeltaTime();
 		window.updateFpsCounter(dt);
 
-		game.handleEvents();
+		game.handleInputs();
 		game.update(dt);
 
 		window.clear();

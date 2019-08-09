@@ -19,10 +19,10 @@ public:
 	void clean();
 	void pause();
 	void resume();
-	void handleEvent();
+	void handleEvent(const InputState &);
 	void update(unsigned int dt);
-	void draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer);
-	void setGame(Game *_game);
+	void draw(SpriteRenderer *, GeometryRenderer *);
+	void setGame(Game *);
 
 	void createNewPiece();
 
@@ -30,6 +30,11 @@ public:
 
 private:
 	int getRand(int a, int b);
+
+	int moveLeftKey;
+	int moveRightKey;
+	int rotateKey;
+	int fallKey;
 
 	Game *game;
 	Pieces *pieces;
@@ -39,8 +44,8 @@ private:
 
 	Piece nextPiece;
 
-	void drawPiece(Piece piece, SpriteRenderer *renderer);
-	void drawBoard(SpriteRenderer *renderer, GeometryRenderer *gRenderer);
+	void drawPiece(Piece piece, SpriteRenderer *);
+	void drawBoard(SpriteRenderer *, GeometryRenderer *);
 };
 
 #endif

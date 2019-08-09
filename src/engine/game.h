@@ -9,6 +9,7 @@
 
 #include <GL/glew.h>
 
+#include "input_manager.h"
 #include "shader.h"
 #include "renderer_sprite.h"
 #include "renderer_geometry.h"
@@ -28,13 +29,13 @@ public:
 
 	void init(int screenWidth, int screenHeight);
 	void load();
-	void handleEvents();
+	void handleInputs();
 	void update(unsigned int dt);
 	void render();
 	void clean();
 
-	void changeState(GameState *state);
-	void pushState(GameState *state);
+	void changeState(GameState *);
+	void pushState(GameState *);
 	void popState();
 	void cleanStates();
 
@@ -42,6 +43,7 @@ public:
 	int windowWidth, windowHeight;
 
 private:
+	InputManager *inputManager;
 	SpriteRenderer *sRenderer;
 	GeometryRenderer *gRenderer;
 	std::vector<GameState*> gameStates;

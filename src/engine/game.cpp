@@ -20,6 +20,8 @@ void Game::init(int screenWidth, int screenHeight)
 	windowWidth = screenWidth;
 	windowHeight = screenHeight;
 	isRunning = true;
+
+	inputManager = new InputManager();
 }
 
 void Game::load()
@@ -42,9 +44,12 @@ void Game::load()
 	changeState(new GameStateMain());
 }
 
-void Game::handleEvents()
+void Game::handleInputs()
 {
-	gameStates.back()->handleEvent();
+	inputManager->prepareForUpdate();
+	isRunning = inputManager->pollInputs();
+	const InputState& inputState = inputManager->getState();
+	gameStates.back()->handleEvent(inputState);
 }
 
 void Game::update(unsigned int dt)
