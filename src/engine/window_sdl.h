@@ -8,13 +8,20 @@
 #endif
 
 #include <GL/glew.h>
-#include <string>
-#include <memory>
 
 #include "window.h"
 
 extern const float SCREEN_WIDTH;
 extern const float SCREEN_HEIGHT;
+
+// Used by SDL_Window unique pointer
+struct SdlWindowDestroyer
+{
+    void operator()(SDL_Window* window) const
+    {
+        SDL_DestroyWindow(window);
+    }
+};
 
 // Manage game's window and drawing in this window.
 // The window title bar gives some info, as game's title
@@ -34,7 +41,7 @@ public:
     void clean() override;
 
 private:
-    SDL_Window *window;
+    std::unique_ptr<SDL_Window, SdlWindowDestroyer> window;
     SDL_GLContext context;
     const std::string &title;
 

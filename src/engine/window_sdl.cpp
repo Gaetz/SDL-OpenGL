@@ -32,7 +32,9 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
         // WindowSdl
-        window = SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, flags);
+        window = std::unique_ptr<SDL_Window, SdlWindowDestroyer>(
+            SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, flags)
+        );
         if (window)
         {
             SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "WindowSdl initialised");
@@ -41,7 +43,7 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
             return false;
 
         // OpenGL context
-        context = SDL_GL_CreateContext(window);
+        context = SDL_GL_CreateContext(window.get());
         if (context)
         {
             SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "OpenGL Context initialised");
@@ -86,7 +88,7 @@ void WindowSdl::updateFpsCounter(long dt)
         char tmp[128];
         double fps = (double)frameCount / elapsedSeconds;
         sprintf(tmp, "%s @ fps: %.2f", title.c_str(), fps);
-        SDL_SetWindowTitle(window, tmp);
+        SDL_SetWindowTitle(window.get(), tmp);
         frameCount = 0;
     }
     frameCount++;
@@ -100,12 +102,12 @@ void WindowSdl::clear()
 
 void WindowSdl::swapBuffer()
 {
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(window.get());
 }
 
 void WindowSdl::clean()
 {
-    SDL_DestroyWindow(window);
+    // SDL_DestroyWindow(window); Handled by unique_ptr
     SDL_GL_DeleteContext(context);
 }
 
