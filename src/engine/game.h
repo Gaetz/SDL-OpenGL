@@ -8,12 +8,13 @@
 #endif
 
 #include <GL/glew.h>
+#include <vector>
+#include <memory>
 
 #include "input_manager.h"
 #include "shader.h"
 #include "renderer_sprite.h"
 #include "renderer_geometry.h"
-#include <vector>
 
 class GameState;
 
@@ -34,19 +35,18 @@ public:
 	void render();
 	void clean();
 
-	void changeState(GameState *);
-	void pushState(GameState *);
+	void changeState(std::unique_ptr<GameState>);
+	void pushState(std::unique_ptr<GameState>);
 	void popState();
-	void cleanStates();
 
 	bool isRunning;
 	int windowWidth, windowHeight;
 
 private:
-	InputManager *inputManager;
-	SpriteRenderer *sRenderer;
-	GeometryRenderer *gRenderer;
-	std::vector<GameState*> gameStates;
+	std::unique_ptr<InputManager> inputManager;
+	std::shared_ptr<SpriteRenderer> sRenderer;
+	std::shared_ptr<GeometryRenderer> gRenderer;
+	std::vector<std::unique_ptr<GameState>> gameStates;
 };
 
 #endif

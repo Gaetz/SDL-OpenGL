@@ -3,7 +3,10 @@
 #include <cstdlib>
 #include <ctime>
 
-GameStateMain::GameStateMain()
+GameStateMain::GameStateMain(
+		std::shared_ptr<SpriteRenderer> _sRenderer, 
+		std::shared_ptr<GeometryRenderer> _gRenderer
+	) : sRenderer(std::move(_sRenderer)), gRenderer(std::move(_gRenderer))
 {
 }
 
@@ -123,11 +126,11 @@ void GameStateMain::update(unsigned int dt)
 	}
 }
 
-void GameStateMain::draw(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer)
+void GameStateMain::draw()
 {
-	drawBoard(sRenderer, gRenderer);
-	drawPiece(currentPiece, sRenderer);
-	drawPiece(nextPiece, sRenderer);
+	drawBoard();
+	drawPiece(currentPiece);
+	drawPiece(nextPiece);
 }
 
 void GameStateMain::createNewPiece()
@@ -148,7 +151,7 @@ int GameStateMain::getRand(int a, int b)
 	return std::rand() % (b - a + 1) + a;
 }
 
-void GameStateMain::drawPiece(Piece piece, SpriteRenderer *renderer)
+void GameStateMain::drawPiece(Piece piece)
 {
 	int pixelsX = board->getXPosInPixels(piece.x);
 	int pixelsY = board->getYPosInPixels(piece.y);
@@ -158,7 +161,7 @@ void GameStateMain::drawPiece(Piece piece, SpriteRenderer *renderer)
 		{
 			if (pieces->getBlockType(piece.kind, piece.rotation, j, i) != 0)
 			{
-				renderer->drawSprite(ResourceManager::getTexture("tile_fall"),
+				sRenderer->drawSprite(ResourceManager::getTexture("tile_fall"),
 									 glm::vec2(pixelsX + i * BLOCK_SIZE, pixelsY + j * BLOCK_SIZE),
 									 glm::vec2(25, 25), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 			}
@@ -166,7 +169,7 @@ void GameStateMain::drawPiece(Piece piece, SpriteRenderer *renderer)
 	}
 }
 
-void GameStateMain::drawBoard(SpriteRenderer *sRenderer, GeometryRenderer *gRenderer)
+void GameStateMain::drawBoard()
 {
 	// Calculate the limits of the board in pixels
 	int left = BOARD_POSITION - (BLOCK_SIZE * (BOARD_WIDTH / 2));

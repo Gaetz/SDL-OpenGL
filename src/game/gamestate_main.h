@@ -12,7 +12,10 @@
 class GameStateMain : public GameState
 {
 public:
-	GameStateMain();
+	GameStateMain(
+		std::shared_ptr<SpriteRenderer>, 
+		std::shared_ptr<GeometryRenderer>
+	);
 	virtual ~GameStateMain();
 
 	void load();
@@ -21,7 +24,7 @@ public:
 	void resume();
 	void handleEvent(const InputState &);
 	void update(unsigned int dt);
-	void draw(SpriteRenderer *, GeometryRenderer *);
+	void draw();
 	void setGame(Game *);
 
 	void createNewPiece();
@@ -36,6 +39,8 @@ private:
 	int rotateKey;
 	int fallKey;
 
+	std::shared_ptr<SpriteRenderer> sRenderer;
+	std::shared_ptr<GeometryRenderer> gRenderer;
 	Game *game;
 	Pieces *pieces;
 	Board *board;
@@ -44,8 +49,10 @@ private:
 
 	Piece nextPiece;
 
-	void drawPiece(Piece piece, SpriteRenderer *);
-	void drawBoard(SpriteRenderer *, GeometryRenderer *);
+	void drawPiece(Piece piece);
+	void drawBoard();
+
+	GameStateMain();
 };
 
 #endif

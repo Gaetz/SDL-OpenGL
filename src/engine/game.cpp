@@ -1,6 +1,7 @@
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "game.h"
 #include "resource_manager.h"
-#include <glm/gtc/matrix_transform.hpp>
 #include "gamestate.h"
 #include "../game/gamestate_main.h"
 
@@ -12,7 +13,6 @@ Game::Game() : isRunning(false),
 
 Game::~Game()
 {
-	cleanStates();
 }
 
 void Game::init(int screenWidth, int screenHeight)
@@ -21,7 +21,7 @@ void Game::init(int screenWidth, int screenHeight)
 	windowHeight = screenHeight;
 	isRunning = true;
 
-	inputManager = new InputManager();
+	inputManager = std::make_unique<InputManager>();
 }
 
 void Game::load()
@@ -37,11 +37,11 @@ void Game::load()
 	ResourceManager::getShader("rect").use();
 	ResourceManager::getShader("rect").setMatrix4("projection", projection);
 	// Set render-specific controls
-	sRenderer = new SpriteRenderer(ResourceManager::getShader("sprite"));
-	gRenderer = new GeometryRenderer(ResourceManager::getShader("rect"));
+	sRenderer = std::make_shared<SpriteRenderer>(ResourceManager::getShader("sprite"));
+	gRenderer = std::make_shared<GeometryRenderer>(ResourceManager::getShader("rect"));
 
 	// Game state
-	changeState(new GameStateMain());
+	changeState(std::make_unique<GameStateMain>(sRenderer, gRenderer));
 }
 
 void Game::handleInputs()
@@ -59,7 +59,7 @@ void Game::update(unsigned int dt)
 
 void Game::render()
 {
-	gameStates.back()->draw(sRenderer, gRenderer);
+	gameStates.back()->draw();
 }
 
 void Game::clean()
@@ -67,23 +67,22 @@ void Game::clean()
 	ResourceManager::clear();
 }
 
-void Game::changeState(GameState *state)
+void Game::changeState(std::unique_ptr<GameState> state)
 {
 	// cleanup the current state
 	if (!gameStates.empty())
 	{
 		gameStates.back()->clean();
-		delete gameStates.back();
 		gameStates.pop_back();
 	}
 
 	// store and load the new state
 	state->setGame(this);
-	gameStates.push_back(state);
+	gameStates.push_back(std::move(state));
 	gameStates.back()->load();
 }
 
-void Game::pushState(GameState *state)
+void Game::pushState(std::unique_ptr<GameState> state)
 {
 	// pause current state
 	if (!gameStates.empty())
@@ -92,7 +91,7 @@ void Game::pushState(GameState *state)
 	}
 
 	// store and init the new state
-	gameStates.push_back(state);
+	gameStates.push_back(std::move(state));
 	gameStates.back()->load();
 }
 
@@ -102,7 +101,6 @@ void Game::popState()
 	if (!gameStates.empty())
 	{
 		gameStates.back()->clean();
-		delete gameStates.back();
 		gameStates.pop_back();
 	}
 
@@ -110,13 +108,5 @@ void Game::popState()
 	if (!gameStates.empty())
 	{
 		gameStates.back()->resume();
-	}
-}
-
-void Game::cleanStates()
-{
-	for (auto &it : gameStates)
-	{
-		delete it;
 	}
 }
