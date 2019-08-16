@@ -1,6 +1,8 @@
 #ifndef GEOMETRY_RENDERER_H
 #define GEOMETRY_RENDERER_H
 
+#include <memory>
+
 #include "shader.h"
 #include "vertex_array.h"
 
@@ -19,7 +21,7 @@ public:
 
 private:
 	Shader shader;
-	VertexArray *vertexArray;
+	std::unique_ptr<VertexArray> vertexArray;
 };
 
 #endif

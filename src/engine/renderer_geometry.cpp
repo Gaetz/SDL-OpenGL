@@ -15,12 +15,11 @@ static unsigned int indexBuffer[] = {
 
 GeometryRenderer::GeometryRenderer(const Shader &shader): shader(shader)
 {
-	vertexArray = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
+	vertexArray = std::make_unique<VertexArray>(vertexBuffer, 4, indexBuffer, 6);
 }
 
 GeometryRenderer::~GeometryRenderer()
 {
-	delete vertexArray;
 }
 
 void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec4 color)

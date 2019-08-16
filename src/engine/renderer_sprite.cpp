@@ -15,13 +15,12 @@ static unsigned int indexBuffer[] = {
 
 SpriteRenderer::SpriteRenderer(const Shader& shader): shader(shader)
 {
-	vertexArray = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
+	vertexArray = std::make_unique<VertexArray>(vertexBuffer, 4, indexBuffer, 6);
 }
 
 
 SpriteRenderer::~SpriteRenderer()
 {
-	delete vertexArray;
 }
 
 void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
