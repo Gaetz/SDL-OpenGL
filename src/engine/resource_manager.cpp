@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <memory>
 
 // Instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::textures;
@@ -88,7 +89,7 @@ Shader ResourceManager::loadShaderFromFile(const std::string& vShaderFile, const
 	const GLchar *gShaderCode = geometryCode.c_str();
 	// 2. Now create shader object from source code
 	Shader shader;
-	shader.compile(vShaderCode, fShaderCode, gShaderFile != "" ? gShaderCode : "");
+	shader.compile(vShaderCode, fShaderCode, gShaderFile != "" ? gShaderCode : nullptr);
 	return shader;
 }
 
@@ -98,8 +99,8 @@ Texture2D ResourceManager::loadTextureFromFile(const std::string& file)
 	Texture2D texture;
 
 	// Load image
-	SDL_Surface* surface = SDL_LoadBMP(file.c_str());
-	if (surface == nullptr) {
+	auto surface = std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer>(SDL_LoadBMP(file.c_str()));
+	if (!surface) {
 		std::ostringstream loadError;
 		loadError << "ERROR::IMG: Unable to load image " << file << "\n"
 			<< SDL_GetError() << "\n -- --------------------------------------------------- -- "
@@ -121,7 +122,6 @@ Texture2D ResourceManager::loadTextureFromFile(const std::string& file)
 
 	// Now generate texture
 	texture.generate(surface);
-	// And finally free image data
-	SDL_FreeSurface(surface);
+	// And finally return texture
 	return texture;
 }

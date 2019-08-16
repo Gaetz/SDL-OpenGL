@@ -27,8 +27,8 @@ void Game::init(int screenWidth, int screenHeight)
 void Game::load()
 {
 	// Load shaders
-	ResourceManager::loadShader("assets/shaders/sprite.vert", "assets/shaders/sprite.frag", nullptr, "sprite");
-	ResourceManager::loadShader("assets/shaders/rect.vert", "assets/shaders/rect.frag", nullptr, "rect");
+	ResourceManager::loadShader("assets/shaders/sprite.vert", "assets/shaders/sprite.frag", "", "sprite");
+	ResourceManager::loadShader("assets/shaders/rect.vert", "assets/shaders/rect.frag", "", "rect");
 	// Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
 	ResourceManager::getShader("sprite").use();

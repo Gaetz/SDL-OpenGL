@@ -17,7 +17,7 @@ extern const float SCREEN_HEIGHT;
 // Used by SDL_Window unique pointer
 struct SdlWindowDestroyer
 {
-    void operator()(SDL_Window* window) const
+    void operator()(SDL_Window *window) const
     {
         SDL_DestroyWindow(window);
     }
