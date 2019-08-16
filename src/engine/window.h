@@ -1,46 +1,23 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#ifdef __linux__
-	#include <SDL2/SDL.h>
-#elif _WIN32
-	#include <SDL.h>
-#endif
+#include <memory>
+#include <string>
 
-#include <GL/glew.h>
-
-extern const float SCREEN_WIDTH;
-extern const float SCREEN_HEIGHT;
-
-
-// Manage game's window and drawing in this window.
-// The window title bar gives some info, as game's title
-// or FPS counter.
-class Window
+class IWindow
 {
 public:
-    Window();
-    virtual ~Window();
+    virtual ~IWindow() {}
 
-    bool init(const char *windowTitle, int xPos, int yPos, int width, int height, bool isFullscreen);
-    //bool should_close();
-    //void handle_close();
-    void updateFpsCounter(long dt);
-    void clear();
-    void swapBuffer();
-    void clean();
+    virtual bool init(int xPos, int yPos, int width, int height, bool isFullscreen) = 0;
+    //virtual bool should_close() = 0;
+    //virtual void handle_close() = 0;
+    virtual void updateFpsCounter(long dt) = 0;
+    virtual void clear() = 0;
+    virtual void swapBuffer() = 0;
+    virtual void clean() = 0;
 
-private:
-    SDL_Window *window;
-	SDL_GLContext context;
-    const char *title;
-
-    double previousSeconds;
-    double currentSeconds;
-    int frameCount;
-
-    Window(const Window &);
-    Window &operator=(const Window &);
+    static std::unique_ptr<IWindow> create(const std::string& title);
 };
 
 #endif

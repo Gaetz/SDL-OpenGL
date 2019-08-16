@@ -1,17 +1,19 @@
+#include "window_sdl.h"
 
-#include "window.h"
-
-Window::Window() : previousSeconds(0),
-                   currentSeconds(0),
-                   frameCount(0)
+WindowSdl::WindowSdl(const std::string &title) : title(title),
+                                           previousSeconds(0),
+                                           currentSeconds(0),
+                                           frameCount(0)
 {
 }
 
-Window::~Window()
+WindowSdl::~WindowSdl()
 {
+    SDL_Quit();
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bye :)");
 }
 
-bool Window::init(const char *windowTitle, int xPos, int yPos, int width, int height, bool isFullscreen)
+bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscreen)
 {
     int flags = SDL_WINDOW_OPENGL;
     if (isFullscreen)
@@ -29,12 +31,11 @@ bool Window::init(const char *windowTitle, int xPos, int yPos, int width, int he
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-        // Window
-        title = windowTitle;
-        window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
+        // WindowSdl
+        window = SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, flags);
         if (window)
         {
-            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Window initialised");
+            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "WindowSdl initialised");
         }
         else
             return false;
@@ -72,7 +73,7 @@ bool Window::init(const char *windowTitle, int xPos, int yPos, int width, int he
     }
 }
 
-void Window::updateFpsCounter(long dt)
+void WindowSdl::updateFpsCounter(long dt)
 {
     double elapsedSeconds;
 
@@ -84,28 +85,31 @@ void Window::updateFpsCounter(long dt)
         previousSeconds = currentSeconds;
         char tmp[128];
         double fps = (double)frameCount / elapsedSeconds;
-        sprintf(tmp, "%s @ fps: %.2f", title, fps);
+        sprintf(tmp, "%s @ fps: %.2f", title.c_str(), fps);
         SDL_SetWindowTitle(window, tmp);
         frameCount = 0;
     }
     frameCount++;
 }
 
-void Window::clear()
+void WindowSdl::clear()
 {
     glClearColor(0.0f, 0.0f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Window::swapBuffer()
+void WindowSdl::swapBuffer()
 {
     SDL_GL_SwapWindow(window);
 }
 
-void Window::clean()
+void WindowSdl::clean()
 {
     SDL_DestroyWindow(window);
     SDL_GL_DeleteContext(context);
-    SDL_Quit();
-    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bye :)");
+}
+
+std::unique_ptr<IWindow> IWindow::create(const std::string& title)
+{
+    return std::make_unique<WindowSdl>(title);
 }

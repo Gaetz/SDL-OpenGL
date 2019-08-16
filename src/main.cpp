@@ -1,10 +1,13 @@
+#include <string>
+#include <memory>
+
 #include "engine/game.h"
 #include "engine/window.h"
 #include "engine/time.h"
 
 int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
-	const char* title = "Tetris";
+	const std::string title = "Tetris";
 	const float SCREEN_WIDTH = 450;
 	const float SCREEN_HEIGHT = 680;
 	
@@ -12,8 +15,8 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	int dt;
 
 	// Main game elements loading
-	Window window;
-	if(!window.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false))
+	auto window(IWindow::create(title));
+	if(!window->init(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false))
 	{
 		return 1;
 	}
@@ -27,14 +30,14 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	// Game loop
 	while (game.isRunning) {
 		dt = time.computeDeltaTime();
-		window.updateFpsCounter(dt);
+		window->updateFpsCounter(dt);
 
 		game.handleInputs();
 		game.update(dt);
 
-		window.clear();
+		window->clear();
 		game.render();
-		window.swapBuffer();
+		window->swapBuffer();
 
 		// Delay frame if game runs too fast
 		time.delayTime();
@@ -42,6 +45,6 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 
 	// Exit game
 	game.clean();
-	window.clean();
+	window->clean();
 	return 0;
 }
