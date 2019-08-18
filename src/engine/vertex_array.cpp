@@ -2,8 +2,8 @@
 #include <GL/glew.h>
 
 VertexArray::VertexArray(
-    const float *vertices, unsigned int nbVertices,
-    const unsigned int *indices, unsigned int nbIndices)
+    const GLfloat *vertices, GLuint nbVertices,
+    const GLuint *indices, GLuint nbIndices)
     : nbVertices(nbVertices), nbIndices(nbIndices)
 {
     glGenVertexArrays(1, &id);

@@ -1,14 +1,14 @@
 #include "renderer_sprite.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-static float vertexBuffer[] = {
+static GLfloat vertexBuffer[] = {
 	-0.5f, 0.5f, 0.0f,  0.0f, 1.0f, // top left
 	 0.5f, 0.5f, 0.0f,  1.0f, 1.0f, // top right
 	 0.5f,-0.5f, 0.0f,  1.0f, 0.0f,// bottom right
 	-0.5f,-0.5f, 0.0f,  0.0f, 0.0f // bottom left
 };
 
-static unsigned int indexBuffer[] = {
+static GLuint indexBuffer[] = {
 	0, 1, 2, // first Triangle
 	2, 3, 0  // second Triangle
 };

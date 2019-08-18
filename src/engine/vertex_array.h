@@ -1,26 +1,28 @@
 #ifndef VEXTEX_ARRAY_H
 #define VEXTEX_ARRAY_H
 
+#include <GL/glew.h>
+
 // Represent a Vertex Array Object
 class VertexArray
 {
 public:
-    VertexArray(const float *vertices, unsigned int nbVertices,
-                const unsigned int *indices, unsigned int nbIndices);
+    VertexArray(const GLfloat *vertices, GLuint nbVertices,
+                const GLuint *indices, GLuint nbIndices);
     virtual ~VertexArray();
 
     void setActive();
 
-    inline unsigned int getNbVertices() const { return nbVertices; }
-    inline unsigned int getNbIndices() const { return nbIndices; }
+    inline GLuint getNbVertices() const { return nbVertices; }
+    inline GLuint getNbIndices() const { return nbIndices; }
 
 private:
-    unsigned int nbVertices;
-    unsigned int nbIndices;
+    GLuint nbVertices;
+    GLuint nbIndices;
 
-    unsigned int id;
-    unsigned int vertexBufferId;
-    unsigned int indexBufferId;
+    GLuint id;
+    GLuint vertexBufferId;
+    GLuint indexBufferId;
 };
 
 #endif

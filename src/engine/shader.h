@@ -15,7 +15,7 @@ class Shader
 {
 public:
 	// State
-	unsigned int id;
+	GLuint id;
 
 	// Constructor
 	Shader() { }
