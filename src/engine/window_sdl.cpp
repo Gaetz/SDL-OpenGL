@@ -10,7 +10,7 @@ WindowSdl::WindowSdl(const std::string &title) : title(title),
 WindowSdl::~WindowSdl()
 {
     SDL_Quit();
-    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bye :)");
+    LOG(Info) << "Bye :)";
 }
 
 bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscreen)
@@ -23,7 +23,7 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
 
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
     {
-        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Subsystems initialised");
+        LOG(Info) << "Subsystems initialised";
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -37,7 +37,7 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         );
         if (window)
         {
-            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "WindowSdl initialised");
+            LOG(Info) << "WindowSdl initialised";
         }
         else
             return false;
@@ -46,7 +46,7 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         context = SDL_GL_CreateContext(window.get());
         if (context)
         {
-            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "OpenGL Context initialised");
+            LOG(Info) << "OpenGL Context initialised";
         }
         else
             return false;
@@ -56,7 +56,7 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         GLenum initGLEW(glewInit());
         if (initGLEW == GLEW_OK)
         {
-            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "GLEW initialised");
+            LOG(Info) << "GLEW initialised";
         }
         else
             return false;
@@ -70,10 +70,60 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
     }
     else
     {
-        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "SDL initialisation failed");
+        LOG(Error) << "SDL initialisation failed";
         return false;
     }
 }
+
+void WindowSdl::logGlParams()
+{
+    GLenum params[] = {
+        GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
+        GL_MAX_CUBE_MAP_TEXTURE_SIZE,
+        GL_MAX_DRAW_BUFFERS,
+        GL_MAX_FRAGMENT_UNIFORM_COMPONENTS,
+        GL_MAX_TEXTURE_IMAGE_UNITS,
+        GL_MAX_TEXTURE_SIZE,
+        GL_MAX_VARYING_FLOATS,
+        GL_MAX_VERTEX_ATTRIBS,
+        GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,
+        GL_MAX_VERTEX_UNIFORM_COMPONENTS,
+        GL_MAX_VIEWPORT_DIMS,
+        GL_STEREO,
+    };
+    const char *names[] = {
+        "GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS",
+        "GL_MAX_CUBE_MAP_TEXTURE_SIZE",
+        "GL_MAX_DRAW_BUFFERS",
+        "GL_MAX_FRAGMENT_UNIFORM_COMPONENTS",
+        "GL_MAX_TEXTURE_IMAGE_UNITS",
+        "GL_MAX_TEXTURE_SIZE",
+        "GL_MAX_VARYING_FLOATS",
+        "GL_MAX_VERTEX_ATTRIBS",
+        "GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS",
+        "GL_MAX_VERTEX_UNIFORM_COMPONENTS",
+        "GL_MAX_VIEWPORT_DIMS",
+        "GL_STEREO",
+    };
+    LOG(Info) << "-----------------------------";
+    LOG(Info) << "GL Context Params:";
+    // integers - only works if the order is 0-10 integer return types
+    for (int i = 0; i < 10; i++)
+    {
+        int v = 0;
+        glGetIntegerv(params[i], &v);
+        LOG(Info) << names[i] << " " << v;
+    }
+    // others
+    int v[2];
+    v[0] = v[1] = 0;
+    glGetIntegerv(params[10], v);
+    LOG(Info) << names[10] << " " << v[0] << " " << v[1];
+    unsigned char s = 0;
+    glGetBooleanv(params[11], &s);
+    LOG(Info) << names[11] << " " << (unsigned int)s;
+    LOG(Info) << "";
+};
 
 void WindowSdl::updateFpsCounter(long dt)
 {

@@ -13,6 +13,7 @@
 
 extern const float SCREEN_WIDTH;
 extern const float SCREEN_HEIGHT;
+extern LogConfig LOG_CONFIG;
 
 // Used by SDL_Window unique pointer
 struct SdlWindowDestroyer
@@ -33,6 +34,7 @@ public:
     virtual ~WindowSdl();
 
     bool init(int xPos, int yPos, int width, int height, bool isFullscreen) override;
+    void logGlParams() override;
     //bool should_close();
     //void handle_close();
     void updateFpsCounter(long dt) override;

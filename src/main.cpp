@@ -1,9 +1,12 @@
 #include <string>
 #include <memory>
 
+#include "engine/log.h"
 #include "engine/game.h"
 #include "engine/window.h"
 #include "engine/time.h"
+
+LogConfig LOG_CONFIG = {};
 
 int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
@@ -11,6 +14,14 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	const float SCREEN_WIDTH = 450;
 	const float SCREEN_HEIGHT = 680;
 	
+    // Init logging
+    LOG_CONFIG.reporting_level = Debug;
+    LOG_CONFIG.restart = true;
+    if (LOG_CONFIG.restart)
+    {
+        Log::restart();
+    }
+
 	// Delta time
 	int dt;
 
@@ -20,6 +31,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	{
 		return 1;
 	}
+	window->logGlParams();
 	
 	Game game;
 	game.init(SCREEN_WIDTH, SCREEN_HEIGHT);

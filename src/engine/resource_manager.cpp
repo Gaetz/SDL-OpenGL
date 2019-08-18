@@ -1,4 +1,5 @@
 #include "resource_manager.h"
+#include "log.h"
 
 #include <iostream>
 #include <sstream>
@@ -82,7 +83,7 @@ Shader ResourceManager::loadShaderFromFile(const std::string& vShaderFile, const
 		loadError << "ERROR::SHADER: Failed to read shader files " << vShaderFile << " " << fShaderFile << " " << geomShaderFile << "\n"
 			<< "\n -- --------------------------------------------------- -- "
 			<< std::endl;
-		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, loadError.str().c_str());
+		LOG(Error) << loadError.str();
 	}
 	const GLchar *vShaderCode = vertexCode.c_str();
 	const GLchar *fShaderCode = fragmentCode.c_str();
@@ -105,7 +106,7 @@ Texture2D ResourceManager::loadTextureFromFile(const std::string& file)
 		loadError << "ERROR::IMG: Unable to load image " << file << "\n"
 			<< SDL_GetError() << "\n -- --------------------------------------------------- -- "
 			<< std::endl;
-		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, loadError.str().c_str());
+		LOG(Error) << loadError.str();
 	}
 
 	// Mode

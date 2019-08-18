@@ -2,7 +2,6 @@
 #define SHADER_H
 
 #include <GL/glew.h>
-
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -45,6 +44,22 @@ public:
 private:
 	// Checks if compilation or linking failed and if so, print the error logs
 	void checkCompileErrors(GLuint object, std::string type);
+
+	GLuint vs;
+    GLuint fs;
+    GLuint gs;
+
+    void compileVertexShader(const GLchar *vertexSource);
+    void compileFragmentShader(const GLchar *fragmentSource);
+    bool compileGeometryShader(const GLchar *geometrySource);
+    void createShaderProgram(bool geometryShaderExists);
+
+    void checkShaderErrors(GLuint shader, std::string shaderType);
+    void printShaderInfoLog(GLuint shaderIndex);
+    void printProgrammeInfoLog(GLuint programme);
+    const char *GLTypeToString(GLenum type);
+    void printAllParams(GLuint programme);
+    bool isValid(GLuint programme);
 };
 
 #endif
