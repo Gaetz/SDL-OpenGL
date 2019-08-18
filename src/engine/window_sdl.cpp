@@ -1,5 +1,7 @@
 #include "window_sdl.h"
 
+
+
 WindowSdl::WindowSdl(const std::string &title) : title(title),
                                            previousSeconds(0),
                                            currentSeconds(0),
@@ -12,6 +14,95 @@ WindowSdl::~WindowSdl()
     SDL_Quit();
     LOG(Info) << "Bye :)";
 }
+
+
+// Breakpoints that should ALWAYS trigger (EVEN IN RELEASE BUILDS) [x86]!
+#ifdef _MSC_VER
+# define eTB_CriticalBreakPoint() if (IsDebuggerPresent ()) __debugbreak ();
+#else
+# define eTB_CriticalBreakPoint() asm (" int $3");
+#endif
+
+const char* ETB_GL_DEBUG_SOURCE_STR (GLenum source)
+{
+  static const char* sources [] = {
+    "API",   "Window System", "Shader Compiler", "Third Party", "Application",
+    "Other", "Unknown"
+  };
+
+  int str_idx =
+    std::min ( (unsigned long) ( source - GL_DEBUG_SOURCE_API),
+            sizeof (sources) / sizeof (const char *) );
+
+  return sources [str_idx];
+}
+
+const char* ETB_GL_DEBUG_TYPE_STR (GLenum type)
+{
+  static const char* types [] = {
+    "Error",       "Deprecated Behavior", "Undefined Behavior", "Portability",
+    "Performance", "Other",               "Unknown"
+  };
+
+  int str_idx =
+    std::min ( (unsigned long) ( type - GL_DEBUG_TYPE_ERROR),
+            sizeof (types) / sizeof (const char *) );
+
+  return types [str_idx];
+}
+
+const char* ETB_GL_DEBUG_SEVERITY_STR (GLenum severity)
+{
+  static const char* severities [] = {
+    "High", "Medium", "Low", "Unknown"
+  };
+
+  int str_idx =
+    std::min ( (unsigned long)(severity - GL_DEBUG_SEVERITY_HIGH),
+            sizeof (severities) / sizeof (const char *) );
+
+  return severities [str_idx];
+}
+
+unsigned int ETB_GL_DEBUG_SEVERITY_COLOR (GLenum severity)
+{
+  static unsigned int severities [] = {
+    0xff0000ff, // High (Red)
+    0xff00ffff, // Med  (Yellow)
+    0xff00ff00, // Low  (Green)
+    0xffffffff  // ???  (White)
+  };
+
+  int col_idx =
+    std::min ( (unsigned long)(severity - GL_DEBUG_SEVERITY_HIGH),
+            sizeof (severities) / sizeof (unsigned int) );
+
+  return severities [col_idx];
+}
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void ETB_GL_ERROR_CALLBACK (GLenum        source,
+                            GLenum        type,
+                            GLuint        id,
+                            GLenum        severity,
+                            GLsizei       length,
+                            const GLchar* message,
+                            GLvoid*       userParam)
+{
+    cout << " --- OpenGL ERROR -------------------" << endl;
+    cout << "message: "<< message << endl;
+    cout << "source: "<< ETB_GL_DEBUG_SOURCE_STR(source) << endl;
+    cout << "type: " << ETB_GL_DEBUG_TYPE_STR(type) << endl;
+ 
+    cout << "id: " << id << endl;
+    cout << "severity: " << ETB_GL_DEBUG_SEVERITY_STR(severity);
+    cout << endl;
+    cout << " ---------------------------" << endl;
+}
+
 
 bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscreen)
 {
@@ -31,6 +122,8 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+        
         // WindowSdl
         window = std::unique_ptr<SDL_Window, SdlWindowDestroyer>(
             SDL_CreateWindow(title.c_str(), xPos, yPos, width, height, flags)
@@ -65,6 +158,14 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         glEnable(GL_CULL_FACE);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+        if (glDebugMessageControlARB != NULL) {
+            glEnable                  (GL_DEBUG_OUTPUT_SYNCHRONOUS);
+            glDebugMessageCallback ((GLDEBUGPROCARB)ETB_GL_ERROR_CALLBACK, NULL);
+            GLuint unusedIds = 0;
+            glDebugMessageControl  (GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, GL_TRUE);
+        }
 
         return true;
     }
@@ -152,6 +253,12 @@ void WindowSdl::clear()
 
 void WindowSdl::swapBuffer()
 {
+    // check OpenGL error
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR) {
+        LOG(Error) << "OpenGL error: " << err;
+    }
+
     SDL_GL_SwapWindow(window.get());
 }
 

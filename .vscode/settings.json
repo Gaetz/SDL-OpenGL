@@ -59,6 +59,8 @@
         "cctype": "cpp",
         "clocale": "cpp",
         "cwctype": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp"
     }
 }

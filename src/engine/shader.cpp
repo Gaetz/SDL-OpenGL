@@ -123,6 +123,7 @@ void Shader::setMatrix4(const GLchar *name, const glm::mat4 &matrix)
 	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
+/*
 void Shader::checkCompileErrors(GLuint object, std::string type)
 {
 	GLint success;
@@ -153,7 +154,7 @@ void Shader::checkCompileErrors(GLuint object, std::string type)
 			LOG(Error) << shaderError.str();
 		}
 	}
-}
+}*/
 
 void Shader::printShaderInfoLog(GLuint shaderIndex)
 {
@@ -185,6 +186,8 @@ void Shader::checkShaderErrors(GLuint shader, std::string shaderType)
         printShaderInfoLog(shader);
     }
 }
+
+
 
 
 const char *Shader::GLTypeToString(GLenum type)
