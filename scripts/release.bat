@@ -7,7 +7,11 @@ pushd %releaseDir%
 
 :: Create obj dir
 set objDir=.\obj
-if not exist %objDir% mkdir %objDir%
+if not exist %objDir% (
+    mkdir %objDir%
+    mkdir $objDir%\engine
+    mkdir $objDir%\game
+)
 
 :: Needed folders
 set extDir=%~dp0..\external

@@ -15,7 +15,7 @@ SRC_FILES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
 
-LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -llibpng16-16 -lglew32 -lzlib1 -lopengl32
+LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lglew32 -lzlib1 -lopengl32
 
 INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.7\include \
 	-I$(EXT_DIR)\SDL2-2.0.7\include \

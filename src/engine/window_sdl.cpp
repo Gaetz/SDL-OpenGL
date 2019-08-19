@@ -1,7 +1,6 @@
 #include "window_sdl.h"
 
 
-
 WindowSdl::WindowSdl(const std::string &title) : title(title),
                                            previousSeconds(0),
                                            currentSeconds(0),
@@ -31,8 +30,7 @@ const char* ETB_GL_DEBUG_SOURCE_STR (GLenum source)
   };
 
   int str_idx =
-    std::min ( (unsigned long) ( source - GL_DEBUG_SOURCE_API),
-            sizeof (sources) / sizeof (const char *) );
+    std::min(source - GL_DEBUG_SOURCE_API, (GLuint)((long)sizeof(sources) / (long)sizeof(const char *)) );
 
   return sources [str_idx];
 }
@@ -44,9 +42,7 @@ const char* ETB_GL_DEBUG_TYPE_STR (GLenum type)
     "Performance", "Other",               "Unknown"
   };
 
-  int str_idx =
-    std::min ( (unsigned long) ( type - GL_DEBUG_TYPE_ERROR),
-            sizeof (types) / sizeof (const char *) );
+  int str_idx = std::min(type - GL_DEBUG_TYPE_ERROR,  (GLuint)((long)sizeof(types) / (long)sizeof(const char *) ));
 
   return types [str_idx];
 }
@@ -58,12 +54,11 @@ const char* ETB_GL_DEBUG_SEVERITY_STR (GLenum severity)
   };
 
   int str_idx =
-    std::min ( (unsigned long)(severity - GL_DEBUG_SEVERITY_HIGH),
-            sizeof (severities) / sizeof (const char *) );
+    std::min (severity - GL_DEBUG_SEVERITY_HIGH, (GLuint)((long)sizeof (severities) / (long)sizeof (const char *)) );
 
   return severities [str_idx];
 }
-
+/*
 unsigned int ETB_GL_DEBUG_SEVERITY_COLOR (GLenum severity)
 {
   static unsigned int severities [] = {
@@ -78,7 +73,7 @@ unsigned int ETB_GL_DEBUG_SEVERITY_COLOR (GLenum severity)
             sizeof (severities) / sizeof (unsigned int) );
 
   return severities [col_idx];
-}
+}*/
 
 #include <iostream>
 using std::cout;

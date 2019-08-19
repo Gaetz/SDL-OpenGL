@@ -12,3 +12,4 @@
 # Builds
 build/
 release/
+.vscode/ipch
