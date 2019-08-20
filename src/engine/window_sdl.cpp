@@ -49,14 +49,15 @@ const char* ETB_GL_DEBUG_TYPE_STR (GLenum type)
 
 const char* ETB_GL_DEBUG_SEVERITY_STR (GLenum severity)
 {
-  static const char* severities [] = {
+  /*static const char* severities [] = {
     "High", "Medium", "Low", "Unknown"
   };
 
   int str_idx =
     std::min (severity - GL_DEBUG_SEVERITY_HIGH, (GLuint)((long)sizeof (severities) / (long)sizeof (const char *)) );
 
-  return severities [str_idx];
+  return severities [str_idx];*/
+  return "unknown";
 }
 /*
 unsigned int ETB_GL_DEBUG_SEVERITY_COLOR (GLenum severity)
@@ -111,6 +112,7 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
     {
         LOG(Info) << "Subsystems initialised";
 
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
