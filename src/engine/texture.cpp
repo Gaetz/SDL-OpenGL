@@ -10,7 +10,8 @@ Texture2D::Texture2D()
 	glGenTextures(1, &id);
 }
 
-void Texture2D::generate(std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer> &surface)
+//void Texture2D::generate(std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer> &surface)
+void Texture2D::generate(SDL_Surface *surface)
 {
 	width = surface->w;
 	height = surface->h;

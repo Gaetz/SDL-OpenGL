@@ -38,9 +38,18 @@ void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
 
 	shader.setMatrix4("model", model);
 	shader.setVector3f("spriteColor", color);
+/*
+GLuint sampler=0;
+glGenSamplers(1, &sampler);
+glSamplerParameteri(sampler, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+const int texUnit=0;
+GLuint samplerUniform = glGetUniformLocation(shader.id, "image");
+glUniform1i(samplerUniform, texUnit);
+glUseProgram(0);*/
 
 	glActiveTexture(GL_TEXTURE0);
 	texture.setActive();
+//glBindSampler(texUnit, sampler);
 
 	vertexArray->setActive();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

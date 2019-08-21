@@ -77,6 +77,11 @@ void Shader::createShaderProgram(bool geometryShaderExists)
         LOG(Error) << "Could not link shader programme GL index " << id;
         printProgrammeInfoLog(id);
     }
+    if(!isValid(id)) 
+    {
+        LOG(Error) << "Could not validate shader" << id;
+    }
+
     // Delete shaders for they are no longer used
     glDeleteShader(vs);
     glDeleteShader(fs);

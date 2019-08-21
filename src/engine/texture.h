@@ -44,7 +44,9 @@ public:
 	Texture2D();
 
 	// Generates texture from image data
-	void generate(std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer> &surface);
+	void generate(SDL_Surface *surface);
+
+//	void generate(std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer> &surface);
 
 	// Binds the texture as the current active GL_TEXTURE_2D texture object
 	void setActive() const;

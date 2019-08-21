@@ -156,7 +156,6 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
         if (glDebugMessageControlARB != NULL) {
             glEnable                  (GL_DEBUG_OUTPUT_SYNCHRONOUS);
             glDebugMessageCallback ((GLDEBUGPROCARB)ETB_GL_ERROR_CALLBACK, NULL);
