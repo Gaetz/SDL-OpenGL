@@ -17,16 +17,15 @@ RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FI
 
 LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lglew32 -lzlib1 -lopengl32
 
-INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.7\include \
-	-I$(EXT_DIR)\SDL2-2.0.7\include \
+INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.10\include \
 	-I$(EXT_DIR)\SDL2_mixer-2.0.2\include \
-	-I$(EXT_DIR)\SDL2_ttf-2.0.14\include \
+	-I$(EXT_DIR)\SDL2_ttf-2.0.15\include \
 	-I$(EXT_DIR)\glew-2.1.0\include \
 	-I$(EXT_DIR)\glm-0.9.5
 
-LIB :=-L$(EXT_DIR)\SDL2-2.0.7\lib\x64 \
+LIB :=-L$(EXT_DIR)\SDL2-2.0.10\lib\x64 \
 	-L$(EXT_DIR)\SDL2_mixer-2.0.2\lib\x64 \
-	-L$(EXT_DIR)\SDL2_ttf-2.0.14\lib\x64 \
+	-L$(EXT_DIR)\SDL2_ttf-2.0.15\lib\x64 \
 	-L$(EXT_DIR)\glew-2.1.0\lib\Release\x64
 
 # Target, with all .o prerequisites

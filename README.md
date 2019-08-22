@@ -134,16 +134,15 @@ RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FI
 
 LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lglew32 -lzlib1 -lopengl32
 
-INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.7\include \
-	-I$(EXT_DIR)\SDL2-2.0.7\include \
+INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.10\include \
 	-I$(EXT_DIR)\SDL2_mixer-2.0.2\include \
-	-I$(EXT_DIR)\SDL2_ttf-2.0.14\include \
+	-I$(EXT_DIR)\SDL2_ttf-2.0.15\include \
 	-I$(EXT_DIR)\glew-2.1.0\include \
 	-I$(EXT_DIR)\glm-0.9.5
 
-LIB :=-L$(EXT_DIR)\SDL2-2.0.7\lib\x64 \
+LIB :=-L$(EXT_DIR)\SDL2-2.0.10\lib\x64 \
 	-L$(EXT_DIR)\SDL2_mixer-2.0.2\lib\x64 \
-	-L$(EXT_DIR)\SDL2_ttf-2.0.14\lib\x64 \
+	-L$(EXT_DIR)\SDL2_ttf-2.0.15\lib\x64 \
 	-L$(EXT_DIR)\glew-2.1.0\lib\Release\x64
 
 # Target, with all .o prerequisites
@@ -261,9 +260,10 @@ mingw32-make
 cd %buildDir%
 
 :: Copy dependencies
-if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
+if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll .
 if not exist %buildDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
-if not exist %buildDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
+if not exist %buildDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll .
+if not exist %buildDir%\zlib1.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\zlib1.dll .
 if not exist %buildDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
 
 popd
@@ -402,9 +402,9 @@ make release
 cd $releaseDir
 
 # Copy dependencies
-#if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
+#if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll .
 #if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
-#if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
+#if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll .
 #if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
 
 # Copy assets
@@ -444,9 +444,10 @@ mingw32-make release
 cd %releaseDir%
 
 :: Copy dependencies
-if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.7\lib\x64\SDL2.dll .
+if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll .
 if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
-if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.14\lib\x64\SDL2_ttf.dll .
+if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll .
+if not exist %releaseDir%\zlib1.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\zlib1.dll .
 if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
 
 :: Copy assets
@@ -488,9 +489,9 @@ Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must cont
                 "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include",
                 "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed",
                 "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/include",
-                "${workspaceRoot}/external/SDL2-2.0.7/include",
+                "${workspaceRoot}/external/SDL2-2.0.10/include",
                 "${workspaceRoot}/external/SDL2_mixer-2.0.2/include",
-                "${workspaceRoot}/external/SDL2_ttf-2.0.14/include",
+                "${workspaceRoot}/external/SDL2_ttf-2.0.15/include",
                 "${workspaceRoot}/external/glew-2.1.0/include",
                 "${workspaceRoot}/external/glm-0.9.5"
             ],
@@ -507,9 +508,9 @@ Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must cont
                     "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/include/*",
                     "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include",
                     "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed",
-                    "${workspaceRoot}/external/SDL2-2.0.7/include",
+                    "${workspaceRoot}/external/SDL2-2.0.10/include",
                     "${workspaceRoot}/external/SDL2_mixer-2.0.2/include",
-                    "${workspaceRoot}/external/SDL2_ttf-2.0.14/include",
+                    "${workspaceRoot}/external/SDL2_ttf-2.0.15/include",
                     "${workspaceRoot}/external/glew-2.1.0/include",
                     "${workspaceRoot}/external/glm-0.9.5"
                 ],
