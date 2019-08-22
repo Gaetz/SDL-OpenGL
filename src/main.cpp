@@ -1,19 +1,18 @@
 #include <string>
 #include <memory>
 
-#include "engine/log.h"
-#include "engine/game.h"
+#include "engine/timer.h"
 #include "engine/window.h"
-#include "engine/time.h"
+#include "engine/game.h"
 
 LogConfig LOG_CONFIG = {};
 
 
-int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
+int main(int argc, char *argv[])
 {
 	const std::string title = "Tetris";
-	const float SCREEN_WIDTH = 450;
-	const float SCREEN_HEIGHT = 680;
+	const int SCREEN_WIDTH = 450;
+	const int SCREEN_HEIGHT = 680;
 	
     // Init logging
     LOG_CONFIG.reporting_level = Debug;
@@ -38,11 +37,11 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	game.init(SCREEN_WIDTH, SCREEN_HEIGHT);
 	game.load();
 
-	Time time;
+	Timer timer;
 
 	// Game loop
 	while (game.isRunning) {
-		dt = time.computeDeltaTime();
+		dt = timer.computeDeltaTime();
 		window->updateFpsCounter(dt);
 
 		game.handleInputs();
@@ -53,7 +52,7 @@ int main( __attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 		window->swapBuffer();
 
 		// Delay frame if game runs too fast
-		time.delayTime();
+		timer.delayTime();
 	}
 
 	// Exit game

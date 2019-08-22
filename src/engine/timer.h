@@ -1,5 +1,5 @@
-#ifndef TIME_H
-#define TIME_H
+#ifndef TIMER_H
+#define TIMER_H
 
 #ifdef __linux__
 	#include <SDL2/SDL.h>
@@ -10,11 +10,11 @@
 // Hold time related functions.
 // In charge of computing the delta time and
 // ensure smooth game ticking.
-class Time
+class Timer
 {
 public:
-    Time();
-    virtual ~Time();
+    Timer();
+    virtual ~Timer();
 
     // Compute delta time as the number of milliseconds since last frame
     unsigned int computeDeltaTime();

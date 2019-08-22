@@ -1,4 +1,5 @@
 #include "input_manager.h"
+#include <cstring>
 
 InputManager::InputManager()
 {

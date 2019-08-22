@@ -1,14 +1,14 @@
-#include "time.h"
+#include "timer.h"
 
-Time::Time() : frameStart(0), lastFrame(0), frameTime(0)
+Timer::Timer() : frameStart(0), lastFrame(0), frameTime(0)
 {
 }
 
-Time::~Time()
+Timer::~Timer()
 {
 }
 
-unsigned int Time::computeDeltaTime()
+unsigned int Timer::computeDeltaTime()
 {
     frameStart = SDL_GetTicks();
     unsigned int dt = frameStart - lastFrame;
@@ -16,7 +16,7 @@ unsigned int Time::computeDeltaTime()
     return dt;
 }
 
-void Time::delayTime()
+void Timer::delayTime()
 {
     frameTime = SDL_GetTicks() - frameStart;
     if (frameTime < frameDelay) {

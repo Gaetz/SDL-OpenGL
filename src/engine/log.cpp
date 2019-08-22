@@ -1,4 +1,5 @@
 #include "log.h"
+#include <ctime>
 
 Log::Log()
 {

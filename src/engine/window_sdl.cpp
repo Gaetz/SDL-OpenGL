@@ -1,5 +1,5 @@
 #include "window_sdl.h"
-
+#include <algorithm>
 
 WindowSdl::WindowSdl(const std::string &title) : title(title),
                                            previousSeconds(0),
