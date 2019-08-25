@@ -1,42 +1,58 @@
 {
-    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
-    // Pointez pour afficher la description des attributs existants.
-    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "(Windows) Launch",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceRoot}/build/Tetris.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
-            "environment": [],
-            "externalConsole": true,
-            "preLaunchTask": "prepare-assets"
-        },
-        {
-            "name": "(Linux) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceRoot}/build/Tetris.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "miDebuggerPath": "/usr/bin/gdb",
-
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "prepare-assets"
-        },
-    ]
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "(Windows GCC) Launch",
+          "type": "cppdbg",
+          "request": "launch",
+          "program": "${workspaceRoot}/build/Tetris.exe",
+          "args": [],
+          "stopAtEntry": false,
+          "cwd": "${workspaceFolder}/build",
+          "environment": [],
+          "externalConsole": true,
+          "MIMode": "gdb",
+          "miDebuggerPath": "C:\\mingw-w64\\x86_64-7.3.0-posix-sjlj-rt_v5-rev0\\mingw64\\bin\\gdb.exe",
+          "setupCommands": [
+              {
+                  "description": "Enable pretty-printing for gdb",
+                  "text": "-enable-pretty-printing",
+                  "ignoreFailures": true
+              }
+          ],
+          "preLaunchTask": "prepare-assets"
+      },
+      {
+          "name": "(Windows CMake) Launch",
+          "type": "cppvsdbg",
+          "request": "launch",
+          "program": "${workspaceRoot}/build/Tetris.exe",
+          "args": [],
+          "stopAtEntry": false,
+          "cwd": "${workspaceFolder}/build",
+          "environment": [],
+          "externalConsole": true,
+          "preLaunchTask": "prepare-assets"
+      },
+      {
+          "name": "(Linux) Launch",
+          "type": "cppdbg",
+          "request": "launch",
+          "program": "${workspaceRoot}/build/Tetris.exe",
+          "args": [],
+          "stopAtEntry": false,
+          "cwd": "${workspaceFolder}/build",
+          "environment": [],
+          "externalConsole": true,
+          "MIMode": "gdb",
+          "setupCommands": [
+              {
+                  "description": "Enable pretty-printing for gdb",
+                  "text": "-enable-pretty-printing",
+                  "ignoreFailures": true
+              }
+          ],
+          "preLaunchTask": "prepare-assets"
+      },
+  ]
 }

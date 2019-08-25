@@ -2,7 +2,10 @@
 
 This is a SDL2 + OpenGL template, written in C++, that you can use as a starter for any project. MIT licensed.
 
-It is meant to be used in the days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts. This documentation is a tutorial to set up the scripts and visual code for smooth development, either on Linux or Windows.
+You can use two ways to compile it:
+- The classic days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts.
+- The esay way, with CMake, which will target an already present computer on your machine.
+This documentation is a tutorial to set up the scripts and visual code for smooth development, either on Linux or Windows.
 
 The code is a modest starter and provides some tools so you can build your game engine. A tetris game kata is provided as an illustration.
 
@@ -18,17 +21,18 @@ external/       // Libraries where will be taken files necessary for compilation
 release/        // Release game, not versioned
 resources/      // Files used to create game assets
 scripts/        // Build scripts (.bat/.sh files and makefile)
-src/            // Sources, separated in engine and game folder
+src/            // Sources, separated in engine and game folder + CMakeLists
 .gitignore      // Files we don't want to version
+CMakeLists.txt  // Root CMake file, manage dependencies
 LICENCE         // Your rights
 Readme.md       // This file ;)
 ```
 
-# Prerequisites
+# Librairies
 
 ## Linux: Get SDL2
 
-This tutorial is for Debian-distributions - I use Ubuntu and Linux-Mint. You can easily adapt it to other distros. You are a Linux user, after all.
+This tutorial is for Debian-distributions - I use LUbuntu and Linux-Mint. You can easily adapt it to other distros. You are a Linux user, after all.
 
 ```
 sudo apt install libsdl2-dev libsdl2-2.0-0 -y;
@@ -61,10 +65,26 @@ sudo apt install libglew-dev libglm-dev -y;
 
 ```
 
+## Windows
 
-## Windows: Installing mingw-w64
+Dependencies are already ready in the `external` folder.
 
-MinGW allow to use gcc on windows command prompt. MinGW-w64 is the 64 bits version. Go there: https://mingw-w64.org/doku.php/download and choose MingW-W64-builds.
+If you want more librairies, put them in the `external` folder.
+
+
+# Compile tools
+
+You need a way to compile C++. For Windows, if you want to use the handmade classic method, use `g++` with MingW, or use any compiler if you want to use CMake.
+
+## Linux : install any compiler
+
+`g++` or `clang` will do.
+
+## Windows: g++ with MingW-w64
+
+MinGW allow to use g++ on windows command prompt. It is required of you want to use the classic compilation mode.
+
+MinGW-w64 is the 64 bits version. Go there: https://mingw-w64.org/doku.php/download and choose MingW-W64-builds.
 
 Launch the installer. Choose:
 
@@ -86,29 +106,34 @@ e.g.: C:\mingw-w64\x86_64-7.3.0-posix-sjlj-rt_v5-rev0\mingw64\bin
 
 Open a promt and try g++ command.
 
-## Other dependencies
+## Windows : Microsoft compiler (MSVC)
 
-For Windows, SDL2 depencies are already present in the `external` folder.
+There are two ways to get MSVC:
+- If you don't want to install the BIG & HEAVY Visual studio, you can download Microsoft Build Tools. Look for them on the internet. You will land on a Visual Studio web page. Scroll to the bottom of the page, you will be able to download Microsoft Build Tools. You will save so giga-bytes.
+- If you are OK with Visual Studio taking some giga-bytes on your hard drive, install Visual Studio Community, which is free.
 
-Put your other dependencies in the `external` folder.
+## Option: install CMake
+
+If you want to use the easy way to setup your compilation, on multiple platforms, install CMake from http://cmake.org.
 
 
 # Scripts and makefile
 
-The `build` script will use a makefile to build only updated sources. Everything will be built to the `build` folder. This script also copy dlls to the `build` folder, so they can be used by the generated exe.
+The `build` script will use a makefile to build only updated sources. Everything will be built to the `build` folder. Not needed if you use CMake compilation.
 
-The makefile contains all includes and libs dependencies.
+The makefile contains all includes and libs dependencies. Not needed if you use CMake compilation.
 
 The `clean` script will empty the `build` folder to start over build if needed.
 
-The `assets` script will copy game assets to the `build` folder. It will be used before program launch.
+The `assets` script will copy game assets to the `build` folder. It will be used before program launch. This script also copy dlls to the `build` folder, so they can be used by the generated exe.
 
-The `release` script will use makefile release target to compile to the `release` folder, copy dlls, assets, then delete obj files. The `release` folder can be used to release the game.
+The `release` script will use makefile release target to compile to the `release` folder, copy dlls, assets, then delete obj files. The `release` folder can be used to release the game. Not needed if you use CMake compilation.
 
 This repository provides a `.sh` and a `.bat` version for each script, enabling their use either on Linux or on Windows.
 
+Following paragraphs will indicate for which compile option - classic, cmake or both - they are needed.
 
-## Makefile
+## Classic option: Makefile
 
 Create a `makefile` file in the `scripts` folder.
 
@@ -197,12 +222,11 @@ $(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	g++ -std=c++17 -O3 -Wall -Wextra -c -o $@ $<
 
 endif
-
 ```
 
 Note that you name the output exe file in this makefile.
 
-## Build script
+## Classic option: Build script
 
 Create a `build.bat` file for Windows, or a `build.sh` script for Linux, in the `scripts` folder.
 
@@ -223,6 +247,8 @@ fi
 objDir="$buildDir/obj"
 if [ ! -d "$objDir" ]; then
     mkdir $objDir
+    mkdir $objDir/engine
+    mkdir $objDir/game
 fi
 
 # Needed folders
@@ -247,7 +273,11 @@ pushd %buildDir%
 
 :: Create obj dir
 set objDir=.\obj
-if not exist %objDir% mkdir %objDir%
+if not exist %objDir% (
+    mkdir %objDir%
+    mkdir %objDir%\engine
+    mkdir %objDir%\game
+)
 
 :: Needed folders
 set extDir=%~dp0..\external
@@ -257,19 +287,10 @@ set scriptDir=%~dp0..\scripts
 cd %scriptDir%\
 mingw32-make
 
-cd %buildDir%
-
-:: Copy dependencies
-if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll .
-if not exist %buildDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
-if not exist %buildDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll .
-if not exist %buildDir%\zlib1.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\zlib1.dll .
-if not exist %buildDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
-
 popd
 ```
 
-## Clean script
+## Both option: Clean script
 
 Create a `clean.bat` file (Windows), or a `clean.sh` file (Linux), in the `scripts` folder.
 
@@ -331,9 +352,9 @@ if exist %releaseDir% (
 )
 ```
 
-## Asset copy script
+## Both options: Asset copy script
 
-This script will copy game assets to the `build` folder.
+This script will copy game assets and dependencies to the `build` folder.
 
 Create a `assets.bat` (Windows) file, or a `assets.sh` (Linux) file in the `scripts` folder.
 
@@ -356,18 +377,25 @@ cd $dot
 
 assets.bat
 ```
-@echo off
-
 set buildDir=%~dp0..\build
 set assetsDir=%~dp0..\assets
+set extDir=%~dp0..\external
+
+:: Copy dependencies
+if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll %buildDir%
+if not exist %buildDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll %buildDir%
+if not exist %buildDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll %buildDir%
+if not exist %buildDir%\zlib1.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\zlib1.dll %buildDir%
+if not exist %buildDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll %buildDir%
 
 :: Copy assets
 if not exist %buildDir%\assets mkdir %buildDir%\assets
 xcopy /y /s %assetsDir% %buildDir%\assets
-
 ```
 
-## Release script
+## Classic option: Release script
+
+WIP, NOT UPDATED
 
 This script will prepare game for release. Game will be compiled ready to ship into the `release` folder.
 
@@ -464,11 +492,73 @@ popd
 
 ```
 
+## CMake option: CMake lists
+
+First create a `CMakeLists.txt` file in the root folder of your workspace. It will contain CMake config, includes and dependencies.
+
+Root `CMakeLists.txt`
+```
+cmake_minimum_required(VERSION 3.1.0)
+project(Tetris VERSION 0.1.0)
+
+include(CTest)
+enable_testing()
+
+# Includes and libraries
+set(SDL2_DIR ${CMAKE_SOURCE_DIR}/external/SDL2-2.0.10)
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+set(GLEW_DIR ${CMAKE_SOURCE_DIR}/external/glew-2.1.0)
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
+
+set(GLM_DIR ${CMAKE_SOURCE_DIR}/external/glm-0.9.5)
+include_directories(${GLM_DIR})
+
+find_package(OpenGL)
+
+# subdirectories
+add_subdirectory( src/engine )
+add_subdirectory( src/game )
+
+# Executable and link
+add_executable(Tetris src/main.cpp)
+target_link_libraries(Tetris engine game ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_gl_LIBRARY})
+
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+```
+
+Then create two `CMakeLists.txt` files, one in the `src/engine` folder, one in the `src/game` folder.
+
+src/engine `CMakeLists.txt`
+```
+file( GLOB engine_SOURCES *.cpp )
+add_library( engine ${engine_SOURCES} )
+target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${GLM_INCLUDE_DIR})
+```
+
+src/game `CMakeLists.txt`
+```
+file( GLOB game_SOURCES *.cpp )
+add_library( game ${game_SOURCES} )
+target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+```
+
+The first file will use the other CMake lists to compile the content of each folder.
+
+
 # VS Code configuration
 
-## Cpp extension
+## Extension
 
 Install the C/C++ extension from Microsoft.
+
+If you want to use CMake, also install CMake Extension, CMake Tools and CMake Tools Helper on Visual Studio code.
+
 
 ## Cpp configuration
 
@@ -518,8 +608,7 @@ Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must cont
                 "databaseFilename": ""
             },
             "cStandard": "c11",
-            "cppStandard": "c++17",
-            "compilerPath": "/usr/bin/clang"
+            "cppStandard": "c++17"
         },
         {
             "name": "Linux",
@@ -619,9 +708,9 @@ Ctrl + Shift + p, config default build task.
             "label": "prepare-assets",
             "type": "shell",
             "windows": {
-                "command": "",
+                "command": "./scripts/assets",
                 "args": [
-                    "./scripts/assets"
+                    ""
                 ]
             },
             "linux": {
@@ -688,13 +777,10 @@ Ctrl + Shift + p, open `launch.json`
 
 ```
 {
-    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
-    // Pointez pour afficher la description des attributs existants.
-    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch",
+            "name": "(Windows GCC) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/build/Tetris.exe",
@@ -712,6 +798,18 @@ Ctrl + Shift + p, open `launch.json`
                     "ignoreFailures": true
                 }
             ],
+            "preLaunchTask": "prepare-assets"
+        },
+        {
+            "name": "(Windows CMake) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/Tetris.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": true,
             "preLaunchTask": "prepare-assets"
         },
         {
@@ -759,9 +857,11 @@ We don't need `build` and `release` folders. Thus we create a `.gitignore` file 
 # Builds
 build/
 release/
-
+.vscode/ipch
 ```
 
 # Try your game
 
-Build with ctrl + shift + b then launch with F5.
+Build you game with Ctrl + Shift + B for the classic compile mode, or with F7 for the CMake mode.
+
+Launch with F5.

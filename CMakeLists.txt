@@ -19,7 +19,6 @@ include_directories(${GLM_DIR})
 find_package(OpenGL)
 
 # subdirectories
-#include_directories(src src/engine src/game)
 add_subdirectory( src/engine )
 add_subdirectory( src/game )
 
