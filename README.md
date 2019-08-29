@@ -206,7 +206,7 @@ RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FI
 LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lGLEW  -lGLU -lGL
 
 # Target, with all .o prerequisites
-Tetris.exe: $(OBJ_FILES)
+Tetris: $(OBJ_FILES)
 	g++ -g -o $(BUILD_DIR)/$@ $^ $(LIBRAIRIES)
 
 # Each .o file finds his .cpp counterpart
@@ -215,7 +215,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Release target
 release: $(RELEASE_OBJ_FILES)
-	g++ -O3 -mwindows -o $(RELEASE_DIR)\Tetris.exe $^
+	g++ -O3 -mwindows -o $(RELEASE_DIR)\Tetris $^
 
 # Each .o file finds his .cpp counterpart, with optimisations
 $(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -505,15 +505,18 @@ include(CTest)
 enable_testing()
 
 # Includes and libraries
-set(SDL2_DIR ${CMAKE_SOURCE_DIR}/external/SDL2-2.0.10)
+if (WIN32)
+    set(SDL2_DIR ${CMAKE_SOURCE_DIR}/external/SDL2-2.0.10)
+    set(GLEW_DIR ${CMAKE_SOURCE_DIR}/external/glew-2.1.0)
+    set(GLM_DIR ${CMAKE_SOURCE_DIR}/external/glm-0.9.5)
+endif (WIN32)
+
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-set(GLEW_DIR ${CMAKE_SOURCE_DIR}/external/glew-2.1.0)
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
-set(GLM_DIR ${CMAKE_SOURCE_DIR}/external/glm-0.9.5)
 include_directories(${GLM_DIR})
 
 find_package(OpenGL)
@@ -524,7 +527,7 @@ add_subdirectory( src/game )
 
 # Executable and link
 add_executable(Tetris src/main.cpp)
-target_link_libraries(Tetris engine game ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_gl_LIBRARY})
+target_link_libraries(Tetris game engine ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_gl_LIBRARY})
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
@@ -816,7 +819,7 @@ Ctrl + Shift + p, open `launch.json`
             "name": "(Linux) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/Tetris.exe",
+            "program": "${workspaceRoot}/build/Tetris",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",

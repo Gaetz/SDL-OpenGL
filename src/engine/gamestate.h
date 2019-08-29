@@ -4,7 +4,7 @@
 #include "renderer_sprite.h"
 #include "renderer_geometry.h"
 #include "game.h"
-#include "input_manager.h"
+#include "input_state.h"
 
 // Interface for scenes
 class GameState {

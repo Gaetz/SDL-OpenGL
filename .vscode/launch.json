@@ -38,7 +38,7 @@
           "name": "(Linux) Launch",
           "type": "cppdbg",
           "request": "launch",
-          "program": "${workspaceRoot}/build/Tetris.exe",
+          "program": "${workspaceRoot}/build/Tetris",
           "args": [],
           "stopAtEntry": false,
           "cwd": "${workspaceFolder}/build",

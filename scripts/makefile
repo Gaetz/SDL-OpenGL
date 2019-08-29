@@ -64,7 +64,7 @@ RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FI
 LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lGLEW  -lGLU -lGL
 
 # Target, with all .o prerequisites
-Tetris.exe: $(OBJ_FILES)
+Tetris: $(OBJ_FILES)
 	g++ -g -o $(BUILD_DIR)/$@ $^ $(LIBRAIRIES)
 
 # Each .o file finds his .cpp counterpart
@@ -73,7 +73,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Release target
 release: $(RELEASE_OBJ_FILES)
-	g++ -O3 -mwindows -o $(RELEASE_DIR)\Tetris.exe $^
+	g++ -O3 -mwindows -o $(RELEASE_DIR)\Tetris $^
 
 # Each .o file finds his .cpp counterpart, with optimisations
 $(RELEASE_OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp

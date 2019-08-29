@@ -1,13 +1,7 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include "input_keyboard_state.h"
-
-
-struct InputState
-{
-	KeyboardState keyboardState;
-};
+#include "input_state.h"
 
 class InputManager
 {

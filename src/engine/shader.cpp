@@ -257,7 +257,11 @@ void Shader::printAllParams(GLuint id)
             for (int j = 0; j < size; j++)
             {
                 char long_name[77];
+#if __linux__
+                sprintf(long_name, "%s[%i]", name, j);
+#else
                 sprintf_s(long_name, "%s[%i]", name, j);
+#endif
                 int location = glGetAttribLocation(id, long_name);
                 LOG(Info) << "  " << i << ") type:" << GLTypeToString(type) << " name:" << long_name << " location:" << location;
             }

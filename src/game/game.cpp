@@ -1,9 +1,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "game.h"
-#include "resource_manager.h"
-#include "gamestate.h"
-#include "../game/gamestate_main.h"
+#include "../engine/game.h"
+#include "../engine/resource_manager.h"
+#include "../engine/gamestate.h"
+#include "gamestate_main.h"
 
 Game::Game() : isRunning(false),
 			   windowWidth(0),
