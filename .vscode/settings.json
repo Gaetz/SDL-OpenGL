@@ -61,7 +61,11 @@
         "cwctype": "cpp",
         "cinttypes": "cpp",
         "optional": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "atomic": "cpp",
+        "deque": "cpp",
+        "algorithm": "cpp",
+        "memory_resource": "cpp"
     },
     "cmake.configureOnOpen": true
 }

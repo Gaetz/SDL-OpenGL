@@ -51,6 +51,21 @@ private:
     double currentSeconds;
     int frameCount;
 
+    /*
+    void debugGlErrorCallback(  GLenum        source,
+                                GLenum        type,
+                                GLuint        id,
+                                GLenum        severity,
+                                GLsizei       length,
+                                const GLchar* message,
+                                GLvoid*       userParam);
+
+    const char* debugGlSeverityToStr(GLenum severity);
+    const char* debugGlTypeToStr(GLenum type);
+    const char* debugGlSourceToStr(GLenum source);
+    */
+
+
     WindowSdl();
     WindowSdl(const WindowSdl &);
     WindowSdl &operator=(const WindowSdl &);

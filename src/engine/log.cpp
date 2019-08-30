@@ -1,5 +1,6 @@
 #include "log.h"
 #include <ctime>
+#include <iostream>
 
 Log::Log()
 {
@@ -10,7 +11,7 @@ Log::~Log()
 {
     os << std::endl;
     file << os.str();
-    printf(os.str().c_str());
+    std::cout << os.str();
     os.clear();
     file.close();
 }
