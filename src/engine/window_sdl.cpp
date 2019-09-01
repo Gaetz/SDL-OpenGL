@@ -27,8 +27,8 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         LOG(Info) << "Subsystems initialised";
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -63,6 +63,13 @@ bool WindowSdl::init(int xPos, int yPos, int width, int height, bool isFullscree
         }
         else
             return false;
+
+        
+        // Get graphics info
+        const GLubyte *renderer = glGetString(GL_RENDERER);
+        const GLubyte *version = glGetString(GL_VERSION);
+        LOG(Info) << "Renderer: " << renderer;
+        LOG(Info) << "OpenGL version supported " << version;
 
         glViewport(0, 0, width, height);
         glEnable(GL_CULL_FACE);
@@ -149,7 +156,11 @@ void WindowSdl::updateFpsCounter(long dt)
         previousSeconds = currentSeconds;
         char tmp[128];
         double fps = (double)frameCount / elapsedSeconds;
+#if __linux__
         sprintf(tmp, "%s @ fps: %.2f", title.c_str(), fps);
+#else
+        sprintf_s(tmp, "%s @ fps: %.2f", title.c_str(), fps);
+#endif
         SDL_SetWindowTitle(window.get(), tmp);
         frameCount = 0;
     }

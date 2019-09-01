@@ -236,12 +236,19 @@ int main( int argc, char* args[] )
 #include <string>
 #include <memory>
 
+
 #include "engine/timer.h"
 #include "engine/window.h"
 #include "engine/game.h"
 
 LogConfig LOG_CONFIG = {};
 
+// Use Graphics Card
+#define DWORD unsigned int
+extern "C" {  
+  __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+  __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
 
 int main(int argc, char *argv[])
 {
