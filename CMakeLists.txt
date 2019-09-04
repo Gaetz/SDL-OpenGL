@@ -26,6 +26,7 @@ add_subdirectory( src/engine )
 add_subdirectory( src/game )
 
 # Executable and link
+string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 add_executable(Tetris src/main.cpp)
 target_link_libraries(Tetris game engine ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_gl_LIBRARY})
 
