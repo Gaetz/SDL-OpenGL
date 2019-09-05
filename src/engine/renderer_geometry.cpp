@@ -1,6 +1,7 @@
 #include "renderer_geometry.h"
 #include <glm/gtc/matrix_transform.hpp>
 
+/*
 static GLfloat vertexBuffer[] = {
 	-0.5f, 0.5f, 0.0f,  0.0f, 1.0f, // top left + vertically inverted texture
 	 0.5f, 0.5f, 0.0f,  1.0f, 1.0f, // top right
@@ -12,10 +13,28 @@ static GLuint indexBuffer[] = {
 	0, 1, 2, // first Triangle
 	2, 3, 0  // second Triangle
 };
+*/
+
+static std::array<GLfloat, 18> vertexBuffer = {
+    -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f,
+    0.5f, 0.5f, 0.0f,
+
+    0.5f, 0.5f, 0.0f,
+    -0.5f, 0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f
+};
+
+static std::array<GLfloat, 12> texBuffer = {
+    0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 0.0f,
+    1.0f, 0.0f, 0.0f
+};
 
 GeometryRenderer::GeometryRenderer(const Shader &shader): shader(shader)
 {
-	vertexArray = std::make_unique<VertexArray>(vertexBuffer, 4, indexBuffer, 6);
+	vertexArray = std::make_unique<VertexArray>(vertexBuffer, texBuffer);
 }
 
 GeometryRenderer::~GeometryRenderer()
@@ -37,6 +56,8 @@ void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rota
 	shader.setVector4f("vertexColor", color);
 
 	vertexArray->setActive();
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	//glBindVertexArray(0); // no need to unbind it every time
 }

@@ -67,5 +67,6 @@
         "algorithm": "cpp",
         "memory_resource": "cpp"
     },
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "C_Cpp.configurationWarnings": "Disabled"
 }

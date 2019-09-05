@@ -1,0 +1,81 @@
+#include "renderer_test.h"
+#include <array>
+
+static std::array<GLfloat, 18> vertexBuffer = {
+    -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f,
+    0.5f, 0.5f, 0.0f,
+
+    0.5f, 0.5f, 0.0f,
+    -0.5f, 0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f
+};
+
+static std::array<GLfloat, 12> texcoords = {
+    0.0f, 0.0f, 1.0f,
+    0.0f, 1.0f, 1.0f,
+    1.0f, 1.0f, 0.0f,
+    1.0f, 0.0f, 0.0f
+};
+
+
+TestRenderer::TestRenderer(const Shader &shader) : 
+    shader(shader)
+{
+    vertexArray = new VertexArray(vertexBuffer, texcoords);
+    /*GLuint vertexBufferId = 0;
+    glGenBuffers(1, &vertexBufferId);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexBuffer), vertexBuffer, GL_STATIC_DRAW);
+
+    
+    GLuint vt_vbo;
+    glGenBuffers(1, &vt_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vt_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texcoords), texcoords, GL_STATIC_DRAW);
+
+
+//    GLuint indexBufferId;
+//    glGenBuffers(1, &indexBufferId);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GL_UNSIGNED_INT), indexBuffer, GL_STATIC_DRAW);
+
+
+    vao = 0;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void*)0);
+
+    int dimensions = 2; // 2d data for texture coords
+    glBindBuffer(GL_ARRAY_BUFFER, vt_vbo);
+    glVertexAttribPointer(1, dimensions, GL_FLOAT, GL_FALSE, 0, NULL);
+    //glBindBuffer(GL_ARRAY_BUFFER, indexBufferId);
+    //glVertexAttribPointer(1, dimensions, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), reinterpret_cast<void*>(sizeof(GL_FLOAT)*3));
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);*/
+}
+
+TestRenderer::~TestRenderer()
+{
+    delete vertexArray;
+}
+
+void TestRenderer::draw(const Texture2D &texture)
+{
+    shader.use();
+    glm::mat4 matrix( 1.0f );
+    shader.setMatrix4("matrix", matrix);
+    //glBindVertexArray(vao);
+    vertexArray->setActive();
+
+    glActiveTexture(GL_TEXTURE0);
+    texture.setActive();
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+	//vertexArray->setActive();
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}

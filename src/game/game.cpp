@@ -29,6 +29,7 @@ void Game::load()
 	// Load shaders
 	ResourceManager::loadShader("assets/shaders/sprite.vert", "assets/shaders/sprite.frag", "", "sprite");
 	ResourceManager::loadShader("assets/shaders/rect.vert", "assets/shaders/rect.frag", "", "rect");
+	ResourceManager::loadShader("assets/shaders/test.vert", "assets/shaders/test.frag", "", "test");
 	// Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
 	ResourceManager::getShader("sprite").use();
@@ -39,9 +40,10 @@ void Game::load()
 	// Set render-specific controls
 	sRenderer = std::make_shared<SpriteRenderer>(ResourceManager::getShader("sprite"));
 	gRenderer = std::make_shared<GeometryRenderer>(ResourceManager::getShader("rect"));
+	testRenderer = std::make_shared<TestRenderer>(ResourceManager::getShader("test"));
 
 	// Game state
-	changeState(std::make_unique<GameStateMain>(sRenderer, gRenderer));
+	changeState(std::make_unique<GameStateMain>(sRenderer, gRenderer, testRenderer));
 }
 
 void Game::handleInputs()

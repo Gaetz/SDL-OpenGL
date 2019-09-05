@@ -15,6 +15,7 @@
 #include "shader.h"
 #include "renderer_sprite.h"
 #include "renderer_geometry.h"
+#include "renderer_test.h"
 
 class GameState;
 
@@ -46,6 +47,7 @@ private:
 	std::unique_ptr<InputManager> inputManager;
 	std::shared_ptr<SpriteRenderer> sRenderer;
 	std::shared_ptr<GeometryRenderer> gRenderer;
+	std::shared_ptr<TestRenderer> testRenderer;
 	std::vector<std::unique_ptr<GameState>> gameStates;
 };
 

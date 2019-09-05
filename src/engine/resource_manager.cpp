@@ -99,6 +99,11 @@ Texture2D ResourceManager::loadTextureFromFile(const std::string& file)
 	// Create Texture object
 	Texture2D texture;
 
+	texture.load(file);
+
+/*
+
+
 	// Load image
 	//auto surface = std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer>(SDL_LoadBMP(file.c_str()));
 	auto surface = SDL_LoadBMP(file.c_str());
@@ -121,10 +126,10 @@ Texture2D ResourceManager::loadTextureFromFile(const std::string& file)
 		texture.internalFormat = GL_RGB;
 		texture.imageFormat = GL_RGB;
 	}
-
+*/
 	// Now generate texture
-	texture.generate(surface);
+	texture.generate();
 	// And finally return texture
-	SDL_FreeSurface(surface);
+	//SDL_FreeSurface(surface);
 	return texture;
 }

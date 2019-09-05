@@ -14,7 +14,8 @@ class GameStateMain : public GameState
 public:
 	GameStateMain(
 		std::shared_ptr<SpriteRenderer>, 
-		std::shared_ptr<GeometryRenderer>
+		std::shared_ptr<GeometryRenderer>,
+		std::shared_ptr<TestRenderer>
 	);
 	virtual ~GameStateMain();
 
@@ -41,6 +42,8 @@ private:
 
 	std::shared_ptr<SpriteRenderer> sRenderer;
 	std::shared_ptr<GeometryRenderer> gRenderer;
+	std::shared_ptr<TestRenderer> testRenderer;
+
 	Game *game;
 	Pieces *pieces;
 	Board *board;

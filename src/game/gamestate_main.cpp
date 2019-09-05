@@ -6,8 +6,9 @@
 
 GameStateMain::GameStateMain(
 		std::shared_ptr<SpriteRenderer> _sRenderer, 
-		std::shared_ptr<GeometryRenderer> _gRenderer
-	) : sRenderer(std::move(_sRenderer)), gRenderer(std::move(_gRenderer))
+		std::shared_ptr<GeometryRenderer> _gRenderer,
+		std::shared_ptr<TestRenderer> _testRenderer
+	) : sRenderer(std::move(_sRenderer)), gRenderer(std::move(_gRenderer)), testRenderer(std::move(_testRenderer))
 {
 }
 
@@ -31,8 +32,9 @@ void GameStateMain::load()
 	rotateKey = SDL_SCANCODE_UP;
 	fallKey = SDL_SCANCODE_DOWN;
 
-	ResourceManager::loadTexture("./assets/textures/tile.bmp", "tile");
-	ResourceManager::loadTexture("./assets/textures/tile_fall.bmp", "tile_fall");
+	ResourceManager::loadTexture("./assets/textures/tile.png", "tile");
+	ResourceManager::loadTexture("./assets/textures/tile_fall.png", "tile_fall");
+	ResourceManager::loadTexture("./assets/textures/wall.png", "wall");
 	pieces = new Pieces();
 	board = new Board(pieces, game->windowHeight);
 	board->initBoard();
@@ -129,9 +131,12 @@ void GameStateMain::update(unsigned int dt)
 
 void GameStateMain::draw()
 {
+	testRenderer->draw(ResourceManager::getTexture("wall"));
+
 	drawBoard();
 	drawPiece(currentPiece);
 	drawPiece(nextPiece);
+
 }
 
 void GameStateMain::createNewPiece()
