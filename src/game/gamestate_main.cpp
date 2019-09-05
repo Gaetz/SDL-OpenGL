@@ -131,8 +131,9 @@ void GameStateMain::update(unsigned int dt)
 
 void GameStateMain::draw()
 {
-	testRenderer->draw(ResourceManager::getTexture("wall"), glm::vec2(0.f), glm::vec2(100.f), 0.f);
-
+	sRenderer->drawSprite(ResourceManager::getTexture("tile_fall"),
+										glm::vec2(0.f, -100.f),
+										glm::vec2(25, 25), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 	drawBoard();
 	drawPiece(currentPiece);
 	drawPiece(nextPiece);
