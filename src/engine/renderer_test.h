@@ -13,7 +13,8 @@ public:
 	TestRenderer(const Shader& shader);
 	~TestRenderer();
 
-	void draw(const Texture2D& texture);
+	void draw(const Texture2D& texture, glm::vec2 position,
+	glm::vec2 size, GLfloat rotate);
 
 private:
 	Shader shader;

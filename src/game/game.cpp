@@ -5,6 +5,8 @@
 #include "../engine/gamestate.h"
 #include "gamestate_main.h"
 
+#include "../engine/math.h"
+
 Game::Game() : isRunning(false),
 			   windowWidth(0),
 			   windowHeight(0)
@@ -31,12 +33,15 @@ void Game::load()
 	ResourceManager::loadShader("assets/shaders/rect.vert", "assets/shaders/rect.frag", "", "rect");
 	ResourceManager::loadShader("assets/shaders/test.vert", "assets/shaders/test.frag", "", "test");
 	// Configure shaders
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
+	//glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
+	Matrix4 projection = Matrix4::CreateSimpleViewProj(windowWidth, windowHeight);
 	ResourceManager::getShader("sprite").use();
-	ResourceManager::getShader("sprite").setInteger("image", 0);
+	//ResourceManager::getShader("sprite").setInteger("image", 0);
 	ResourceManager::getShader("sprite").setMatrix4("projection", projection);
 	ResourceManager::getShader("rect").use();
 	ResourceManager::getShader("rect").setMatrix4("projection", projection);
+	ResourceManager::getShader("test").use();
+	ResourceManager::getShader("test").setMatrix4("projection", projection);
 	// Set render-specific controls
 	sRenderer = std::make_shared<SpriteRenderer>(ResourceManager::getShader("sprite"));
 	gRenderer = std::make_shared<GeometryRenderer>(ResourceManager::getShader("rect"));

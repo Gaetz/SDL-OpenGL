@@ -131,7 +131,7 @@ void GameStateMain::update(unsigned int dt)
 
 void GameStateMain::draw()
 {
-	testRenderer->draw(ResourceManager::getTexture("wall"));
+	testRenderer->draw(ResourceManager::getTexture("wall"), glm::vec2(0.f), glm::vec2(100.f), 0.f);
 
 	drawBoard();
 	drawPiece(currentPiece);

@@ -1,5 +1,9 @@
 #include "renderer_test.h"
 #include <array>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "math.h"
+
 
 static std::array<GLfloat, 18> vertexBuffer = {
     -0.5f, -0.5f, 0.0f,
@@ -63,15 +67,39 @@ TestRenderer::~TestRenderer()
     delete vertexArray;
 }
 
-void TestRenderer::draw(const Texture2D &texture)
+void TestRenderer::draw(const Texture2D &texture, glm::vec2 position,
+	glm::vec2 size, GLfloat rotate)
 {
     shader.use();
+    /*
     glm::mat4 matrix( 1.0f );
-    shader.setMatrix4("matrix", matrix);
+    
+	glm::mat4 model;
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+
+	model = glm::scale(model, glm::vec3(size, 1.0f));
+    */
+
+    Matrix4 scaleMat = Matrix4::CreateScale(
+                static_cast<float>(texture.width),
+                static_cast<float>(texture.height),
+                1.0f);
+
+    Matrix4 mWorldTransform = Matrix4::CreateScale(Vector3(size.x, size.y, 1));
+	mWorldTransform *= Matrix4::CreateRotationZ(rotate);
+	mWorldTransform *= Matrix4::CreateTranslation(Vector3(position.x, position.y, 0.0f));
+
+    Matrix4 model = scaleMat * mWorldTransform;
+
+    shader.setMatrix4("model", model);
     //glBindVertexArray(vao);
     vertexArray->setActive();
 
-    glActiveTexture(GL_TEXTURE0);
+    //glActiveTexture(GL_TEXTURE0);
     texture.setActive();
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
