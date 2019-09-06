@@ -65,7 +65,9 @@
         "atomic": "cpp",
         "deque": "cpp",
         "algorithm": "cpp",
-        "memory_resource": "cpp"
+        "memory_resource": "cpp",
+        "ctgmath": "cpp"
     },
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "C_Cpp.configurationWarnings": "Disabled"
 }

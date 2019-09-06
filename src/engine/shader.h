@@ -11,6 +11,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
 
+#include "maths.h"
+
 // General purpose shader object. Compiles from file, generates
 // compile/link-time error messages and hosts several utility 
 // functions for easy management.
@@ -42,7 +44,7 @@ public:
 	void setVector3f(const GLchar *name, const glm::vec3 &value);
 	void setVector4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 	void setVector4f(const GLchar *name, const glm::vec4 &value);
-	void setMatrix4(const GLchar *name, const glm::mat4 &matrix);
+	void setMatrix4(const GLchar *name, const Matrix4/*glm::mat4*/ &matrix);
 
 private:
 	// Checks if compilation or linking failed and if so, print the error logs

@@ -41,6 +41,7 @@ private:
 
 	std::shared_ptr<SpriteRenderer> sRenderer;
 	std::shared_ptr<GeometryRenderer> gRenderer;
+
 	Game *game;
 	Pieces *pieces;
 	Board *board;

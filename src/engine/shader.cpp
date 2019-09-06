@@ -123,10 +123,16 @@ void Shader::setVector4f(const GLchar *name, const glm::vec4 &value)
 {
 	glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
 }
+void Shader::setMatrix4(const GLchar *name, const Matrix4 &matrix)
+{
+	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.GetAsFloatPtr());
+}
+/*
 void Shader::setMatrix4(const GLchar *name, const glm::mat4 &matrix)
 {
 	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
+*/
 
 /*
 void Shader::checkCompileErrors(GLuint object, std::string type)

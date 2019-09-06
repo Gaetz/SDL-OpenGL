@@ -31,8 +31,8 @@ void GameStateMain::load()
 	rotateKey = SDL_SCANCODE_UP;
 	fallKey = SDL_SCANCODE_DOWN;
 
-	ResourceManager::loadTexture("./assets/textures/tile.bmp", "tile");
-	ResourceManager::loadTexture("./assets/textures/tile_fall.bmp", "tile_fall");
+	ResourceManager::loadTexture("./assets/textures/tile.png", "tile");
+	ResourceManager::loadTexture("./assets/textures/tile_fall.png", "tile_fall");
 	pieces = new Pieces();
 	board = new Board(pieces, game->windowHeight);
 	board->initBoard();
@@ -47,7 +47,7 @@ void GameStateMain::load()
 	nextPiece.kind = getRand(0, 6);
 	nextPiece.rotation = getRand(0, 3);
 	nextPiece.x = BOARD_WIDTH / 2 + pieces->getXInitialPosition(nextPiece.kind, nextPiece.rotation);
-	nextPiece.y = -7;
+	nextPiece.y = 20;
 }
 
 void GameStateMain::clean()
@@ -82,9 +82,9 @@ void GameStateMain::handleEvent(const InputState &inputState)
 	if (inputState.keyboardState.isJustPressed(SDL_Scancode(fallKey)))
 	{
 
-		while (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, currentPiece.rotation))
+		while (board->isPossibleMovement(currentPiece.x, currentPiece.y - 1, currentPiece.kind, currentPiece.rotation))
 		{
-			currentPiece.y++;
+			currentPiece.y--;
 		}
 		board->storePiece(currentPiece.x, currentPiece.y, currentPiece.kind, currentPiece.rotation);
 		board->deletePossibleLines();
@@ -98,7 +98,7 @@ void GameStateMain::handleEvent(const InputState &inputState)
 	// Rotation
 	if (inputState.keyboardState.isJustPressed(SDL_Scancode(rotateKey)))
 	{
-		if (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, (currentPiece.rotation + 1) % 4))
+		if (board->isPossibleMovement(currentPiece.x, currentPiece.y - 1, currentPiece.kind, (currentPiece.rotation + 1) % 4))
 			currentPiece.rotation = (currentPiece.rotation + 1) % 4;
 	}
 }
@@ -108,9 +108,9 @@ void GameStateMain::update(unsigned int dt)
 	counter += dt;
 	if (counter >= SPEED)
 	{
-		if (board->isPossibleMovement(currentPiece.x, currentPiece.y + 1, currentPiece.kind, currentPiece.rotation))
+		if (board->isPossibleMovement(currentPiece.x, currentPiece.y - 1, currentPiece.kind, currentPiece.rotation))
 		{
-			currentPiece.y++;
+			currentPiece.y--;
 		}
 		else
 		{
@@ -190,7 +190,7 @@ void GameStateMain::drawBoard()
 			// Check if the block is filled, if so, draw it
 			if (!board->isFreeBlock(i, j))
 				sRenderer->drawSprite(ResourceManager::getTexture("tile"),
-									  glm::vec2(left + i * BLOCK_SIZE, height + j * BLOCK_SIZE),
+									  glm::vec2(left + i * BLOCK_SIZE, j * BLOCK_SIZE),
 									  glm::vec2(25, 25), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 		}
 	}
