@@ -2,7 +2,7 @@
 #include <array>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "math.h"
+#include "maths.h"
 
 
 static std::array<GLfloat, 18> vertexBuffer = {

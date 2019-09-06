@@ -1,6 +1,6 @@
 #include "renderer_geometry.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "math.h"
+#include "maths.h"
 
 /*
 static GLfloat vertexBuffer[] = {
@@ -57,7 +57,7 @@ void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rota
 
     Matrix4 mWorldTransform = Matrix4::CreateScale(Vector3(size.x, size.y, 1));
 	mWorldTransform *= Matrix4::CreateRotationZ(rotate);
-	mWorldTransform *= Matrix4::CreateTranslation(Vector3(position.x, position.y, 0.0f));
+	mWorldTransform *= Matrix4::CreateTranslation(Vector3(position.x + size.x / 2, position.y, 0.0f));
 
     Matrix4 model = mWorldTransform;
 	shader.setMatrix4("model", model);

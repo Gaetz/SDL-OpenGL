@@ -5,7 +5,7 @@
 #include "../engine/gamestate.h"
 #include "gamestate_main.h"
 
-#include "../engine/math.h"
+#include "../engine/maths.h"
 
 Game::Game() : isRunning(false),
 			   windowWidth(0),
@@ -31,24 +31,23 @@ void Game::load()
 	// Load shaders
 	ResourceManager::loadShader("assets/shaders/sprite.vert", "assets/shaders/sprite.frag", "", "sprite");
 	ResourceManager::loadShader("assets/shaders/rect.vert", "assets/shaders/rect.frag", "", "rect");
-	ResourceManager::loadShader("assets/shaders/test.vert", "assets/shaders/test.frag", "", "test");
+	// Compute projection matrix
+	float fWindowWidth = static_cast<float>(windowWidth);
+	float fWindowHeight = static_cast<float>(windowHeight);
+	Matrix4 projection = Matrix4::CreateOrtho(fWindowWidth, fWindowHeight, -1.0f, 1.0f);
+	Matrix4 twoDimTranslation = Matrix4::CreateTranslation(Vector3(-fWindowWidth / 2.f, -fWindowHeight / 2.f, 0.0f));
+	Matrix4 finalProjection = twoDimTranslation * projection;
 	// Configure shaders
-	//glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(windowWidth), static_cast<GLfloat>(windowHeight), 0.0f, -1.0f, 1.0f);
-	Matrix4 projection = Matrix4::CreateSimpleViewProj(windowWidth, windowHeight);
 	ResourceManager::getShader("sprite").use();
-	//ResourceManager::getShader("sprite").setInteger("image", 0);
-	ResourceManager::getShader("sprite").setMatrix4("projection", projection);
+	ResourceManager::getShader("sprite").setMatrix4("projection", finalProjection);
 	ResourceManager::getShader("rect").use();
-	ResourceManager::getShader("rect").setMatrix4("projection", projection);
-	ResourceManager::getShader("test").use();
-	ResourceManager::getShader("test").setMatrix4("projection", projection);
+	ResourceManager::getShader("rect").setMatrix4("projection", finalProjection);
 	// Set render-specific controls
 	sRenderer = std::make_shared<SpriteRenderer>(ResourceManager::getShader("sprite"));
 	gRenderer = std::make_shared<GeometryRenderer>(ResourceManager::getShader("rect"));
-	testRenderer = std::make_shared<TestRenderer>(ResourceManager::getShader("test"));
 
 	// Game state
-	changeState(std::make_unique<GameStateMain>(sRenderer, gRenderer, testRenderer));
+	changeState(std::make_unique<GameStateMain>(sRenderer, gRenderer));
 }
 
 void Game::handleInputs()

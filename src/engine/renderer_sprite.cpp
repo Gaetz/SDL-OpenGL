@@ -62,7 +62,7 @@ void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
 
     Matrix4 mWorldTransform = Matrix4::CreateScale(Vector3(size.x, size.y, 1));
 	mWorldTransform *= Matrix4::CreateRotationZ(rotate);
-	mWorldTransform *= Matrix4::CreateTranslation(Vector3(position.x, position.y, 0.0f));
+	mWorldTransform *= Matrix4::CreateTranslation(Vector3(position.x + size.x / 2, position.y + size.y / 2, 0.0f));
 
     Matrix4 model = /*scaleMat **/ mWorldTransform;
 
