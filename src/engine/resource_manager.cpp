@@ -98,38 +98,10 @@ Texture2D ResourceManager::loadTextureFromFile(const std::string& file)
 {
 	// Create Texture object
 	Texture2D texture;
-
 	texture.load(file);
 
-/*
-
-
-	// Load image
-	//auto surface = std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer>(SDL_LoadBMP(file.c_str()));
-	auto surface = SDL_LoadBMP(file.c_str());
-	if (!surface) {
-		std::ostringstream loadError;
-		loadError << "ERROR::IMG: Unable to load image " << file << "\n"
-			<< SDL_GetError() << "\n -- --------------------------------------------------- -- "
-			<< std::endl;
-		LOG(Error) << loadError.str();
-	}
-
-	// Mode
-	if (surface->format->BytesPerPixel == 4)
-	{
-		texture.internalFormat = GL_RGBA;
-		texture.imageFormat = GL_RGBA;
-	}
-	else 
-	{
-		texture.internalFormat = GL_RGB;
-		texture.imageFormat = GL_RGB;
-	}
-*/
 	// Now generate texture
 	texture.generate();
 	// And finally return texture
-	//SDL_FreeSurface(surface);
 	return texture;
 }

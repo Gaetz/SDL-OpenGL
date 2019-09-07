@@ -70,6 +70,11 @@ void Texture2D::generate()
 	delete image_data;
 }
 
+void Texture2D::setActive() const
+{
+	glBindTexture(GL_TEXTURE_2D, id);
+}
+
 //void Texture2D::generate(std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer> &surface)
 /*void Texture2D::generate(SDL_Surface *surface)
 {
@@ -87,7 +92,33 @@ void Texture2D::generate()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }*/
 
-void Texture2D::setActive() const
-{
-	glBindTexture(GL_TEXTURE_2D, id);
-}
+
+/*
+    Loading with SDL
+
+	// Load image
+	//auto surface = std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer>(SDL_LoadBMP(file.c_str()));
+	auto surface = SDL_LoadBMP(file.c_str());
+	if (!surface) {
+		std::ostringstream loadError;
+		loadError << "ERROR::IMG: Unable to load image " << file << "\n"
+			<< SDL_GetError() << "\n -- --------------------------------------------------- -- "
+			<< std::endl;
+		LOG(Error) << loadError.str();
+	}
+
+	// Mode
+	if (surface->format->BytesPerPixel == 4)
+	{
+		texture.internalFormat = GL_RGBA;
+		texture.imageFormat = GL_RGBA;
+	}
+	else 
+	{
+		texture.internalFormat = GL_RGB;
+		texture.imageFormat = GL_RGB;
+	}
+
+	//SDL_FreeSurface(surface);
+
+*/

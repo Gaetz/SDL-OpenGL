@@ -2,9 +2,9 @@
 #include "log.h"
 
 #ifdef __linux__
-	#include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #elif _WIN32
-	#include <SDL.h>
+#include <SDL.h>
 #endif
 
 #include <sstream>
@@ -12,19 +12,18 @@
 
 Shader &Shader::use()
 {
-	glUseProgram(id);
-	return *this;
+    glUseProgram(id);
+    return *this;
 }
 
-void Shader::compile(const GLchar* vertexSource, const GLchar* fragmentSource, const GLchar* geometrySource)
+void Shader::compile(const GLchar *vertexSource, const GLchar *fragmentSource, const GLchar *geometrySource)
 {
     compileVertexShader(vertexSource);
     compileFragmentShader(fragmentSource);
     bool gsExists = compileGeometryShader(geometrySource);
     createShaderProgram(gsExists);
-	printAllParams(id);
+    printAllParams(id);
 }
-
 
 void Shader::compileVertexShader(const GLchar *vertex_source)
 {
@@ -77,7 +76,7 @@ void Shader::createShaderProgram(bool geometryShaderExists)
         LOG(Error) << "Could not link shader programme GL index " << id;
         printProgrammeInfoLog(id);
     }
-    if(!isValid(id)) 
+    if (!isValid(id))
     {
         LOG(Error) << "Could not validate shader" << id;
     }
@@ -93,39 +92,39 @@ void Shader::createShaderProgram(bool geometryShaderExists)
 
 void Shader::setFloat(const GLchar *name, GLfloat value)
 {
-	glUniform1f(glGetUniformLocation(id, name), value);
+    glUniform1f(glGetUniformLocation(id, name), value);
 }
 void Shader::setInteger(const GLchar *name, GLint value)
 {
-	glUniform1i(glGetUniformLocation(id, name), value);
+    glUniform1i(glGetUniformLocation(id, name), value);
 }
 void Shader::setVector2f(const GLchar *name, GLfloat x, GLfloat y)
 {
-	glUniform2f(glGetUniformLocation(id, name), x, y);
+    glUniform2f(glGetUniformLocation(id, name), x, y);
 }
 void Shader::setVector2f(const GLchar *name, const glm::vec2 &value)
 {
-	glUniform2f(glGetUniformLocation(id, name), value.x, value.y);
+    glUniform2f(glGetUniformLocation(id, name), value.x, value.y);
 }
 void Shader::setVector3f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z)
 {
-	glUniform3f(glGetUniformLocation(id, name), x, y, z);
+    glUniform3f(glGetUniformLocation(id, name), x, y, z);
 }
 void Shader::setVector3f(const GLchar *name, const glm::vec3 &value)
 {
-	glUniform3f(glGetUniformLocation(id, name), value.x, value.y, value.z);
+    glUniform3f(glGetUniformLocation(id, name), value.x, value.y, value.z);
 }
 void Shader::setVector4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
 {
-	glUniform4f(glGetUniformLocation(id, name), x, y, z, w);
+    glUniform4f(glGetUniformLocation(id, name), x, y, z, w);
 }
 void Shader::setVector4f(const GLchar *name, const glm::vec4 &value)
 {
-	glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
+    glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
 }
 void Shader::setMatrix4(const GLchar *name, const Matrix4 &matrix)
 {
-	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.GetAsFloatPtr());
+    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.GetAsFloatPtr());
 }
 /*
 void Shader::setMatrix4(const GLchar *name, const glm::mat4 &matrix)
@@ -133,39 +132,6 @@ void Shader::setMatrix4(const GLchar *name, const glm::mat4 &matrix)
 	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 */
-
-/*
-void Shader::checkCompileErrors(GLuint object, std::string type)
-{
-	GLint success;
-	GLchar infoLog[1024];
-	if (type != "PROGRAM")
-	{
-		glGetShaderiv(object, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(object, 1024, NULL, infoLog);
-			std::ostringstream shaderError;
-			shaderError << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n"
-				<< infoLog << "\n -- --------------------------------------------------- -- "
-				<< std::endl;
-			LOG(Error) << shaderError.str();
-		}
-	}
-	else
-	{
-		glGetProgramiv(object, GL_LINK_STATUS, &success);
-		if (!success)
-		{
-			glGetProgramInfoLog(object, 1024, NULL, infoLog);
-			std::ostringstream shaderError;
-			shaderError << "| ERROR::Shader: Link-time error: Type: " << type << "\n"
-				<< infoLog << "\n -- --------------------------------------------------- -- "
-				<< std::endl;
-			LOG(Error) << shaderError.str();
-		}
-	}
-}*/
 
 void Shader::printShaderInfoLog(GLuint shaderIndex)
 {
@@ -197,9 +163,6 @@ void Shader::checkShaderErrors(GLuint shader, std::string shaderType)
         printShaderInfoLog(shader);
     }
 }
-
-
-
 
 const char *Shader::GLTypeToString(GLenum type)
 {

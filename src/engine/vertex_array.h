@@ -8,9 +8,6 @@
 class VertexArray
 {
 public:
-    /*VertexArray(const GLfloat *vertices, GLuint nbVertices,
-                const GLuint *indices, GLuint nbIndices);*/
-
     VertexArray(
         const std::array<GLfloat, 18> & vertexBuffer,
         const std::array<GLfloat, 12> & texBuffer
@@ -19,13 +16,7 @@ public:
 
     void setActive();
 
-    //inline GLuint getNbVertices() const { return nbVertices; }
-    //inline GLuint getNbIndices() const { return nbIndices; }
-
 private:
-    //GLuint nbVertices;
-    //GLuint nbIndices;
-
     GLuint id;
     GLuint vertexBufferId;
     GLuint texBufferId;

@@ -51,6 +51,7 @@ public:
 	// Constructor (sets default texture modes)
 	Texture2D();
 
+	// Load texture file
 	void load(const std::string& filename);
 
 	// Generates texture from image data

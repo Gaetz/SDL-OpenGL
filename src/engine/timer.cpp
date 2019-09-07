@@ -23,3 +23,4 @@ void Timer::delayTime()
         SDL_Delay(frameDelay - frameTime);
     }
 }
+

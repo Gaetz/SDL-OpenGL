@@ -175,7 +175,7 @@ void WindowSdl::clear()
 
 void WindowSdl::swapBuffer()
 {
-    // check OpenGL error
+    // Check OpenGL error
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR)
     {
