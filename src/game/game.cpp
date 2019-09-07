@@ -34,8 +34,8 @@ void Game::load()
 	// Compute projection matrix
 	float fWindowWidth = static_cast<float>(windowWidth);
 	float fWindowHeight = static_cast<float>(windowHeight);
-	Matrix4 projection = Matrix4::CreateOrtho(fWindowWidth, fWindowHeight, -1.0f, 1.0f);
-	Matrix4 twoDimTranslation = Matrix4::CreateTranslation(Vector3(-fWindowWidth / 2.f, -fWindowHeight / 2.f, 0.0f));
+	Matrix4 projection = Matrix4::createOrtho(fWindowWidth, fWindowHeight, -1.0f, 1.0f);
+	Matrix4 twoDimTranslation = Matrix4::createTranslation(Vector3(-fWindowWidth / 2.f, -fWindowHeight / 2.f, 0.0f));
 	Matrix4 finalProjection = twoDimTranslation * projection;
 	// Configure shaders
 	ResourceManager::getShader("sprite").use();

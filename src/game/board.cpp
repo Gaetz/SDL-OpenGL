@@ -13,7 +13,7 @@ void Board::initBoard()
 
 void Board::deleteLine(int y)
 {
-	for (int j = 0; j < BOARD_HEIGHT - 1; j++)
+	for (int j = y; j < BOARD_HEIGHT - 1; j++)
 	{
 		for (int i = 0; i < BOARD_WIDTH; i++)
 		{
@@ -83,7 +83,7 @@ void Board::storePiece(int x, int y, int piece, int rotation)
 
 void Board::deletePossibleLines()
 {
-	for (int j = 0; j < BOARD_HEIGHT; j++)
+	for (int j = BOARD_HEIGHT - 1; j >= 0 ; j--)
 	{
 		int i = 0;
 		while (i < BOARD_WIDTH)
@@ -92,7 +92,7 @@ void Board::deletePossibleLines()
 				break;
 			i++;
 		}
-		if (i == BOARD_WIDTH)
+		if (i >= BOARD_WIDTH)
 			deleteLine(j);
 	}
 }

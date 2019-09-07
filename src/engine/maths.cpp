@@ -8,21 +8,21 @@
 
 #include "maths.h"
 
-const Vector2 Vector2::Zero(0.0f, 0.0f);
-const Vector2 Vector2::UnitX(1.0f, 0.0f);
-const Vector2 Vector2::UnitY(0.0f, 1.0f);
-const Vector2 Vector2::NegUnitX(-1.0f, 0.0f);
-const Vector2 Vector2::NegUnitY(0.0f, -1.0f);
+const Vector2 Vector2::zero(0.0f, 0.0f);
+const Vector2 Vector2::unitX(1.0f, 0.0f);
+const Vector2 Vector2::unitY(0.0f, 1.0f);
+const Vector2 Vector2::negUnitX(-1.0f, 0.0f);
+const Vector2 Vector2::negUnitY(0.0f, -1.0f);
 
-const Vector3 Vector3::Zero(0.0f, 0.0f, 0.f);
-const Vector3 Vector3::UnitX(1.0f, 0.0f, 0.0f);
-const Vector3 Vector3::UnitY(0.0f, 1.0f, 0.0f);
-const Vector3 Vector3::UnitZ(0.0f, 0.0f, 1.0f);
-const Vector3 Vector3::NegUnitX(-1.0f, 0.0f, 0.0f);
-const Vector3 Vector3::NegUnitY(0.0f, -1.0f, 0.0f);
-const Vector3 Vector3::NegUnitZ(0.0f, 0.0f, -1.0f);
-const Vector3 Vector3::Infinity(Math::Infinity, Math::Infinity, Math::Infinity);
-const Vector3 Vector3::NegInfinity(Math::NegInfinity, Math::NegInfinity, Math::NegInfinity);
+const Vector3 Vector3::zero(0.0f, 0.0f, 0.f);
+const Vector3 Vector3::unitX(1.0f, 0.0f, 0.0f);
+const Vector3 Vector3::unitY(0.0f, 1.0f, 0.0f);
+const Vector3 Vector3::unitZ(0.0f, 0.0f, 1.0f);
+const Vector3 Vector3::negUnitX(-1.0f, 0.0f, 0.0f);
+const Vector3 Vector3::negUnitY(0.0f, -1.0f, 0.0f);
+const Vector3 Vector3::negUnitZ(0.0f, 0.0f, -1.0f);
+const Vector3 Vector3::infinity(Math::infinity, Math::infinity, Math::infinity);
+const Vector3 Vector3::negInfinity(Math::negInfinity, Math::negInfinity, Math::negInfinity);
 
 static float m3Ident[3][3] =
 {
@@ -30,7 +30,7 @@ static float m3Ident[3][3] =
 	{ 0.0f, 1.0f, 0.0f },
 	{ 0.0f, 0.0f, 1.0f }
 };
-const Matrix3 Matrix3::Identity(m3Ident);
+const Matrix3 Matrix3::identity(m3Ident);
 
 static float m4Ident[4][4] =
 {
@@ -40,11 +40,11 @@ static float m4Ident[4][4] =
 	{ 0.0f, 0.0f, 0.0f, 1.0f }
 };
 
-const Matrix4 Matrix4::Identity(m4Ident);
+const Matrix4 Matrix4::identity(m4Ident);
 
-const Quaternion Quaternion::Identity(0.0f, 0.0f, 0.0f, 1.0f);
+const Quaternion Quaternion::identity(0.0f, 0.0f, 0.0f, 1.0f);
 
-Vector2 Vector2::Transform(const Vector2& vec, const Matrix3& mat, float w /*= 1.0f*/)
+Vector2 Vector2::transform(const Vector2& vec, const Matrix3& mat, float w /*= 1.0f*/)
 {
 	Vector2 retVal;
 	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] + w * mat.mat[2][0];
@@ -53,7 +53,7 @@ Vector2 Vector2::Transform(const Vector2& vec, const Matrix3& mat, float w /*= 1
 	return retVal;
 }
 
-Vector3 Vector3::Transform(const Vector3& vec, const Matrix4& mat, float w /*= 1.0f*/)
+Vector3 Vector3::transform(const Vector3& vec, const Matrix4& mat, float w /*= 1.0f*/)
 {
 	Vector3 retVal;
 	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] +
@@ -67,7 +67,7 @@ Vector3 Vector3::Transform(const Vector3& vec, const Matrix4& mat, float w /*= 1
 }
 
 // This will transform the vector and renormalize the w component
-Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, float w /*= 1.0f*/)
+Vector3 Vector3::transformWithPerspDiv(const Vector3& vec, const Matrix4& mat, float w /*= 1.0f*/)
 {
 	Vector3 retVal;
 	retVal.x = vec.x * mat.mat[0][0] + vec.y * mat.mat[1][0] +
@@ -78,7 +78,7 @@ Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, f
 		vec.z * mat.mat[2][2] + w * mat.mat[3][2];
 	float transformedW = vec.x * mat.mat[0][3] + vec.y * mat.mat[1][3] +
 		vec.z * mat.mat[2][3] + w * mat.mat[3][3];
-	if (!Math::NearZero(Math::Abs(transformedW)))
+	if (!Math::nearZero(Math::abs(transformedW)))
 	{
 		transformedW = 1.0f / transformedW;
 		retVal *= transformedW;
@@ -87,16 +87,16 @@ Vector3 Vector3::TransformWithPerspDiv(const Vector3& vec, const Matrix4& mat, f
 }
 
 // Transform a Vector3 by a quaternion
-Vector3 Vector3::Transform(const Vector3& v, const Quaternion& q)
+Vector3 Vector3::transform(const Vector3& v, const Quaternion& q)
 {
 	// v + 2.0*cross(q.xyz, cross(q.xyz,v) + q.w*v);
 	Vector3 qv(q.x, q.y, q.z);
 	Vector3 retVal = v;
-	retVal += 2.0f * Vector3::Cross(qv, Vector3::Cross(qv, v) + q.w * v);
+	retVal += 2.0f * Vector3::cross(qv, Vector3::cross(qv, v) + q.w * v);
 	return retVal;
 }
 
-void Matrix4::Invert()
+void Matrix4::invert()
 {
 	// Thanks slow math
 	// This is a really janky way to unroll everything...
@@ -211,7 +211,7 @@ void Matrix4::Invert()
 	}
 }
 
-Matrix4 Matrix4::CreateFromQuaternion(const class Quaternion& q)
+Matrix4 Matrix4::createFromQuaternion(const class Quaternion& q)
 {
 	float mat[4][4];
 	

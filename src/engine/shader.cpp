@@ -124,7 +124,7 @@ void Shader::setVector4f(const GLchar *name, const glm::vec4 &value)
 }
 void Shader::setMatrix4(const GLchar *name, const Matrix4 &matrix)
 {
-    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.GetAsFloatPtr());
+    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, matrix.getAsFloatPtr());
 }
 /*
 void Shader::setMatrix4(const GLchar *name, const glm::mat4 &matrix)

@@ -14,23 +14,23 @@
 
 namespace Math
 {
-	const float Pi = 3.1415926535f;
-	const float TwoPi = Pi * 2.0f;
-	const float PiOver2 = Pi / 2.0f;
-	const float Infinity = std::numeric_limits<float>::infinity();
-	const float NegInfinity = -std::numeric_limits<float>::infinity();
+	const float pi = 3.1415926535f;
+	const float twoPi = pi * 2.0f;
+	const float piOver2 = pi / 2.0f;
+	const float infinity = std::numeric_limits<float>::infinity();
+	const float negInfinity = -std::numeric_limits<float>::infinity();
 
-	inline float ToRadians(float degrees)
+	inline float toRadians(float degrees)
 	{
-		return degrees * Pi / 180.0f;
+		return degrees * pi / 180.0f;
 	}
 
-	inline float ToDegrees(float radians)
+	inline float toDegrees(float radians)
 	{
-		return radians * 180.0f / Pi;
+		return radians * 180.0f / pi;
 	}
 
-	inline bool NearZero(float val, float epsilon = 0.001f)
+	inline bool nearZero(float val, float epsilon = 0.001f)
 	{
 		if (fabs(val) <= epsilon)
 		{
@@ -43,71 +43,71 @@ namespace Math
 	}
 
 	template <typename T>
-	T Max(const T& a, const T& b)
+	T max(const T& a, const T& b)
 	{
 		return (a < b ? b : a);
 	}
 
 	template <typename T>
-	T Min(const T& a, const T& b)
+	T min(const T& a, const T& b)
 	{
 		return (a < b ? a : b);
 	}
 
 	template <typename T>
-	T Clamp(const T& value, const T& lower, const T& upper)
+	T clamp(const T& value, const T& lower, const T& upper)
 	{
-		return Min(upper, Max(lower, value));
+		return min(upper, Max(lower, value));
 	}
 
-	inline float Abs(float value)
+	inline float abs(float value)
 	{
 		return fabs(value);
 	}
 
-	inline float Cos(float angle)
+	inline float cos(float angle)
 	{
 		return cosf(angle);
 	}
 
-	inline float Sin(float angle)
+	inline float sin(float angle)
 	{
 		return sinf(angle);
 	}
 
-	inline float Tan(float angle)
+	inline float tan(float angle)
 	{
 		return tanf(angle);
 	}
 
-	inline float Acos(float value)
+	inline float acos(float value)
 	{
 		return acosf(value);
 	}
 	
-	inline float Atan2(float y, float x)
+	inline float atan2(float y, float x)
 	{
 		return atan2f(y, x);
 	}
 
-	inline float Cot(float angle)
+	inline float cot(float angle)
 	{
-		return 1.0f / Tan(angle);
+		return 1.0f / tan(angle);
 	}
 
-	inline float Lerp(float a, float b, float f)
+	inline float lerp(float a, float b, float f)
 	{
 		return a + f * (b - a);
 	}
 
-	inline float Sqrt(float value)
+	inline float sqrt(float value)
 	{
 		return sqrtf(value);
 	}
 	
-	inline float Fmod(float numer, float denom)
+	inline float fmod(float numer, float denom)
 	{
-		return fmod(numer, denom);
+		return std::fmod(numer, denom);
 	}
 }
 
@@ -129,7 +129,7 @@ public:
 	{}
 
 	// Set both components in one line
-	void Set(float inX, float inY)
+	void set(float inX, float inY)
 	{
 		x = inX;
 		y = inY;
@@ -191,59 +191,59 @@ public:
 	}
 
 	// Length squared of vector
-	float LengthSq() const
+	float lengthSq() const
 	{
 		return (x*x + y*y);
 	}
 
 	// Length of vector
-	float Length() const
+	float length() const
 	{
-		return (Math::Sqrt(LengthSq()));
+		return (Math::sqrt(lengthSq()));
 	}
 
 	// Normalize this vector
-	void Normalize()
+	void normalize()
 	{
-		float length = Length();
-		x /= length;
-		y /= length;
+		float len = length();
+		x /= len;
+		y /= len;
 	}
 
 	// Normalize the provided vector
-	static Vector2 Normalize(const Vector2& vec)
+	static Vector2 normalize(const Vector2& vec)
 	{
 		Vector2 temp = vec;
-		temp.Normalize();
+		temp.normalize();
 		return temp;
 	}
 
 	// Dot product between two vectors (a dot b)
-	static float Dot(const Vector2& a, const Vector2& b)
+	static float dot(const Vector2& a, const Vector2& b)
 	{
 		return (a.x * b.x + a.y * b.y);
 	}
 
 	// Lerp from A to B by f
-	static Vector2 Lerp(const Vector2& a, const Vector2& b, float f)
+	static Vector2 lerp(const Vector2& a, const Vector2& b, float f)
 	{
 		return Vector2(a + f * (b - a));
 	}
 	
 	// Reflect V about (normalized) N
-	static Vector2 Reflect(const Vector2& v, const Vector2& n)
+	static Vector2 reflect(const Vector2& v, const Vector2& n)
 	{
-		return v - 2.0f * Vector2::Dot(v, n) * n;
+		return v - 2.0f * Vector2::dot(v, n) * n;
 	}
 
 	// Transform vector by matrix
-	static Vector2 Transform(const Vector2& vec, const class Matrix3& mat, float w = 1.0f);
+	static Vector2 transform(const Vector2& vec, const class Matrix3& mat, float w = 1.0f);
 
-	static const Vector2 Zero;
-	static const Vector2 UnitX;
-	static const Vector2 UnitY;
-	static const Vector2 NegUnitX;
-	static const Vector2 NegUnitY;
+	static const Vector2 zero;
+	static const Vector2 unitX;
+	static const Vector2 unitY;
+	static const Vector2 negUnitX;
+	static const Vector2 negUnitY;
 };
 
 // 3D Vector
@@ -267,13 +267,13 @@ public:
 	{}
 
 	// Cast to a const float pointer
-	const float* GetAsFloatPtr() const
+	const float* getAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&x);
 	}
 
 	// Set all three components in one line
-	void Set(float inX, float inY, float inZ)
+	void set(float inX, float inY, float inZ)
 	{
 		x = inX;
 		y = inY;
@@ -338,42 +338,42 @@ public:
 	}
 
 	// Length squared of vector
-	float LengthSq() const
+	float lengthSq() const
 	{
 		return (x*x + y*y + z*z);
 	}
 
 	// Length of vector
-	float Length() const
+	float length() const
 	{
-		return (Math::Sqrt(LengthSq()));
+		return (Math::sqrt(lengthSq()));
 	}
 
 	// Normalize this vector
-	void Normalize()
+	void normalize()
 	{
-		float length = Length();
-		x /= length;
-		y /= length;
-		z /= length;
+		float len = length();
+		x /= len;
+		y /= len;
+		z /= len;
 	}
 
 	// Normalize the provided vector
-	static Vector3 Normalize(const Vector3& vec)
+	static Vector3 normalize(const Vector3& vec)
 	{
 		Vector3 temp = vec;
-		temp.Normalize();
+		temp.normalize();
 		return temp;
 	}
 
 	// Dot product between two vectors (a dot b)
-	static float Dot(const Vector3& a, const Vector3& b)
+	static float dot(const Vector3& a, const Vector3& b)
 	{
 		return (a.x * b.x + a.y * b.y + a.z * b.z);
 	}
 
 	// Cross product between two vectors (a cross b)
-	static Vector3 Cross(const Vector3& a, const Vector3& b)
+	static Vector3 cross(const Vector3& a, const Vector3& b)
 	{
 		Vector3 temp;
 		temp.x = a.y * b.z - a.z * b.y;
@@ -383,7 +383,7 @@ public:
 	}
 
 	// Lerp from A to B by f
-	static Vector3 Lerp(const Vector3& a, const Vector3& b, float f)
+	static Vector3 lerp(const Vector3& a, const Vector3& b, float f)
 	{
 		return Vector3(a + f * (b - a));
 	}
@@ -391,25 +391,25 @@ public:
 	// Reflect V about (normalized) N
 	static Vector3 Reflect(const Vector3& v, const Vector3& n)
 	{
-		return v - 2.0f * Vector3::Dot(v, n) * n;
+		return v - 2.0f * Vector3::dot(v, n) * n;
 	}
 
-	static Vector3 Transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
+	static Vector3 transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 	// This will transform the vector and renormalize the w component
-	static Vector3 TransformWithPerspDiv(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
+	static Vector3 transformWithPerspDiv(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 
 	// Transform a Vector3 by a quaternion
-	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
+	static Vector3 transform(const Vector3& v, const class Quaternion& q);
 
-	static const Vector3 Zero;
-	static const Vector3 UnitX;
-	static const Vector3 UnitY;
-	static const Vector3 UnitZ;
-	static const Vector3 NegUnitX;
-	static const Vector3 NegUnitY;
-	static const Vector3 NegUnitZ;
-	static const Vector3 Infinity;
-	static const Vector3 NegInfinity;
+	static const Vector3 zero;
+	static const Vector3 unitX;
+	static const Vector3 unitY;
+	static const Vector3 unitZ;
+	static const Vector3 negUnitX;
+	static const Vector3 negUnitY;
+	static const Vector3 negUnitZ;
+	static const Vector3 infinity;
+	static const Vector3 negInfinity;
 };
 
 // 3x3 Matrix
@@ -420,7 +420,7 @@ public:
 
 	Matrix3()
 	{
-		*this = Matrix3::Identity;
+		*this = Matrix3::identity;
 	}
 
 	explicit Matrix3(float inMat[3][3])
@@ -429,7 +429,7 @@ public:
 	}
 
 	// Cast to a const float pointer
-	const float* GetAsFloatPtr() const
+	const float* getAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&mat[0][0]);
 	}
@@ -496,7 +496,7 @@ public:
 	}
 
 	// Create a scale matrix with x and y scales
-	static Matrix3 CreateScale(float xScale, float yScale)
+	static Matrix3 createScale(float xScale, float yScale)
 	{
 		float temp[3][3] =
 		{
@@ -507,32 +507,32 @@ public:
 		return Matrix3(temp);
 	}
 
-	static Matrix3 CreateScale(const Vector2& scaleVector)
+	static Matrix3 createScale(const Vector2& scaleVector)
 	{
-		return CreateScale(scaleVector.x, scaleVector.y);
+		return createScale(scaleVector.x, scaleVector.y);
 	}
 
 	// Create a scale matrix with a uniform factor
-	static Matrix3 CreateScale(float scale)
+	static Matrix3 createScale(float scale)
 	{
-		return CreateScale(scale, scale);
+		return createScale(scale, scale);
 	}
 
 	// Create a rotation matrix about the Z axis
 	// theta is in radians
-	static Matrix3 CreateRotation(float theta)
+	static Matrix3 createRotation(float theta)
 	{
 		float temp[3][3] =
 		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ Math::cos(theta), Math::sin(theta), 0.0f },
+			{ -Math::sin(theta), Math::cos(theta), 0.0f },
 			{ 0.0f, 0.0f, 1.0f },
 		};
 		return Matrix3(temp);
 	}
 
 	// Create a translation matrix (on the xy-plane)
-	static Matrix3 CreateTranslation(const Vector2& trans)
+	static Matrix3 createTranslation(const Vector2& trans)
 	{
 		float temp[3][3] =
 		{
@@ -543,7 +543,7 @@ public:
 		return Matrix3(temp);
 	}
 
-	static const Matrix3 Identity;
+	static const Matrix3 identity;
 };
 
 // 4x4 Matrix
@@ -554,7 +554,7 @@ public:
 
 	Matrix4()
 	{
-		*this = Matrix4::Identity;
+		*this = Matrix4::identity;
 	}
 
 	explicit Matrix4(float inMat[4][4])
@@ -563,7 +563,7 @@ public:
 	}
 
 	// Cast to a const float pointer
-	const float* GetAsFloatPtr() const
+	const float* getAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&mat[0][0]);
 	}
@@ -682,44 +682,44 @@ public:
 	}
 
 	// Invert the matrix - super slow
-	void Invert();
+	void invert();
 
 	// Get the translation component of the matrix
-	Vector3 GetTranslation() const
+	Vector3 getTranslation() const
 	{
 		return Vector3(mat[3][0], mat[3][1], mat[3][2]);
 	}
 	
 	// Get the X axis of the matrix (forward)
-	Vector3 GetXAxis() const
+	Vector3 getXAxis() const
 	{
-		return Vector3::Normalize(Vector3(mat[0][0], mat[0][1], mat[0][2]));
+		return Vector3::normalize(Vector3(mat[0][0], mat[0][1], mat[0][2]));
 	}
 
 	// Get the Y axis of the matrix (left)
-	Vector3 GetYAxis() const
+	Vector3 getYAxis() const
 	{
-		return Vector3::Normalize(Vector3(mat[1][0], mat[1][1], mat[1][2]));
+		return Vector3::normalize(Vector3(mat[1][0], mat[1][1], mat[1][2]));
 	}
 
 	// Get the Z axis of the matrix (up)
-	Vector3 GetZAxis() const
+	Vector3 getZAxis() const
 	{
-		return Vector3::Normalize(Vector3(mat[2][0], mat[2][1], mat[2][2]));
+		return Vector3::normalize(Vector3(mat[2][0], mat[2][1], mat[2][2]));
 	}
 
 	// Extract the scale component from the matrix
-	Vector3 GetScale() const
+	Vector3 getScale() const
 	{
 		Vector3 retVal;
-		retVal.x = Vector3(mat[0][0], mat[0][1], mat[0][2]).Length();
-		retVal.y = Vector3(mat[1][0], mat[1][1], mat[1][2]).Length();
-		retVal.z = Vector3(mat[2][0], mat[2][1], mat[2][2]).Length();
+		retVal.x = Vector3(mat[0][0], mat[0][1], mat[0][2]).length();
+		retVal.y = Vector3(mat[1][0], mat[1][1], mat[1][2]).length();
+		retVal.z = Vector3(mat[2][0], mat[2][1], mat[2][2]).length();
 		return retVal;
 	}
 
 	// Create a scale matrix with x, y, and z scales
-	static Matrix4 CreateScale(float xScale, float yScale, float zScale)
+	static Matrix4 createScale(float xScale, float yScale, float zScale)
 	{
 		float temp[4][4] =
 		{
@@ -731,50 +731,50 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreateScale(const Vector3& scaleVector)
+	static Matrix4 createScale(const Vector3& scaleVector)
 	{
-		return CreateScale(scaleVector.x, scaleVector.y, scaleVector.z);
+		return createScale(scaleVector.x, scaleVector.y, scaleVector.z);
 	}
 
 	// Create a scale matrix with a uniform factor
-	static Matrix4 CreateScale(float scale)
+	static Matrix4 createScale(float scale)
 	{
-		return CreateScale(scale, scale, scale);
+		return createScale(scale, scale, scale);
 	}
 
 	// Rotation about x-axis
-	static Matrix4 CreateRotationX(float theta)
+	static Matrix4 createRotationX(float theta)
 	{
 		float temp[4][4] =
 		{
 			{ 1.0f, 0.0f, 0.0f , 0.0f },
-			{ 0.0f, Math::Cos(theta), Math::Sin(theta), 0.0f },
-			{ 0.0f, -Math::Sin(theta), Math::Cos(theta), 0.0f },
+			{ 0.0f, Math::cos(theta), Math::sin(theta), 0.0f },
+			{ 0.0f, -Math::sin(theta), Math::cos(theta), 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
 		return Matrix4(temp);
 	}
 
 	// Rotation about y-axis
-	static Matrix4 CreateRotationY(float theta)
+	static Matrix4 createRotationY(float theta)
 	{
 		float temp[4][4] =
 		{
-			{ Math::Cos(theta), 0.0f, -Math::Sin(theta), 0.0f },
+			{ Math::cos(theta), 0.0f, -Math::sin(theta), 0.0f },
 			{ 0.0f, 1.0f, 0.0f, 0.0f },
-			{ Math::Sin(theta), 0.0f, Math::Cos(theta), 0.0f },
+			{ Math::sin(theta), 0.0f, Math::cos(theta), 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
 		return Matrix4(temp);
 	}
 
 	// Rotation about z-axis
-	static Matrix4 CreateRotationZ(float theta)
+	static Matrix4 createRotationZ(float theta)
 	{
 		float temp[4][4] =
 		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
+			{ Math::cos(theta), Math::sin(theta), 0.0f, 0.0f },
+			{ -Math::sin(theta), Math::cos(theta), 0.0f, 0.0f },
 			{ 0.0f, 0.0f, 1.0f, 0.0f },
 			{ 0.0f, 0.0f, 0.0f, 1.0f },
 		};
@@ -782,9 +782,9 @@ public:
 	}
 
 	// Create a rotation matrix from a quaternion
-	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
+	static Matrix4 createFromQuaternion(const class Quaternion& q);
 
-	static Matrix4 CreateTranslation(const Vector3& trans)
+	static Matrix4 createTranslation(const Vector3& trans)
 	{
 		float temp[4][4] =
 		{
@@ -796,15 +796,15 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up)
+	static Matrix4 createLookAt(const Vector3& eye, const Vector3& target, const Vector3& up)
 	{
-		Vector3 zaxis = Vector3::Normalize(target - eye);
-		Vector3 xaxis = Vector3::Normalize(Vector3::Cross(up, zaxis));
-		Vector3 yaxis = Vector3::Normalize(Vector3::Cross(zaxis, xaxis));
+		Vector3 zaxis = Vector3::normalize(target - eye);
+		Vector3 xaxis = Vector3::normalize(Vector3::cross(up, zaxis));
+		Vector3 yaxis = Vector3::normalize(Vector3::cross(zaxis, xaxis));
 		Vector3 trans;
-		trans.x = -Vector3::Dot(xaxis, eye);
-		trans.y = -Vector3::Dot(yaxis, eye);
-		trans.z = -Vector3::Dot(zaxis, eye);
+		trans.x = -Vector3::dot(xaxis, eye);
+		trans.y = -Vector3::dot(yaxis, eye);
+		trans.z = -Vector3::dot(zaxis, eye);
 
 		float temp[4][4] =
 		{
@@ -816,7 +816,7 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreateOrtho(float width, float height, float near, float far)
+	static Matrix4 createOrtho(float width, float height, float near, float far)
 	{
 		float temp[4][4] =
 		{
@@ -828,9 +828,9 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near, float far)
+	static Matrix4 createPerspectiveFOV(float fovY, float width, float height, float near, float far)
 	{
-		float yScale = Math::Cot(fovY / 2.0f);
+		float yScale = Math::cot(fovY / 2.0f);
 		float xScale = yScale * height / width;
 		float temp[4][4] =
 		{
@@ -843,7 +843,7 @@ public:
 	}
 
 	// Create "Simple" View-Projection Matrix from Chapter 6
-	static Matrix4 CreateSimpleViewProj(float width, float height)
+	static Matrix4 createSimpleViewProj(float width, float height)
 	{
 		float temp[4][4] =
 		{
@@ -855,7 +855,7 @@ public:
 		return Matrix4(temp);
 	}
 	
-	static const Matrix4 Identity;
+	static const Matrix4 identity;
 };
 
 // (Unit) Quaternion
@@ -869,14 +869,14 @@ public:
 
 	Quaternion()
 	{
-		*this = Quaternion::Identity;
+		*this = Quaternion::identity;
 	}
 
 	// This directly sets the quaternion components --
 	// don't use for axis/angle
 	explicit Quaternion(float inX, float inY, float inZ, float inW)
 	{
-		Set(inX, inY, inZ, inW);
+		set(inX, inY, inZ, inW);
 	}
 
 	// Construct the quaternion from an axis and angle
@@ -884,15 +884,15 @@ public:
 	// and the angle is in radians
 	explicit Quaternion(const Vector3& axis, float angle)
 	{
-		float scalar = Math::Sin(angle / 2.0f);
+		float scalar = Math::sin(angle / 2.0f);
 		x = axis.x * scalar;
 		y = axis.y * scalar;
 		z = axis.z * scalar;
-		w = Math::Cos(angle / 2.0f);
+		w = Math::cos(angle / 2.0f);
 	}
 
 	// Directly set the internal components
-	void Set(float inX, float inY, float inZ, float inW)
+	void set(float inX, float inY, float inZ, float inW)
 	{
 		x = inX;
 		y = inY;
@@ -900,61 +900,61 @@ public:
 		w = inW;
 	}
 
-	void Conjugate()
+	void conjugate()
 	{
 		x *= -1.0f;
 		y *= -1.0f;
 		z *= -1.0f;
 	}
 
-	float LengthSq() const
+	float lengthSq() const
 	{
 		return (x*x + y*y + z*z + w*w);
 	}
 
-	float Length() const
+	float length() const
 	{
-		return Math::Sqrt(LengthSq());
+		return Math::sqrt(lengthSq());
 	}
 
-	void Normalize()
+	void normalize()
 	{
-		float length = Length();
-		x /= length;
-		y /= length;
-		z /= length;
-		w /= length;
+		float len = length();
+		x /= len;
+		y /= len;
+		z /= len;
+		w /= len;
 	}
 
 	// Normalize the provided quaternion
-	static Quaternion Normalize(const Quaternion& q)
+	static Quaternion normalize(const Quaternion& q)
 	{
 		Quaternion retVal = q;
-		retVal.Normalize();
+		retVal.normalize();
 		return retVal;
 	}
 
 	// Linear interpolation
-	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
+	static Quaternion lerp(const Quaternion& a, const Quaternion& b, float f)
 	{
 		Quaternion retVal;
-		retVal.x = Math::Lerp(a.x, b.x, f);
-		retVal.y = Math::Lerp(a.y, b.y, f);
-		retVal.z = Math::Lerp(a.z, b.z, f);
-		retVal.w = Math::Lerp(a.w, b.w, f);
-		retVal.Normalize();
+		retVal.x = Math::lerp(a.x, b.x, f);
+		retVal.y = Math::lerp(a.y, b.y, f);
+		retVal.z = Math::lerp(a.z, b.z, f);
+		retVal.w = Math::lerp(a.w, b.w, f);
+		retVal.normalize();
 		return retVal;
 	}
 
-	static float Dot(const Quaternion& a, const Quaternion& b)
+	static float dot(const Quaternion& a, const Quaternion& b)
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
 	// Spherical Linear Interpolation
-	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
+	static Quaternion slerp(const Quaternion& a, const Quaternion& b, float f)
 	{
-		float rawCosm = Quaternion::Dot(a, b);
+		float rawCosm = Quaternion::dot(a, b);
 
 		float cosom = -rawCosm;
 		if (rawCosm >= 0.0f)
@@ -966,10 +966,10 @@ public:
 
 		if (cosom < 0.9999f)
 		{
-			const float omega = Math::Acos(cosom);
-			const float invSin = 1.f / Math::Sin(omega);
-			scale0 = Math::Sin((1.f - f) * omega) * invSin;
-			scale1 = Math::Sin(f * omega) * invSin;
+			const float omega = Math::acos(cosom);
+			const float invSin = 1.f / Math::sin(omega);
+			scale0 = Math::sin((1.f - f) * omega) * invSin;
+			scale1 = Math::sin(f * omega) * invSin;
 		}
 		else
 		{
@@ -989,13 +989,13 @@ public:
 		retVal.y = scale0 * a.y + scale1 * b.y;
 		retVal.z = scale0 * a.z + scale1 * b.z;
 		retVal.w = scale0 * a.w + scale1 * b.w;
-		retVal.Normalize();
+		retVal.normalize();
 		return retVal;
 	}
 
 	// Concatenate
 	// Rotate by q FOLLOWED BY p
-	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
+	static Quaternion concatenate(const Quaternion& q, const Quaternion& p)
 	{
 		Quaternion retVal;
 
@@ -1003,31 +1003,31 @@ public:
 		// ps * qv + qs * pv + pv x qv
 		Vector3 qv(q.x, q.y, q.z);
 		Vector3 pv(p.x, p.y, p.z);
-		Vector3 newVec = p.w * qv + q.w * pv + Vector3::Cross(pv, qv);
+		Vector3 newVec = p.w * qv + q.w * pv + Vector3::cross(pv, qv);
 		retVal.x = newVec.x;
 		retVal.y = newVec.y;
 		retVal.z = newVec.z;
 
 		// Scalar component is:
 		// ps * qs - pv . qv
-		retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
+		retVal.w = p.w * q.w - Vector3::dot(pv, qv);
 
 		return retVal;
 	}
 
-	static const Quaternion Identity;
+	static const Quaternion identity;
 };
 
 namespace Color
 {
-	static const Vector3 Black(0.0f, 0.0f, 0.0f);
-	static const Vector3 White(1.0f, 1.0f, 1.0f);
-	static const Vector3 Red(1.0f, 0.0f, 0.0f);
-	static const Vector3 Green(0.0f, 1.0f, 0.0f);
-	static const Vector3 Blue(0.0f, 0.0f, 1.0f);
-	static const Vector3 Yellow(1.0f, 1.0f, 0.0f);
-	static const Vector3 LightYellow(1.0f, 1.0f, 0.88f);
-	static const Vector3 LightBlue(0.68f, 0.85f, 0.9f);
-	static const Vector3 LightPink(1.0f, 0.71f, 0.76f);
-	static const Vector3 LightGreen(0.56f, 0.93f, 0.56f);
+	static const Vector3 black(0.0f, 0.0f, 0.0f);
+	static const Vector3 white(1.0f, 1.0f, 1.0f);
+	static const Vector3 red(1.0f, 0.0f, 0.0f);
+	static const Vector3 green(0.0f, 1.0f, 0.0f);
+	static const Vector3 blue(0.0f, 0.0f, 1.0f);
+	static const Vector3 yellow(1.0f, 1.0f, 0.0f);
+	static const Vector3 lightYellow(1.0f, 1.0f, 0.88f);
+	static const Vector3 lightBlue(0.68f, 0.85f, 0.9f);
+	static const Vector3 lightPink(1.0f, 0.71f, 0.76f);
+	static const Vector3 lightGreen(0.56f, 0.93f, 0.56f);
 }

@@ -32,9 +32,9 @@ void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rota
 {
 	shader.use();
 
-    Matrix4 mWorldTransform = Matrix4::CreateScale(Vector3(size.x, size.y, 1));
-	mWorldTransform *= Matrix4::CreateRotationZ(rotate);
-	mWorldTransform *= Matrix4::CreateTranslation(Vector3(position.x + size.x / 2, position.y, 0.0f));
+    Matrix4 mWorldTransform = Matrix4::createScale(Vector3(size.x, size.y, 1));
+	mWorldTransform *= Matrix4::createRotationZ(rotate);
+	mWorldTransform *= Matrix4::createTranslation(Vector3(position.x + size.x / 2, position.y, 0.0f));
 
     Matrix4 model = mWorldTransform;
 	shader.setMatrix4("model", model);

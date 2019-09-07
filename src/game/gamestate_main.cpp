@@ -81,7 +81,6 @@ void GameStateMain::handleEvent(const InputState &inputState)
 	// Put down, check lines and game over
 	if (inputState.keyboardState.isJustPressed(SDL_Scancode(fallKey)))
 	{
-
 		while (board->isPossibleMovement(currentPiece.x, currentPiece.y - 1, currentPiece.kind, currentPiece.rotation))
 		{
 			currentPiece.y--;
