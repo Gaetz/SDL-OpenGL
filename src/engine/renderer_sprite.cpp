@@ -1,6 +1,4 @@
 #include "renderer_sprite.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include "math.h"
 
 static std::array<GLfloat, 18> vertexBuffer = {
     -0.5f, -0.5f, 0.0f,
@@ -29,8 +27,8 @@ SpriteRenderer::~SpriteRenderer()
 {
 }
 
-void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
-	glm::vec2 size, GLfloat rotate, glm::vec3 color)
+void SpriteRenderer::drawSprite(const Texture2D& texture, Vector2 position,
+	Vector2 size, GLfloat rotate, Color color)
 {
 	shader.use();
 
@@ -46,7 +44,7 @@ void SpriteRenderer::drawSprite(const Texture2D& texture, glm::vec2 position,
     Matrix4 model = mWorldTransform;
 
 	shader.setMatrix4("model", model);
-	shader.setVector3f("spriteColor", color);
+	shader.setVector3f("spriteColor", color.toVector3());
 
 	vertexArray->setActive();
 	texture.setActive();

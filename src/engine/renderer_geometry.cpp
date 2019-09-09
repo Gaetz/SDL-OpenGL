@@ -1,5 +1,4 @@
 #include "renderer_geometry.h"
-#include <glm/gtc/matrix_transform.hpp>
 #include "maths.h"
 
 static std::array<GLfloat, 18> vertexBuffer = {
@@ -28,7 +27,7 @@ GeometryRenderer::~GeometryRenderer()
 {
 }
 
-void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec4 color)
+void GeometryRenderer::drawRect(Vector2 position, Vector2 size, GLfloat rotate, Color color)
 {
 	shader.use();
 
@@ -38,7 +37,7 @@ void GeometryRenderer::drawRect(glm::vec2 position, glm::vec2 size, GLfloat rota
 
     Matrix4 model = mWorldTransform;
 	shader.setMatrix4("model", model);
-	shader.setVector4f("vertexColor", color);
+	shader.setVector4f("vertexColor", color.toVector4());
 
 	vertexArray->setActive();
 	glDrawArrays(GL_TRIANGLES, 0, 6);

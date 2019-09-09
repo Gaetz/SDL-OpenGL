@@ -1,5 +1,3 @@
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "../engine/game.h"
 #include "../engine/resource_manager.h"
 #include "../engine/gamestate.h"

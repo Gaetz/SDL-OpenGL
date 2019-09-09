@@ -5,6 +5,7 @@
 
 #include "shader.h"
 #include "vertex_array.h"
+#include "color.h"
 
 // A renderer class able to draw OpenGL rectangles.
 // It uses a specialized shader.
@@ -14,10 +15,10 @@ public:
 	GeometryRenderer(const Shader &shader);
 	~GeometryRenderer();
 
-	void drawRect(glm::vec2 position,
-				  glm::vec2 size = glm::vec2(10, 10),
+	void drawRect(Vector2 position,
+				  Vector2 size = Vector2(10, 10),
 				  GLfloat rotate = 0.0f,
-				  glm::vec4 color = glm::vec4(1.0f));
+				  Color color = Color());
 
 private:
 	Shader shader;

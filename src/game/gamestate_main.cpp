@@ -162,8 +162,8 @@ void GameStateMain::drawPiece(Piece piece)
 			if (pieces->getBlockType(piece.kind, piece.rotation, j, i) != 0)
 			{
 				sRenderer->drawSprite(ResourceManager::getTexture("tile_fall"),
-									 glm::vec2(pixelsX + i * BLOCK_SIZE, pixelsY + j * BLOCK_SIZE),
-									 glm::vec2(25, 25), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+									 Vector2(pixelsX + i * BLOCK_SIZE, pixelsY + j * BLOCK_SIZE),
+									 Vector2(25, 25), 0.0f, Color(1.0f, 1.0f, 1.0f));
 			}
 		}
 	}
@@ -177,9 +177,9 @@ void GameStateMain::drawBoard()
 	int height = screenHeight - (BLOCK_SIZE * BOARD_HEIGHT);
 
 	// Rectangles that delimits the board
-	glm::vec4 borderColor = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
-	gRenderer->drawRect(glm::vec2(left - BOARD_LINE_WIDTH, height), glm::vec2(BOARD_LINE_WIDTH, BLOCK_SIZE * BOARD_HEIGHT), 0.0f, borderColor);
-	gRenderer->drawRect(glm::vec2(right, height), glm::vec2(BOARD_LINE_WIDTH, BLOCK_SIZE * BOARD_HEIGHT), 0.0f, borderColor);
+	Color borderColor = Color(1.0f, 0.0f, 1.0f, 1.0f);
+	gRenderer->drawRect(Vector2(left - BOARD_LINE_WIDTH, height), Vector2(BOARD_LINE_WIDTH, BLOCK_SIZE * BOARD_HEIGHT), 0.0f, borderColor);
+	gRenderer->drawRect(Vector2(right, height), Vector2(BOARD_LINE_WIDTH, BLOCK_SIZE * BOARD_HEIGHT), 0.0f, borderColor);
 
 	// Drawing the blocks that are already stored in the board
 	for (int i = 0; i < BOARD_WIDTH; i++)
@@ -189,8 +189,8 @@ void GameStateMain::drawBoard()
 			// Check if the block is filled, if so, draw it
 			if (!board->isFreeBlock(i, j))
 				sRenderer->drawSprite(ResourceManager::getTexture("tile"),
-									  glm::vec2(left + i * BLOCK_SIZE, j * BLOCK_SIZE),
-									  glm::vec2(25, 25), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+									  Vector2(left + i * BLOCK_SIZE, j * BLOCK_SIZE),
+									  Vector2(25, 25), 0.0f, Color(1.0f, 1.0f, 1.0f));
 		}
 	}
 }

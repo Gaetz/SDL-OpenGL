@@ -21,7 +21,6 @@ INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.10\include \
 	-I$(EXT_DIR)\SDL2_mixer-2.0.2\include \
 	-I$(EXT_DIR)\SDL2_ttf-2.0.15\include \
 	-I$(EXT_DIR)\glew-2.1.0\include \
-	-I$(EXT_DIR)\glm-0.9.5
 
 LIB :=-L$(EXT_DIR)\SDL2-2.0.10\lib\x64 \
 	-L$(EXT_DIR)\SDL2_mixer-2.0.2\lib\x64 \

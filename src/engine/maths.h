@@ -57,7 +57,7 @@ namespace Math
 	template <typename T>
 	T clamp(const T& value, const T& lower, const T& upper)
 	{
-		return min(upper, Max(lower, value));
+		return min(upper, max(lower, value));
 	}
 
 	inline float abs(float value)
@@ -410,6 +410,45 @@ public:
 	static const Vector3 negUnitZ;
 	static const Vector3 infinity;
 	static const Vector3 negInfinity;
+};
+
+// 4D vector
+class Vector4
+{
+public:
+	float x;
+	float y;
+	float z;
+	float w;
+
+	Vector4()
+		:x(0.0f)
+		,y(0.0f)
+		,z(0.0f)
+		,w(0.0f)
+	{}
+
+	explicit Vector4(float inX, float inY, float inZ, float inW)
+		:x(inX)
+		,y(inY)
+		,z(inZ)
+		,w(inW)
+	{}
+
+	// Cast to a const float pointer
+	const float* getAsFloatPtr() const
+	{
+		return reinterpret_cast<const float*>(&x);
+	}
+
+	// Set all four components in one line
+	void set(float inX, float inY, float inZ, float inW)
+	{
+		x = inX;
+		y = inY;
+		z = inZ;
+		w = inW;
+	}
 };
 
 // 3x3 Matrix
@@ -1017,17 +1056,3 @@ public:
 
 	static const Quaternion identity;
 };
-
-namespace Color
-{
-	static const Vector3 black(0.0f, 0.0f, 0.0f);
-	static const Vector3 white(1.0f, 1.0f, 1.0f);
-	static const Vector3 red(1.0f, 0.0f, 0.0f);
-	static const Vector3 green(0.0f, 1.0f, 0.0f);
-	static const Vector3 blue(0.0f, 0.0f, 1.0f);
-	static const Vector3 yellow(1.0f, 1.0f, 0.0f);
-	static const Vector3 lightYellow(1.0f, 1.0f, 0.88f);
-	static const Vector3 lightBlue(0.68f, 0.85f, 0.9f);
-	static const Vector3 lightPink(1.0f, 0.71f, 0.76f);
-	static const Vector3 lightGreen(0.56f, 0.93f, 0.56f);
-}

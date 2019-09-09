@@ -15,8 +15,7 @@
                 "${workspaceRoot}/external/SDL2-2.0.10/include",
                 "${workspaceRoot}/external/SDL2_mixer-2.0.2/include",
                 "${workspaceRoot}/external/SDL2_ttf-2.0.15/include",
-                "${workspaceRoot}/external/glew-2.1.0/include",
-                "${workspaceRoot}/external/glm-0.9.5"
+                "${workspaceRoot}/external/glew-2.1.0/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -35,7 +34,6 @@
                     "${workspaceRoot}/external/SDL2_mixer-2.0.2/include",
                     "${workspaceRoot}/external/SDL2_ttf-2.0.15/include",
                     "${workspaceRoot}/external/glew-2.1.0/include",
-                    "${workspaceRoot}/external/glm-0.9.5"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

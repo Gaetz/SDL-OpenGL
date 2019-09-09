@@ -6,6 +6,8 @@
 #include "shader.h"
 #include "texture.h"
 #include "vertex_array.h"
+#include "maths.h"
+#include "color.h"
 
 // A renderer class able to draw OpenGL sprites.
 // It uses a specialized shader.
@@ -15,9 +17,9 @@ public:
 	SpriteRenderer(const Shader& shader);
 	~SpriteRenderer();
 
-	void drawSprite(const Texture2D& texture, glm::vec2 position,
-		glm::vec2 size = glm::vec2(10, 10), GLfloat rotate = 0.0f,
-		glm::vec3 color = glm::vec3(1.0f));
+	void drawSprite(const Texture2D& texture, Vector2 position,
+		Vector2 size = Vector2(10, 10), GLfloat rotate = 0.0f,
+		Color color = Color());
 
 private:
 	Shader shader;
