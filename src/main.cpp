@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 {
 	const std::string title = "Tetris";
 	const int SCREEN_WIDTH = 450;
-	const int SCREEN_HEIGHT = 800;
+	const int SCREEN_HEIGHT = 680;
 	
     // Init logging
     LOG_CONFIG.reporting_level = Debug;
