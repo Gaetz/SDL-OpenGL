@@ -9,7 +9,7 @@ You can use two ways to compile it:
 - The classic days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts.
 This documentation is a tutorial to set up the scripts and visual code for smooth development, either on Linux or Windows.
 
-The code is a modest starter and provides some tools so you can build your game engine. A tetris game kata is provided as an illustration.
+The code is a modest starter and provides some tools, so you can build your game engine. A tetris game kata is provided as an illustration.
 
 # Project structure
 
@@ -30,7 +30,7 @@ LICENCE         // Your rights
 Readme.md       // This file ;)
 ```
 
-# Librairies
+# Libraries
 
 ## Linux: Get SDL2
 
@@ -107,17 +107,17 @@ The installer will add a folder with mingw version. Go on installing.
 Open your environment variables. Add the mingw bin folder to your PATH.
 e.g.: C:\mingw-w64\x86_64-7.3.0-posix-sjlj-rt_v5-rev0\mingw64\bin
 
-Open a promt and try g++ command.
+Open a prompt and try g++ command.
 
 ## Windows : Microsoft compiler (MSVC)
 
 There are two ways to get MSVC:
-- If you don't want to install the BIG & HEAVY Visual studio, you can download Microsoft Build Tools. Look for them on the internet. You will land on a Visual Studio web page. Scroll to the bottom of the page, you will be able to download Microsoft Build Tools. You will save so giga-bytes.
-- If you are OK with Visual Studio taking some giga-bytes on your hard drive, install Visual Studio Community, which is free.
+- If you don't want to install the BIG & HEAVY Visual studio, you can download Microsoft Build Tools. Look for them on the internet. You will land on a Visual Studio web page. Scroll to the bottom of the page, you will be able to download Microsoft Build Tools. You will save so gigabytes.
+- If you are OK with Visual Studio taking some gigabytes on your hard drive, install Visual Studio Community, which is free.
 
 ## Option: install CMake
 
-If you want to use the easy way to setup your compilation, on multiple platforms, install CMake from http://cmake.org.
+If you want to use the easy way to set up your compilation, on multiple platforms, install CMake from http://cmake.org.
 
 
 # Build configuration
