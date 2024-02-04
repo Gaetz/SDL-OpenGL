@@ -4,11 +4,12 @@
 #ifdef __linux__
 #include <SDL2/SDL.h>
 #elif _WIN32
+
 #include <SDL.h>
+
 #endif
 
-enum KeyStatus
-{
+enum KeyStatus {
     None,
     JustPressed,
     Held,
@@ -16,38 +17,37 @@ enum KeyStatus
 };
 
 // Holds the keyboard state
-class KeyboardState
-{
+class KeyboardState {
     friend class InputManager;
 
 public:
     // True when key is up or just released
-    bool isUp(SDL_Scancode) const;
+    [[nodiscard]] bool isUp(SDL_Scancode) const;
 
     // True when key is up and not just released
-    bool isFree(SDL_Scancode) const;
+    [[nodiscard]] bool isFree(SDL_Scancode) const;
 
     // True when key is just pressed
-    bool isJustPressed(SDL_Scancode) const;
+    [[nodiscard]] bool isJustPressed(SDL_Scancode) const;
 
     // True when key is down or just pressed
-    bool isDown(SDL_Scancode) const;
+    [[nodiscard]] bool isDown(SDL_Scancode) const;
 
     // True when key is down and not just pressed
-    bool isHeld(SDL_Scancode) const;
+    [[nodiscard]] bool isHeld(SDL_Scancode) const;
 
     // True when key is just released
-    bool isJustReleased(SDL_Scancode) const;
+    [[nodiscard]] bool isJustReleased(SDL_Scancode) const;
 
 private:
-    const Uint8 *currentValue;
+    const Uint8* currentValue;
     Uint8 previousValue[SDL_NUM_SCANCODES];
 
     // Get the boolean value of key
-    bool getKeyValue(SDL_Scancode) const;
+    [[nodiscard]] bool getKeyValue(SDL_Scancode) const;
 
     // Get a state based on current and previous frame
-    KeyStatus getKeyState(SDL_Scancode) const;
+    [[nodiscard]] KeyStatus getKeyState(SDL_Scancode) const;
 };
 
 #endif

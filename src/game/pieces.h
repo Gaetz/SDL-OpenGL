@@ -1,20 +1,18 @@
 #ifndef PIECES_H
 #define PIECES_H
 
-// Define the diffent types of Tetris pieces
+// Define the different types of Tetris pieces
 // and provides utils functions.
 class Pieces
 {
 public:
-	Pieces();
-
-	// Return block type inside pice
+	// Return block type inside piece
 	// 0: no block
 	// 1: normal block
 	// 2: pivot block
 	int getBlockType(int piece, int rotation, int x, int y);
 	
-	// Horizontal piece inititial position
+	// Horizontal piece initial position
 	int getXInitialPosition(int piece, int rotation);
 
 	// Horizontal piece vertical position
@@ -302,4 +300,4 @@ public:
 	};
 
 };
-#endif // _PIECES_
+#endif // PIECES_H

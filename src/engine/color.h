@@ -9,8 +9,7 @@ class Color
 public:
     Color();
     Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
-    Color(uint32_t i);
-    virtual ~Color();
+    explicit Color(uint32_t i);
 
     uint8_t r;
     uint8_t g;
@@ -22,8 +21,8 @@ public:
         return Color::multiply(value, scale);
     }	
 
-    Vector3 toVector3();
-    Vector4 toVector4();
+    [[nodiscard]] Vector3 toVector3() const;
+    [[nodiscard]] Vector4 toVector4() const;
 
     static Color lerp(Color value1, Color value2, float amount);
     static Color multiply(Color value, float scale);

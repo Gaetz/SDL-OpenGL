@@ -3,10 +3,10 @@
 
 // Data for a Tetris piece
 struct Piece {
-	int x;
-	int y;
-	int kind;
-	int rotation;
+    int x;
+    int y;
+    int kind;
+    int rotation;
 };
 
 #endif

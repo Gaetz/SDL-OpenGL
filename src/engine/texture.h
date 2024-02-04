@@ -4,7 +4,9 @@
 #ifdef __linux__
 #include <SDL2/SDL.h>
 #elif _WIN32
+
 #include <SDL.h>
+
 #endif
 
 #include <GL/glew.h>
@@ -13,55 +15,50 @@
 #include <memory>
 
 // Used by SDL_Surface unique pointer
-struct SdlSurfaceDestroyer
-{
-	void operator()(SDL_Surface *surface) const
-	{
-		SDL_FreeSurface(surface);
-	}
+struct SdlSurfaceDestroyer {
+    void operator()(SDL_Surface* surface) const {
+        SDL_FreeSurface(surface);
+    }
 };
 
 // Texture2D is able to store and configure a texture in OpenGL.
 // It also hosts utility functions for easy management.
-class Texture2D
-{
+class Texture2D {
 public:
-	// Holds the id of the texture object, used for all texture operations to reference to this particlar texture
-	GLuint id;
+    // Holds the id of the texture object, used for all texture operations to reference to this specific texture
+    GLuint id { 0 };
 
-	// Hold loaded data
-	unsigned char * image_data;
+    // Hold loaded data
+    unsigned char* image_data { nullptr };
 
-	// Texture image dimensions
-	int width, height; // Width and height of loaded image in pixels
+    // Texture image dimensions
+    // Width and height of loaded image in pixels
+    int width { 0 };
+    int height { 0 };
 
-	int n;
+    int n { 0 };
 
-	// Texture Format
-	GLuint internalFormat; // Format of texture object
-	GLuint imageFormat;	// Format of loaded image
+    // Texture Format
+    GLuint internalFormat { GL_RGB }; // Format of texture object
+    GLuint imageFormat { GL_RGB };    // Format of loaded image
 
-	// Texture configuration
-	GLuint wrapS;	 // Wrapping mode on S axis
-	GLuint wrapT;	 // Wrapping mode on T axis
-	GLuint filterMin; // Filtering mode if texture pixels < screen pixels
-	GLuint filterMax; // Filtering mode if texture pixels > screen pixels
+    // Texture configuration
+    GLint wrapS { GL_REPEAT };     // Wrapping mode on S axis
+    GLint wrapT { GL_REPEAT };     // Wrapping mode on T axis
+    GLfloat filterMin { GL_LINEAR }; // Filtering mode if texture pixels < screen pixels
+    GLfloat filterMax { GL_LINEAR }; // Filtering mode if texture pixels > screen pixels
 
-	// Constructor (sets default texture modes)
-	Texture2D();
+    // Constructor (sets default texture modes)
+    Texture2D();
 
-	// Load texture file
-	void load(const std::string& filename);
+    // Load texture file
+    void load(const std::string& filename);
 
-	// Generates texture from image data
-	//void generate(SDL_Surface *surface);
-	void generate();
+    // Generates texture from image data
+    void generate() const;
 
-
-//	void generate(std::unique_ptr<SDL_Surface, SdlSurfaceDestroyer> &surface);
-
-	// Binds the texture as the current active GL_TEXTURE_2D texture object
-	void setActive() const;
+    // Binds the texture as the current active GL_TEXTURE_2D texture object
+    void setActive() const;
 };
 
 #endif

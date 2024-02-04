@@ -14,12 +14,11 @@
 class SpriteRenderer
 {
 public:
-	SpriteRenderer(const Shader& shader);
-	~SpriteRenderer();
+	explicit SpriteRenderer(const Shader& shader);
 
 	void drawSprite(const Texture2D& texture, Vector2 position,
 		Vector2 size = Vector2(10, 10), GLfloat rotate = 0.0f,
-		Color color = Color());
+		Color color = Color::white);
 
 private:
 	Shader shader;

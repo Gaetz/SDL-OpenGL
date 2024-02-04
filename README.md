@@ -2,9 +2,11 @@
 
 This is a SDL2 + OpenGL template, written in C++, that you can use as a starter for any project. MIT licensed.
 
+*Anniversary edition: Refactored on 2024-02-04.*
+
 You can use two ways to compile it:
+- The easy way, with CMake.
 - The classic days-of-old way, with a text editor (Visual Code), makefile and scripts. Linux and Windows development and release are supported, through shell and batch scripts.
-- The esay way, with CMake, which will target an already present computer on your machine.
 This documentation is a tutorial to set up the scripts and visual code for smooth development, either on Linux or Windows.
 
 The code is a modest starter and provides some tools so you can build your game engine. A tetris game kata is provided as an illustration.
@@ -42,10 +44,8 @@ sudo apt install libmikmod-dev libfishsound1-dev libsmpeg-dev liboggz2-dev libfl
 sudo apt install libfreetype6-dev libsdl2-ttf-dev libsdl2-ttf-2.0-0 -y;
 ```
 
-It is a posibility that your distribution does not embed the last SDL2 version. If you want the last versions, get the last tar.gz sources file from:
-- SDL2: https://www.libsdl.org/download-2.0.php
-- SDL2 mixer: https://www.libsdl.org/projects/SDL_mixer/
-- SDL2 ttf: https://www.libsdl.org/projects/SDL_ttf/
+It is a possibility that your distribution does not embed the last SDL2 version. If you want the last versions, get the last tar.gz sources file from:
+- SDL2: https://github.com/libsdl-org/SDL/releases/
 
 Then decompress them, open a terminal, and go in each folder, where you will execute:
 
@@ -55,9 +55,12 @@ make
 sudo make install
 ```
 
-You will need two additional librairies to run this template. GLEW, which eases the use of OpenGL, and GLM, which prevents you from writing math calculus.
+You will need two additional libraries to run this template. GLEW, which eases the use of OpenGL, and GLM, which prevents you from writing math calculus.
 
 Install GLEW and GLM:
+
+If needed, latest GLEW version can be found here:
+- https://github.com/nigels-com/glew/releases/
 
 ```
 sudo apt update
@@ -69,7 +72,7 @@ sudo apt install libglew-dev libglm-dev -y;
 
 Dependencies are already ready in the `external` folder.
 
-If you want more librairies, put them in the `external` folder.
+If you want more libraries, put them in the `external` folder.
 
 
 # Compile tools
@@ -96,7 +99,7 @@ Exceptions:     sjlj
 Build revision: 0
 ```
 
-Troubleshootings: some people had problems with mingw version above the 7.3.0. You can choose version 7.3.0 for safety.
+Troubleshooting: some people had problems with mingw version above the 7.3.0. You can choose version 7.3.0 for safety.
 
 Choose a folder on c: drive *with no space*. Like `C:\mingw-w64`. 
 The installer will add a folder with mingw version. Go on installing.
@@ -117,7 +120,101 @@ There are two ways to get MSVC:
 If you want to use the easy way to setup your compilation, on multiple platforms, install CMake from http://cmake.org.
 
 
-# Scripts and makefile
+# Build configuration
+
+## Option 1: CMake
+
+First create a `CMakeLists.txt` file in the root folder of your workspace. It will contain CMake config, includes and dependencies.
+
+Root `CMakeLists.txt`
+```
+cmake_minimum_required(VERSION 3.5.0)
+set(CMAKE_CXX_STANDARD 17)
+project(Tetris VERSION 0.1.0)
+set(OpenGL_GL_PREFERENCE "GLVND")
+
+include(CTest)
+enable_testing()
+
+# Includes and libraries
+if (WIN32)
+    set(SDL2_DIR ${CMAKE_SOURCE_DIR}/external/SDL2-2.0.30)
+    set(GLEW_DIR ${CMAKE_SOURCE_DIR}/external/glew-2.2.0)
+endif (WIN32)
+
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
+
+find_package(OpenGL)
+
+# subdirectories
+add_subdirectory( src/engine )
+add_subdirectory( src/game )
+
+# Executable and link
+if (NOT WIN32)
+    string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
+endif (NOT WIN32)
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} game engine ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} OpenGL::GL)
+
+# Copying assets to the build folder
+add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_LIST_DIR}/assets
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
+        COMMENT "---- Copy Assets"
+)
+
+# Copying dlls to the build folder
+if (WIN32)
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SDL2_DIR}/lib/x64/SDL2.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
+            COMMENT "---- Copy SDL2.dll")
+
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${GLEW_DIR}/bin/Release/x64/glew32.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
+            COMMENT "---- Copy glew32.dll")
+endif (WIN32)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+```
+This file handles asset copy and dlls copy to the build folder. It also includes the two subdirectories, `engine` and `game`, which will be compiled thanks to the following.
+
+Now create two `CMakeLists.txt` files, one in the `src/engine` folder, one in the `src/game` folder.
+
+`src/engine/CMakeLists.txt`
+```
+file( GLOB engine_SOURCES *.cpp )
+add_library( engine ${engine_SOURCES} )
+target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+```
+
+`src/game/CMakeLists.txt`
+```
+file( GLOB game_SOURCES *.cpp )
+add_library( game ${game_SOURCES} )
+target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+```
+The first file will use the other CMake lists to compile the content of each folder.
+
+You are now ready, you can use CMake to configure build, clean your game. There is no release configuration yet.
+
+## Option 2: Classic compilation with makefile
 
 The `build` script will use a makefile to build only updated sources. Everything will be built to the `build` folder. Not needed if you use CMake compilation.
 
@@ -133,7 +230,7 @@ This repository provides a `.sh` and a `.bat` version for each script, enabling 
 
 Following paragraphs will indicate for which compile option - classic, cmake or both - they are needed.
 
-## Classic option: Makefile
+### Classic option: Makefile
 
 Create a `makefile` file in the `scripts` folder.
 
@@ -157,17 +254,13 @@ SRC_FILES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
 
-LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lglew32 -lzlib1 -lopengl32
+LIBRAIRIES := -lSDL2main -lSDL2 -lglew32 -lzlib1 -lopengl32
 
-INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.10\include \
-	-I$(EXT_DIR)\SDL2_mixer-2.0.2\include \
-	-I$(EXT_DIR)\SDL2_ttf-2.0.15\include \
-	-I$(EXT_DIR)\glew-2.1.0\include \
+INCLUDE :=-I$(EXT_DIR)\SDL2-2.0.30\include \
+	-I$(EXT_DIR)\glew-2.2.0\include \
 
-LIB :=-L$(EXT_DIR)\SDL2-2.0.10\lib\x64 \
-	-L$(EXT_DIR)\SDL2_mixer-2.0.2\lib\x64 \
-	-L$(EXT_DIR)\SDL2_ttf-2.0.15\lib\x64 \
-	-L$(EXT_DIR)\glew-2.1.0\lib\Release\x64
+LIB :=-L$(EXT_DIR)\SDL2-2.0.30\lib\x64 \
+	-L$(EXT_DIR)\glew-2.2.0\lib\Release\x64
 
 # Target, with all .o prerequisites
 Tetris.exe: $(OBJ_FILES)
@@ -202,7 +295,7 @@ SRC_FILES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 RELEASE_OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(RELEASE_OBJ_DIR)/%.o,$(SRC_FILES))
 
-LIBRAIRIES := -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lGLEW  -lGLU -lGL
+LIBRAIRIES := -lSDL2main -lSDL2 -lGLEW  -lGLU -lGL
 
 # Target, with all .o prerequisites
 Tetris: $(OBJ_FILES)
@@ -225,7 +318,7 @@ endif
 
 Note that you name the output exe file in this makefile.
 
-## Classic option: Build script
+### Build script
 
 Create a `build.bat` file for Windows, or a `build.sh` script for Linux, in the `scripts` folder.
 
@@ -289,7 +382,7 @@ mingw32-make
 popd
 ```
 
-## Both option: Clean script
+### Clean script
 
 Create a `clean.bat` file (Windows), or a `clean.sh` file (Linux), in the `scripts` folder.
 
@@ -351,7 +444,7 @@ if exist %releaseDir% (
 )
 ```
 
-## Both options: Asset copy script
+### Asset copy script
 
 This script will copy game assets and dependencies to the `build` folder.
 
@@ -381,18 +474,15 @@ set assetsDir=%~dp0..\assets
 set extDir=%~dp0..\external
 
 :: Copy dependencies
-if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll %buildDir%
-if not exist %buildDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll %buildDir%
-if not exist %buildDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll %buildDir%
-if not exist %buildDir%\zlib1.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\zlib1.dll %buildDir%
-if not exist %buildDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll %buildDir%
+if not exist %buildDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.30\lib\x64\SDL2.dll %buildDir%
+if not exist %buildDir%\glew32.dll xcopy /y %extDir%\glew-2.2.0\bin\Release\x64\glew32.dll %buildDir%
 
 :: Copy assets
 if not exist %buildDir%\assets mkdir %buildDir%\assets
 xcopy /y /s %assetsDir% %buildDir%\assets
 ```
 
-## Classic option: Release script
+## Release script
 
 WIP, NOT UPDATED
 
@@ -429,10 +519,8 @@ make release
 cd $releaseDir
 
 # Copy dependencies
-#if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll .
-#if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
-#if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll .
-#if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
+#if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.30\lib\x64\SDL2.dll .
+#if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.2.0\bin\Release\x64\glew32.dll .
 
 # Copy assets
 assetsDir=$dot/../assets
@@ -471,11 +559,8 @@ mingw32-make release
 cd %releaseDir%
 
 :: Copy dependencies
-if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.10\lib\x64\SDL2.dll .
-if not exist %releaseDir%\SDL2_mixer.dll xcopy /y %extDir%\SDL2_mixer-2.0.2\lib\x64\SDL2_mixer.dll .
-if not exist %releaseDir%\SDL2_ttf.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll .
-if not exist %releaseDir%\zlib1.dll xcopy /y %extDir%\SDL2_ttf-2.0.15\lib\x64\zlib1.dll .
-if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.1.0\bin\Release\x64\glew32.dll .
+if not exist %releaseDir%\SDL2.dll xcopy /y %extDir%\SDL2-2.0.30\lib\x64\SDL2.dll .
+if not exist %releaseDir%\glew32.dll xcopy /y %extDir%\glew-2.2.0\bin\Release\x64\glew32.dll .
 
 :: Copy assets
 set assetsDir=%~dp0..\assets
@@ -491,71 +576,6 @@ popd
 
 ```
 
-## CMake option: CMake lists
-
-First create a `CMakeLists.txt` file in the root folder of your workspace. It will contain CMake config, includes and dependencies.
-
-Root `CMakeLists.txt`
-```
-cmake_minimum_required(VERSION 3.1.0)
-project(Tetris VERSION 0.1.0)
-set(OpenGL_GL_PREFERENCE "GLVND")
-
-include(CTest)
-enable_testing()
-
-# Includes and libraries
-if (WIN32)
-    set(SDL2_DIR ${CMAKE_SOURCE_DIR}/external/SDL2-2.0.10)
-    set(GLEW_DIR ${CMAKE_SOURCE_DIR}/external/glew-2.1.0)
-endif (WIN32)
-
-find_package(OpenGL REQUIRED COMPONENTS OpenGL)
-
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
-
-find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
-
-find_package(OpenGL)
-
-# subdirectories
-add_subdirectory( src/engine )
-add_subdirectory( src/game )
-
-# Executable and link
-if (NOT WIN32)
-    string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-endif (NOT WIN32)
-add_executable(Tetris src/main.cpp)
-target_link_libraries(Tetris game engine ${SDL2_LIBRARIES} ${GLEW_LIBRARIES} OpenGL::OpenGL)
-
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
-```
-
-Then create two `CMakeLists.txt` files, one in the `src/engine` folder, one in the `src/game` folder.
-
-src/engine `CMakeLists.txt`
-```
-file( GLOB engine_SOURCES *.cpp )
-add_library( engine ${engine_SOURCES} )
-target_include_directories(engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-```
-
-src/game `CMakeLists.txt`
-```
-file( GLOB game_SOURCES *.cpp )
-add_library( game ${game_SOURCES} )
-target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-```
-
-The first file will use the other CMake lists to compile the content of each folder.
-
-
 # VS Code configuration
 
 ## Extension
@@ -567,7 +587,7 @@ If you want to use CMake, also install CMake Extension, CMake Tools and CMake To
 
 ## Cpp configuration
 
-Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must contains mmingw includes and your librairies includes.
+Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must contain mingw includes and your libraries includes.
 
 ```
 {
@@ -584,10 +604,8 @@ Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must cont
                 "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include",
                 "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed",
                 "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/include",
-                "${workspaceRoot}/external/SDL2-2.0.10/include",
-                "${workspaceRoot}/external/SDL2_mixer-2.0.2/include",
-                "${workspaceRoot}/external/SDL2_ttf-2.0.15/include",
-                "${workspaceRoot}/external/glew-2.1.0/include",
+                "${workspaceRoot}/external/SDL2-2.0.30/include",
+                "${workspaceRoot}/external/glew-2.2.0/include",
             ],
             "defines": [
                 "_DEBUG",
@@ -602,10 +620,8 @@ Ctrl + Shift + p then C/C++ Edit configuration. For Windows, this file must cont
                     "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/include/*",
                     "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include",
                     "C:/mingw-w64/x86_64-7.3.0-posix-sjlj-rt_v5-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed",
-                    "${workspaceRoot}/external/SDL2-2.0.10/include",
-                    "${workspaceRoot}/external/SDL2_mixer-2.0.2/include",
-                    "${workspaceRoot}/external/SDL2_ttf-2.0.15/include",
-                    "${workspaceRoot}/external/glew-2.1.0/include",
+                    "${workspaceRoot}/external/SDL2-2.0.30/include",
+                    "${workspaceRoot}/external/glew-2.2.0/include",
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -843,7 +859,7 @@ The `program` field must name the output exe file. For Windows, the `miDebuggerP
 
 # .gitignore
 
-We don't need `build` and `release` folders. Thus we create a `.gitignore` file at the project root.
+We don't need `build` and `release` folders, nor the cmake build folder, to be versioned. Thus, we create a `.gitignore` file at the project root.
 
 ```
 # Compiled Object files
@@ -861,10 +877,14 @@ We don't need `build` and `release` folders. Thus we create a `.gitignore` file 
 build/
 release/
 .vscode/ipch
+cmake-build-*
+
+#IDE
+.idea
 ```
 
 # Try your game
 
-Build you game with Ctrl + Shift + B for the classic compile mode, or with F7 for the CMake mode.
+Build you game with Ctrl + Shift + B for the classic compilation mode, or with F7 for the CMake mode.
 
 Launch with F5.

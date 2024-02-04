@@ -4,23 +4,21 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <time.h>
-#include <stdio.h>
+#include <ctime>
+#include <cstdio>
 #include <fstream>
 #include <sstream>
 
 #define GL_LOG_FILE "gl.log"
 
-enum LogLevel
-{
+enum LogLevel {
     Error,
     Warning,
     Info,
     Debug
 };
 
-struct LogConfig
-{
+struct LogConfig {
     LogLevel reporting_level = Info;
     bool restart = false;
 };
@@ -31,22 +29,25 @@ extern LogConfig LOG_CONFIG;
 // Logs in standard output and in a file, configured
 // with the GL_LOG_FILE macro.
 // Usage : LOG(MessageLevel) << "Message"
-class Log
-{
+class Log {
 public:
     Log();
+
     virtual ~Log();
-    std::ostringstream &get(LogLevel level = Info);
+
+    std::ostringstream& get(LogLevel level = Info);
+
     static void restart();
 
 private:
     std::ostringstream os;
     static std::ofstream file;
 
-    std::string getLabel(LogLevel type);
+    static std::string getLabel(LogLevel type);
 
-    Log(const Log &);
-    Log &operator=(const Log &);
+    Log(const Log&);
+
+    Log& operator=(const Log&);
 };
 
 #define LOG(level)                          \

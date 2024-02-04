@@ -12,13 +12,12 @@
 class GeometryRenderer
 {
 public:
-	GeometryRenderer(const Shader &shader);
-	~GeometryRenderer();
+	explicit GeometryRenderer(const Shader &shader);
 
 	void drawRect(Vector2 position,
 				  Vector2 size = Vector2(10, 10),
 				  GLfloat rotate = 0.0f,
-				  Color color = Color());
+				  Color color = Color::white);
 
 private:
 	Shader shader;

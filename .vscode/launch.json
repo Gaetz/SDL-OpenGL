@@ -26,13 +26,12 @@
           "name": "(Windows CMake) Launch",
           "type": "cppvsdbg",
           "request": "launch",
-          "program": "${workspaceRoot}/build/Tetris.exe",
+          "program": "${workspaceRoot}/build/Debug/Tetris.exe",
           "args": [],
           "stopAtEntry": false,
           "cwd": "${workspaceFolder}/build",
           "environment": [],
           "externalConsole": true,
-          "preLaunchTask": "prepare-assets"
       },
       {
           "name": "(Linux) Launch",

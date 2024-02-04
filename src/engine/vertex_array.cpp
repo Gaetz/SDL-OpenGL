@@ -2,11 +2,9 @@
 #include <GL/glew.h>
 
 VertexArray::VertexArray(
-    const std::array<GLfloat, 18> & vertexBuffer,
-    const std::array<GLfloat, 12> & texBuffer
-)
-: id(0), vertexBufferId(0), texBufferId(0)
-{
+        const std::array<GLfloat, 18>& vertexBuffer,
+        const std::array<GLfloat, 12>& texBuffer
+) {
     glGenBuffers(1, &vertexBufferId);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
     glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(GLfloat), &vertexBuffer, GL_STATIC_DRAW);
@@ -18,24 +16,22 @@ VertexArray::VertexArray(
     glGenVertexArrays(1, &id);
     glBindVertexArray(id);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
     int dimensions = 2; // 2d data for texture coords
     glBindBuffer(GL_ARRAY_BUFFER, texBufferId);
-    glVertexAttribPointer(1, dimensions, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer(1, dimensions, GL_FLOAT, GL_FALSE, 0, nullptr);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 }
 
-VertexArray::~VertexArray()
-{
+VertexArray::~VertexArray() {
     glDeleteBuffers(1, &vertexBufferId);
     glDeleteBuffers(1, &texBufferId);
     glDeleteVertexArrays(1, &id);
 }
 
-void VertexArray::setActive()
-{
+void VertexArray::setActive() const {
     glBindVertexArray(id);
 }

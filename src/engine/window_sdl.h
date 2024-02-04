@@ -4,7 +4,9 @@
 #ifdef __linux__
 #include <SDL2/SDL.h>
 #elif _WIN32
+
 #include <SDL.h>
+
 #endif
 
 #include <GL/glew.h>
@@ -16,10 +18,8 @@ extern const float SCREEN_HEIGHT;
 extern LogConfig LOG_CONFIG;
 
 // Used by SDL_Window unique pointer
-struct SdlWindowDestroyer
-{
-    void operator()(SDL_Window *window) const
-    {
+struct SdlWindowDestroyer {
+    void operator()(SDL_Window* window) const {
         SDL_DestroyWindow(window);
     }
 };
@@ -27,29 +27,38 @@ struct SdlWindowDestroyer
 // Manage game's window and drawing in this window.
 // The window title bar gives some info, as game's title
 // or FPS counter.
-class WindowSdl : public IWindow
-{
+class WindowSdl : public IWindow {
 public:
-    WindowSdl(const std::string &title);
-    virtual ~WindowSdl();
+    explicit WindowSdl(std::string  title);
+
+    ~WindowSdl() override;
+
+    WindowSdl() = delete;
+
+    WindowSdl(const WindowSdl&) = delete;
+
+    WindowSdl& operator=(const WindowSdl&) = delete;
 
     bool init(int xPos, int yPos, int width, int height, bool isFullscreen) override;
+
     void logGlParams() override;
-    //bool should_close();
-    //void handle_close();
-    void updateFpsCounter(long dt) override;
+
+    void updateFpsCounter(uint32_t dt) override;
+
     void clear() override;
+
     void swapBuffer() override;
+
     void clean() override;
 
 private:
     std::unique_ptr<SDL_Window, SdlWindowDestroyer> window;
-    SDL_GLContext context;
-    const std::string &title;
+    SDL_GLContext context {};
+    std::string title;
 
-    double previousSeconds;
-    double currentSeconds;
-    int frameCount;
+    double previousSeconds { 0 };
+    double currentSeconds { 0 };
+    int frameCount { 0 };
 
     /*
     void debugGlErrorCallback(  GLenum        source,
@@ -64,11 +73,6 @@ private:
     const char* debugGlTypeToStr(GLenum type);
     const char* debugGlSourceToStr(GLenum source);
     */
-
-
-    WindowSdl();
-    WindowSdl(const WindowSdl &);
-    WindowSdl &operator=(const WindowSdl &);
 };
 
 #endif

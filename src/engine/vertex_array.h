@@ -1,25 +1,25 @@
-#ifndef VEXTEX_ARRAY_H
-#define VEXTEX_ARRAY_H
+#ifndef VERTEX_ARRAY_H
+#define VERTEX_ARRAY_H
 
 #include <GL/glew.h>
 #include <array>
 
 // Represent a Vertex Array Object
-class VertexArray
-{
+class VertexArray {
 public:
     VertexArray(
-        const std::array<GLfloat, 18> & vertexBuffer,
-        const std::array<GLfloat, 12> & texBuffer
+            const std::array<GLfloat, 18>& vertexBuffer,
+            const std::array<GLfloat, 12>& texBuffer
     );
+
     virtual ~VertexArray();
 
-    void setActive();
+    void setActive() const;
 
 private:
-    GLuint id;
-    GLuint vertexBufferId;
-    GLuint texBufferId;
+    GLuint id { 0 };
+    GLuint vertexBufferId { 0 };
+    GLuint texBufferId { 0 };
 };
 
 #endif

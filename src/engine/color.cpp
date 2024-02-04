@@ -7,42 +7,39 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 
 Color::Color(uint32_t i)
 {
-    unsigned char r,g,b,a; 
-    r = static_cast<unsigned char>(i & 0x000000FF); 
-    g = static_cast<unsigned char>((i & 0x0000FF00) >> 8); 
-    b = static_cast<unsigned char>((i & 0x00FF0000) >> 16); 
-    a = static_cast<unsigned char>((i & 0xFF000000) >> 24);
+    r = static_cast<uint8_t>(i & 0x000000FF);
+    g = static_cast<uint8_t>((i & 0x0000FF00) >> 8);
+    b = static_cast<uint8_t>((i & 0x00FF0000) >> 16);
+    a = static_cast<uint8_t>((i & 0xFF000000) >> 24);
 }
-
-Color::~Color() {}
 
 Color Color::lerp(Color value1, Color value2, float amount)
 {
-    uint8_t r = Math::clamp<uint8_t>(Math::lerp(value1.r, value2.r, amount), 0, 255);   
-    uint8_t g = Math::clamp<uint8_t>(Math::lerp(value1.g, value2.g, amount), 0, 255); 
-    uint8_t b = Math::clamp<uint8_t>(Math::lerp(value1.b, value2.b, amount), 0, 255); 
-    uint8_t a = Math::clamp<uint8_t>(Math::lerp(value1.a, value2.a, amount), 0, 255); 
+    auto r = static_cast<uint8_t>(Math::lerp(value1.r, value2.r, amount));
+    auto g = static_cast<uint8_t>(value1.g, value2.g, amount);
+    auto b = static_cast<uint8_t>(value1.b, value2.b, amount);
+    auto a = static_cast<uint8_t>(value1.a, value2.a, amount);
     
-    return Color(r, g, b, a);
+    return {r, g, b, a};
 }
 		
 Color Color::multiply(Color value, float scale)
 {
-    uint8_t r = (uint8_t)(value.r * scale);
-    uint8_t g = (uint8_t)(value.g * scale);
-    uint8_t b = (uint8_t)(value.b * scale);
-    uint8_t a = (uint8_t)(value.a * scale);
+    auto r = static_cast<uint8_t>(static_cast<float>(value.r) * scale);
+    auto g = static_cast<uint8_t>(static_cast<float>(value.g) * scale);
+    auto b = static_cast<uint8_t>(static_cast<float>(value.b) * scale);
+    auto a = static_cast<uint8_t>(static_cast<float>(value.a) * scale);
     
-    return Color(r, g, b, a);
+    return {r, g, b, a};
 }	
 
-Vector3 Color::toVector3()
+Vector3 Color::toVector3() const
 {
-    Vector3 vector = Vector3(r, g, b);
+    Vector3 vector = Vector3(static_cast<float>(r)/255.0f, static_cast<float>(g)/255.0f, static_cast<float>(b)/255.0f);
     return vector;
 }
 
-Vector4 Color::toVector4()
+Vector4 Color::toVector4() const
 {
     Vector4 vector = Vector4(r, g, b, a);
     return vector;

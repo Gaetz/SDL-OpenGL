@@ -5,55 +5,64 @@
 #include "piece.h"
 #include "pieces.h"
 #include "board.h"
+#include "game.h"
 
 #define SPEED 500
 
 // Main scene of the game, contains all the game's logic
-class GameStateMain : public GameState
-{
+class GameStateMain : public GameState {
 public:
-	GameStateMain(
-		std::shared_ptr<SpriteRenderer>, 
-		std::shared_ptr<GeometryRenderer>
-	);
-	virtual ~GameStateMain();
+    GameStateMain(
+            std::shared_ptr<SpriteRenderer>,
+            std::shared_ptr<GeometryRenderer>
+    );
 
-	void load();
-	void clean();
-	void pause();
-	void resume();
-	void handleEvent(const InputState &);
-	void update(unsigned int dt);
-	void draw();
-	void setGame(Game *);
+    ~GameStateMain() override;
 
-	void createNewPiece();
+    GameStateMain() = delete;
 
-	Piece currentPiece;
+    void load() override;
+
+    void clean() override;
+
+    void pause() override;
+
+    void resume() override;
+
+    void handleEvent(const InputState&) override;
+
+    void update(unsigned int dt) override;
+
+    void draw() override;
+
+    void setGame(IGame*) override;
+
+    void createNewPiece();
+
+    Piece currentPiece {};
 
 private:
-	int getRand(int a, int b);
+    static int getRand(int a, int b);
 
-	int moveLeftKey;
-	int moveRightKey;
-	int rotateKey;
-	int fallKey;
+    int moveLeftKey { 0 };
+    int moveRightKey { 0 };
+    int rotateKey { 0 };
+    int fallKey { 0 };
 
-	std::shared_ptr<SpriteRenderer> sRenderer;
-	std::shared_ptr<GeometryRenderer> gRenderer;
+    std::shared_ptr<SpriteRenderer> sRenderer;
+    std::shared_ptr<GeometryRenderer> gRenderer;
 
-	Game *game;
-	Pieces *pieces;
-	Board *board;
-	unsigned int counter;
-	int screenHeight;
+    Game* game { nullptr };
+    Pieces* pieces { nullptr };
+    Board* board { nullptr };
+    unsigned int counter { 0 };
+    int screenHeight { 0 };
 
-	Piece nextPiece;
+    Piece nextPiece {};
 
-	void drawPiece(Piece piece);
-	void drawBoard();
+    void drawPiece(Piece piece);
 
-	GameStateMain();
+    void drawBoard();
 };
 
 #endif

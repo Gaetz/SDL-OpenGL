@@ -13,3 +13,7 @@
 build/
 release/
 .vscode/ipch
+cmake-build-*
+
+#IDE
+.idea

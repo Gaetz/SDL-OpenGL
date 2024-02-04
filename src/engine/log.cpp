@@ -2,13 +2,11 @@
 #include <ctime>
 #include <iostream>
 
-Log::Log()
-{
+Log::Log() {
     file.open(GL_LOG_FILE, std::fstream::app);
 }
 
-Log::~Log()
-{
+Log::~Log() {
     os << std::endl;
     file << os.str();
     std::cout << os.str();
@@ -18,20 +16,18 @@ Log::~Log()
 
 std::ofstream Log::file;
 
-void Log::restart()
-{
+void Log::restart() {
     file.open(GL_LOG_FILE, std::fstream::trunc);
     file.close();
 }
 
-std::ostringstream &Log::get(LogLevel level)
-{
+std::ostringstream& Log::get(LogLevel level) {
     if (!file)
         return os;
 
     // Log
     time_t now;
-    struct tm *timeinfo;
+    struct tm* timeinfo { nullptr };
     char date[19];
 
     time(&now);
@@ -43,23 +39,21 @@ std::ostringstream &Log::get(LogLevel level)
     return os;
 }
 
-std::string Log::getLabel(LogLevel type)
-{
+std::string Log::getLabel(LogLevel type) {
     std::string label;
-    switch (type)
-    {
-    case Debug:
-        label = "DEBUG";
-        break;
-    case Info:
-        label = "INFO ";
-        break;
-    case Warning:
-        label = "WARN ";
-        break;
-    case Error:
-        label = "ERROR";
-        break;
+    switch (type) {
+        case Debug:
+            label = "DEBUG";
+            break;
+        case Info:
+            label = "INFO ";
+            break;
+        case Warning:
+            label = "WARN ";
+            break;
+        case Error:
+            label = "ERROR";
+            break;
     }
     return label;
 }
